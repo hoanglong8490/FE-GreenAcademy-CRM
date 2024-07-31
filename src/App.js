@@ -9,9 +9,9 @@ function App() {
             <LayoutDefault>
               <Routes>
                   {
-                      routeSideBar.map((item) => {
+                      routeSideBar.map((item, index) => {
                           const Component = item.component;
-                          <Route path={item.to} element={<Component />} />
+                          return <Route path={item.to} element={<Component key={index}/>} />
                       })
                   }
               </Routes>
