@@ -2,12 +2,16 @@ import React, {useEffect, useState} from 'react';
 import TableComponents from '../../components/TableComponent';
 import SelectDropdown from "../../components/SelectDownButton";
 import PagingComponent from "../../components/PagingComponent";
+import SubjectCreateComponent from "../SubjectCreateComponent";
 
 const SubjectComponent = () => {
     const [cols, setCols] = useState([]);
     const [dataTable, setDataTable] = useState([]);
     const [titleTable, setTitleTable] = useState('');
     const [classTable, setClassTable] = useState('');
+    const [totalPage, setTotalPage] = useState(5);
+    const [currentPage, setCurrentPage] = useState(0);
+
 
     //BEGIN- GetData
     const getData = () => {
@@ -23,12 +27,20 @@ const SubjectComponent = () => {
         ]);
         setTitleTable('SubjectComponent')
         setClassTable('table table-bordered table-hover')
+        setTotalPage(5)
+        setCurrentPage(1)
     };
 
     useEffect(() => {
         getData();
     }, []);
     //END - Get Data
+
+    //Paging
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    //
 
     return (
         <>
@@ -65,11 +77,12 @@ const SubjectComponent = () => {
                                     </div>
                                     <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}/>
                                     <div className="row justify-content-center mt-3">
-                                        <PagingComponent/>
+                                        <PagingComponent totalPage={totalPage} currentPage={currentPage}
+                                                         onPageChange={handlePageChange}/>
                                     </div>
                                 </div>
                                 <div className="card-footer">
-
+                                    <SubjectCreateComponent/>
                                 </div>
 
                             </div>

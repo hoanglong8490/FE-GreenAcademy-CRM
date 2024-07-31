@@ -1,28 +1,40 @@
 import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 
-
-function PagingComponent(props) {
+function PagingComponent({totalPage, currentPage, onPageChange}) {
     return (
-        <>
-            <Pagination>
-                <Pagination.First/>
-                <Pagination.Prev/>
-                <Pagination.Item>{1}</Pagination.Item>
-                <Pagination.Ellipsis/>
+        <Pagination>
+            <Pagination.First
+                onClick={() => onPageChange(1)}
+                disabled={currentPage === 1}
+            />
+            <Pagination.Prev
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            />
 
-                <Pagination.Item>{10}</Pagination.Item>
-                <Pagination.Item>{11}</Pagination.Item>
-                <Pagination.Item active>{12}</Pagination.Item>
-                <Pagination.Item>{13}</Pagination.Item>
-                <Pagination.Item disabled>{14}</Pagination.Item>
+            {[...Array(totalPage).keys()].map(number => {
+                const pageNumber = number + 1;
+                return (
+                    <Pagination.Item
+                        key={pageNumber}
+                        active={pageNumber === currentPage}
+                        onClick={() => onPageChange(pageNumber)}
+                    >
+                        {pageNumber}
+                    </Pagination.Item>
+                );
+            })}
 
-                <Pagination.Ellipsis/>
-                <Pagination.Item>{20}</Pagination.Item>
-                <Pagination.Next/>
-                <Pagination.Last/>
-            </Pagination>
-        </>
+            <Pagination.Next
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage === totalPage}
+            />
+            <Pagination.Last
+                onClick={() => onPageChange(totalPage)}
+                disabled={currentPage === totalPage}
+            />
+        </Pagination>
     );
 }
 
