@@ -42,7 +42,6 @@ const SideBarLayout = () => {
                         data-accordion="false">
                         {
                             routeSideBar.map((item, key) => {
-                                console.log(item)
                                 return <SideBarItemComponent item={item} key={key}></SideBarItemComponent>;
                             })
                         }

@@ -7,14 +7,25 @@ function App() {
   return (
         <BrowserRouter>
             <LayoutDefault>
-              <Routes>
-                  {
-                      routeSideBar.map((item, index) => {
-                          const Component = item.component;
-                          return <Route path={item.to} element={<Component key={index}/>} />
-                      })
-                  }
-              </Routes>
+                <Routes>
+                    {routeSideBar.map((item, index) => {
+                        const Component = item.component;
+                        if (item.child.length <= 0) {
+                            return <Route key={index} path={item.to} element={<Component />} />;
+                        }
+
+                        return item.child.map((subItem, subIndex) => {
+                            const ChildComponent = subItem.component;
+                            return (
+                                <Route
+                                    key={`${index}-${subIndex}`}
+                                    path={subItem.to}
+                                    element={<ChildComponent />}
+                                />
+                            );
+                        });
+                    })}
+                </Routes>
             </LayoutDefault>
         </BrowserRouter>
 
