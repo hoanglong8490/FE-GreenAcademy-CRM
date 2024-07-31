@@ -3,6 +3,7 @@ import {
     SubjectComponent,
     BookComponent
 } from '../pages';
+import DecisionComponent from "../pages/DecisionComponent";
 
 export const routeSideBar = [
     {
@@ -31,6 +32,13 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-list",
                 to: "/check",
                 component: BookComponent,
+                child: [] //todo Không thêm cấp nữa
+            },
+            {
+                name: "Decision",
+                icon: "nav-icon fas fa-list",
+                to: "/decision",
+                component: DecisionComponent,
                 child: [] //todo Không thêm cấp nữa
             }
         ]

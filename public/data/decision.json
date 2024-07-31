@@ -1,0 +1,66 @@
+{
+    "code": 200,
+    "data": [
+        {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "manv": "Av120",
+            "content":"Nhân viên ưu tú cấp vũ trụ",
+            "date": "19/07/2003",
+            "hinhthuc": "Khen thưởng ",
+            "status": "Chưa trao giải"
+        },
+        {
+            "id": 2,
+            "name": "Nguyễn Thị Lan",
+            "email": "nguyen.thi.lan@example.com",
+            "manv": "Av121",
+            "content": "Nhân viên xuất sắc của tháng",
+            "date": "15/08/2003",
+            "hinhthuc": "Khen thưởng",
+            "status": "Đã trao giải"
+        },
+        {
+            "id": 3,
+            "name": "Trần Văn Nam",
+            "email": "tran.van.nam@example.com",
+            "manv": "Av122",
+            "content": "Kỷ luật do vi phạm quy định",
+            "date": "22/09/2003",
+            "hinhthuc": "Kỷ luật",
+            "status": "Chưa xử lý"
+        },
+        {
+            "id": 4,
+            "name": "Lê Thị Mai",
+            "email": "le.thi.mai@example.com",
+            "manv": "Av123",
+            "content": "Nhân viên đạt thành tích tốt",
+            "date": "05/10/2003",
+            "hinhthuc": "Khen thưởng",
+            "status": "Đã trao giải"
+        },
+        {
+            "id": 5,
+            "name": "Phạm Minh Tuấn",
+            "email": "pham.minh.tuan@example.com",
+            "manv": "Av124",
+            "content": "Kỷ luật vì thiếu trách nhiệm",
+            "date": "11/11/2003",
+            "hinhthuc": "Kỷ luật",
+            "status": "Đang chờ"
+        },
+        {
+            "id": 6,
+            "name": "Hoàng Thị Hương",
+            "email": "hoang.thi.huong@example.com",
+            "manv": "Av125",
+            "content": "Nhân viên xuất sắc năm",
+            "date": "25/12/2003",
+            "hinhthuc": "Khen thưởng",
+            "status": "Đã trao giải"
+        }
+         
+    ]
+}
