@@ -1,32 +1,42 @@
 import {NavLink, useMatch, useResolvedPath} from "react-router-dom";
+import {useState} from "react";
 
 const SideBarItemComponent = (props) => {
-    const {to, name, icon, child} = props.item;
-    const resoled = useResolvedPath(to)
-    const isActive = useMatch({path: resoled.pathname, end: true})
+    const {to, name, icon, child = []} = props.item;
+    const [isOpen, setIsOpen] = useState(false);
+    const resolved = useResolvedPath(to);
+    const isActive = useMatch({path: resolved.pathname, end: true});
 
-    return <>
-        <li className="nav-item menu-open">
-            <NavLink to={to} className={ isActive ? "nav-link active": "nav-link"}>
+    const handleToggle = (event) => {
+
+        setIsOpen(prevIsOpen => !prevIsOpen);
+
+    };
+
+    return (
+        <li className={`nav-item ${child.length > 0 ? 'menu-open' : ''}`}>
+            <NavLink
+                to={to}
+                className={isActive ? "nav-link active" : "nav-link"}
+                onClick={handleToggle}
+            >
                 <i className={icon}></i>
                 <p>
-                    {
-                        child.length > 0 ?
-                           <>
-                               {name} <i className="fas fa-angle-left right"></i>
-                               {
-                                   child.map((item, i) => {
-                                       console.log(item)
-                                       // return <SideBarItemComponent item={item} key={i}/>
-                                   })
-                               }
-                           </>
-                            : name
-                    }
+                    {name}
+                    {child.length > 0 && (
+                        <i className={`fas fa-angle-${isOpen ? 'down' : 'left'} right`}></i>
+                    )}
                 </p>
             </NavLink>
+            {child.length > 0 && (
+                <ul className={`nav nav-treeview ${isOpen ? 'd-block' : 'd-none'}`}>
+                    {child.map((item, i) => (
+                        <SideBarItemComponent item={item} key={i}/>
+                    ))}
+                </ul>
+            )}
         </li>
-    </>
+    );
 }
 
 export default SideBarItemComponent;
