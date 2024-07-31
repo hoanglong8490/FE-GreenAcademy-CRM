@@ -1,5 +1,6 @@
 import SideBarItemComponent from "../../../components/MenuComponent/SideBarItemComponent";
 import {routeSideBar} from "../../../route";
+
 const SideBarLayout = () => {
     return <>
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -42,7 +43,7 @@ const SideBarLayout = () => {
                         data-accordion="false">
                         {
                             routeSideBar.map((item, key) => {
-                                console.log(item)
+
                                 return <SideBarItemComponent item={item} key={key}></SideBarItemComponent>;
                             })
                         }
