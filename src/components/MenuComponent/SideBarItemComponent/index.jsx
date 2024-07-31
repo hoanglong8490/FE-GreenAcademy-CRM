@@ -1,5 +1,5 @@
 import {NavLink, useMatch, useResolvedPath} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const SideBarItemComponent = (props) => {
     const {to, name, icon, child = []} = props.item;
@@ -7,10 +7,12 @@ const SideBarItemComponent = (props) => {
     const resolved = useResolvedPath(to);
     const isActive = useMatch({path: resolved.pathname, end: true});
 
+    useEffect(() => {
+        setIsOpen(isActive)
+    }, []);
+
     const handleToggle = (event) => {
-
         setIsOpen(prevIsOpen => !prevIsOpen);
-
     };
 
     return (

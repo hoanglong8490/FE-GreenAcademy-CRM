@@ -17,7 +17,8 @@ export const routeSideBar = [
             {
                 name: "List",
                 icon: "nav-icon fas fa-tachometer-alt",
-                to: "#"
+                to: "/list",
+                component: UserComponent,
             }
         ]
     },
