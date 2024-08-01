@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import SelectDropdown from "../SelectDownButton";
 import axios from "axios";
 
-function FormComponent({fields, onSubmit, isEdit, idCurrent}) {
+function FormComponent({fields, onSubmit, isEdit, idCurrent, onSave}) {
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
     );
@@ -16,6 +16,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(formData);
+        onSave(formData);  // Call the onSave function passed from the Modal
     };
 
     useEffect(() => {
@@ -91,7 +92,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent}) {
                         return null;
                 }
             })}
-            <button type="submit">Submit</button>
+            {/* Remove the submit button here */}
         </form>
     );
 }
@@ -111,6 +112,12 @@ FormComponent.propTypes = {
         })
     ).isRequired,
     onSubmit: PropTypes.func.isRequired,
+    isEdit: PropTypes.bool.isRequired,
+    idCurrent: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
+    onSave: PropTypes.func.isRequired
 };
 
 export default FormComponent;

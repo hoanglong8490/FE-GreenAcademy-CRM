@@ -1,7 +1,17 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 
-function ModalComponent({ children, onHide, show, onSave }) {
+function ModalComponent({children, onHide, show, onSave}) {
+    const handleSave = () => {
+        const formElement = children.ref.current;
+        const formData = new FormData(formElement);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+        onSave(data);
+    };
+
     return (
         <Modal
             show={show}
@@ -10,7 +20,7 @@ function ModalComponent({ children, onHide, show, onSave }) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header >
+            <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Modal heading
                 </Modal.Title>
@@ -23,7 +33,7 @@ function ModalComponent({ children, onHide, show, onSave }) {
                 <Button
                     variant="primary"
                     onClick={() => {
-                        onSave();
+                        handleSave();
                         onHide();  // Close the modal after saving
                     }}
                 >
