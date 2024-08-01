@@ -1,8 +1,9 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import SelectDropdown from "../SelectDownButton";
+import axios from "axios";
 
-function FormComponent({fields, onSubmit}) {
+function FormComponent({fields, onSubmit, isEdit, idCurrent}) {
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
     );
@@ -17,6 +18,19 @@ function FormComponent({fields, onSubmit}) {
         onSubmit(formData);
     };
 
+    useEffect(() => {
+        if (isEdit) {
+            axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/subject/${idCurrent}`)
+                .then((res) => {
+                    console.log("getbyid" + res.data)
+                    setFormData(res.data);
+                })
+                .catch((err) => {
+                    console.error("Error fetching data:", err);
+                });
+        }
+    }, [isEdit, idCurrent]);
+
     return (
         <form onSubmit={handleSubmit}>
             {fields.map((field) => {
@@ -29,7 +43,7 @@ function FormComponent({fields, onSubmit}) {
                                     type="text"
                                     id={field.name}
                                     name={field.name}
-                                    value={formData[field.name]}
+                                    value={formData[field.name] || ''}
                                     onChange={handleChange}
                                     placeholder={field.placeholder}
                                 />
