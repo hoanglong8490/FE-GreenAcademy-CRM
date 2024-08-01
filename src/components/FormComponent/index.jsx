@@ -5,7 +5,7 @@ import axios from "axios";
 import Input from "../InputComponents";
 import {Button, Col, Form, Row} from "react-bootstrap";
 
-function FormComponent({fields, onSubmit, isEdit, idCurrent}) {
+function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
     );
@@ -105,8 +105,10 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent}) {
                     }
                 })}
             </Row>
-            <Button variant="secondary" className="me-2" type="button">Close</Button>
-            <Button variant="primary" type="submit">Save Changes</Button>
+            <div className="d-flex justify-content-center">
+                <Button variant="secondary" className="me-2" type="button" onClick={onClose}>Close</Button>
+                <Button variant="primary" type="submit">Save Changes</Button>
+            </div>
         </Form>
     );
 }
