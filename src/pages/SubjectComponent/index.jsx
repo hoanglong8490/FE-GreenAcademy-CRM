@@ -3,6 +3,8 @@ import TableComponents from '../../components/TableComponent';
 import SelectDropdown from "../../components/SelectDownButton";
 import PagingComponent from "../../components/PagingComponent";
 import SubjectCreateComponent from "../SubjectCreateComponent";
+import ModalComponent from "../../components/ModalComponent";
+import {Button} from "react-bootstrap";
 
 const SubjectComponent = () => {
     const [cols, setCols] = useState([]);
@@ -41,6 +43,7 @@ const SubjectComponent = () => {
         setCurrentPage(pageNumber);
     };
     //
+    const [modalShow, setModalShow] = React.useState(false);
 
     return (
         <>
@@ -90,6 +93,19 @@ const SubjectComponent = () => {
                     </div>
                 </div>
             </section>
+        {/*
+        díplay modal
+        */}
+            <Button variant="primary" onClick={() => setModalShow(true)}>
+                Open Modal
+            </Button>
+
+            <ModalComponent
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            >
+                <p>Your modal content here.</p>
+            </ModalComponent>
         </>
     );
 }
