@@ -5,6 +5,7 @@ import PagingComponent from "../../components/PagingComponent";
 import SubjectCreateComponent from "../SubjectCreateComponent";
 import ModalComponent from "../../components/ModalComponent";
 import {Button} from "react-bootstrap";
+import axios from "axios";
 
 const SubjectComponent = () => {
     const [cols, setCols] = useState([]);
@@ -12,26 +13,42 @@ const SubjectComponent = () => {
     const [titleTable, setTitleTable] = useState('');
     const [classTable, setClassTable] = useState('');
     const [totalPage, setTotalPage] = useState(5);
+    const [isEdit, setIsEdit] = useState(false);
+    const [isCurrent, setIsCurrent] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
-
+    const apiUpdate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
+    const apiCreate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
 
     //BEGIN- GetData
-    const getData = () => {
-        setCols(['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái']);
-        setDataTable([
-            {id: 1, name: 'Mathematics', duration: '45 hours', programName: 'STEM', status: 'Active'},
-            {id: 2, name: 'Physics', duration: '30 hours', programName: 'STEM', status: 'Inactive'},
-            {id: 3, name: 'Chemistry', duration: '40 hours', programName: 'Science', status: 'Active'},
-            {id: 4, name: 'Biology', duration: '35 hours', programName: 'Science', status: 'Active'},
-            {id: 5, name: 'History', duration: '25 hours', programName: 'Arts', status: 'Inactive'},
-            {id: 6, name: 'Geography', duration: '20 hours', programName: 'Arts', status: 'Active'},
-            {id: 7, name: 'Computer Science', duration: '50 hours', programName: 'STEM', status: 'Active'},
-        ]);
-        setTitleTable('SubjectComponent')
-        setClassTable('table table-bordered table-hover')
-        setTotalPage(5)
-        setCurrentPage(1)
+    const getData = async () => {
+        try {
+            setCols(['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái']);
+
+            const res = await axios.get('/data/subject.json');
+            setDataTable(res.data.data);
+
+            // Uncomment the lines below if you want to use mock data instead of the API response
+            // setDataTable([
+            //     {id: 1, name: 'Mathematics', duration: '45 hours', programName: 'STEM', status: 'Active'},
+            //     {id: 2, name: 'Physics', duration: '30 hours', programName: 'STEM', status: 'Inactive'},
+            //     {id: 3, name: 'Chemistry', duration: '40 hours', programName: 'Science', status: 'Active'},
+            //     {id: 4, name: 'Biology', duration: '35 hours', programName: 'Science', status: 'Active'},
+            //     {id: 5, name: 'History', duration: '25 hours', programName: 'Arts', status: 'Inactive'},
+            //     {id: 6, name: 'Geography', duration: '20 hours', programName: 'Arts', status: 'Active'},
+            //     {id: 7, name: 'Computer Science', duration: '50 hours', programName: 'STEM', status: 'Active'},
+            // ]);
+
+            setTitleTable('SubjectComponent');
+            setClassTable('table table-bordered table-hover');
+            setTotalPage(5);
+            setCurrentPage(1);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            // Handle the error appropriately
+            // e.g., set an error state or show a message to the user
+        }
     };
+
 
     useEffect(() => {
         getData();
@@ -44,12 +61,30 @@ const SubjectComponent = () => {
     };
     //
     //Modal
-    const [modalShow, setModalShow] = React.useState(false);
+    const [modalShow, setModalShow] = useState(false);
 
-    const handleSave = () => {
+    const handleSave = (formData) => {
+        console.log("Saving data...");
+        console.log("Form data:", formData);
         // Your save logic here
-        console.log('Changes saved!');
     };
+
+    const handleSubmit = (formData) => {
+        console.log('Form submitted with data:', formData);
+        console.log('Form submitted with data:', formData);
+        const apiUrl = isEdit ? `${apiUpdate}/${formData.id}` : apiCreate;
+        const method = isEdit ? 'put' : 'post';
+
+        axios[method](apiUrl, formData)
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    };
+    //
     const handleSearch = () => {
     }
     // =>
@@ -131,8 +166,6 @@ const SubjectComponent = () => {
                 onSave={handleSave}
             >
                 <SubjectCreateComponent
-                    apiCreate="https://66aa0b5b613eced4eba7559a.mockapi.io/subject"
-                    apiUpdate="https://66aa0b5b613eced4eba7559a.mockapi.io/subject"
                     formFieldsProp={[
                         {
                             name: 'name',
@@ -142,8 +175,8 @@ const SubjectComponent = () => {
                         },
                         // Add other form fields here
                     ]}
-                    initialIsEdit={false}
-                    initialIdCurrent={null}
+                    initialIsEdit={isEdit}
+                    initialIdCurrent={isCurrent}
                 />
             </ModalComponent>
         </>
