@@ -50,7 +50,8 @@ const SubjectComponent = () => {
         // Your save logic here
         console.log('Changes saved!');
     };
-    const handleSearch = () => {}
+    const handleSearch = () => {
+    }
     // =>
     return (
         <>
@@ -93,7 +94,7 @@ const SubjectComponent = () => {
                                                     placeholder="Search..."
                                                     aria-label="Search input"
                                                 />
-                                                <Button  variant="light" size="sm" className="ml-1">
+                                                <Button variant="light" size="sm" className="ml-1">
                                                     <i className="bi bi-search"></i>
                                                 </Button>
                                             </div>
@@ -129,7 +130,21 @@ const SubjectComponent = () => {
                 onHide={() => setModalShow(false)}
                 onSave={handleSave}
             >
-                <SubjectCreateComponent/>
+                <SubjectCreateComponent
+                    apiCreate="https://66aa0b5b613eced4eba7559a.mockapi.io/subject"
+                    apiUpdate="https://66aa0b5b613eced4eba7559a.mockapi.io/subject"
+                    formFieldsProp={[
+                        {
+                            name: 'name',
+                            type: 'text',
+                            label: 'Name',
+                            placeholder: 'Enter your name',
+                        },
+                        // Add other form fields here
+                    ]}
+                    initialIsEdit={false}
+                    initialIdCurrent={null}
+                />
             </ModalComponent>
         </>
     );
