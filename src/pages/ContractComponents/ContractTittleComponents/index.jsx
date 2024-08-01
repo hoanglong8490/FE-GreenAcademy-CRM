@@ -11,17 +11,29 @@ const ContractTitleComponents = ({contracts, onSearch}) => {
     };
 
     const handleSearchClick = () => {
-        // Call onSearch with search term to filter contracts
-        const filteredContracts = contracts.filter(contract =>
-            contract.employeeId.includes(searchTerm) ||
-            contract.contractType.includes(searchTerm) ||
-            contract.salary.toString().includes(searchTerm) ||
-            contract.startDate.includes(searchTerm) ||
-            contract.endDate.includes(searchTerm) ||
-            contract.status.includes(searchTerm)
-        );
+        const searchValue = searchTerm.toLowerCase();
+
+        const filteredContracts = contracts.filter(contract => {
+            const employeeId = contract.employeeId ? contract.employeeId.toLowerCase() : '';
+            const contractType = contract.contractType ? contract.contractType.toLowerCase() : '';
+            const salary = contract.salary ? contract.salary.toString().toLowerCase() : '';
+            const startDate = contract.startDate ? contract.startDate.toLowerCase() : '';
+            const endDate = contract.endDate ? contract.endDate.toLowerCase() : '';
+            const status = contract.status ? (contract.status ? 'active' : 'inactive') : '';
+
+            return (
+                employeeId.includes(searchValue) ||
+                contractType.includes(searchValue) ||
+                salary.includes(searchValue) ||
+                startDate.includes(searchValue) ||
+                endDate.includes(searchValue) ||
+                status.includes(searchValue)
+            );
+        });
+
         onSearch(filteredContracts);
     };
+
     return (
         <div className="row">
             <div className="col-sm-6">
@@ -48,4 +60,3 @@ const ContractTitleComponents = ({contracts, onSearch}) => {
 };
 
 export default ContractTitleComponents;
-

@@ -6,7 +6,7 @@
     "salary": 3000000,
     "startDate": "2021-10-01",
     "endDate": "2022-09-30",
-    "status": "Đang làm việc",
+    "status": true,
     "employeeName": "Nguyễn Văn A",
     "department": "Phòng Kinh doanh",
     "contractDetails": {

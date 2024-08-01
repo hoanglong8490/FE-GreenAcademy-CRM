@@ -12,14 +12,7 @@
     "contractTypes": [
       "Hợp đồng thử việc",
       "Hợp đồng chính thức",
-      "Hợp đồng part-time",
-      "Hợp đồng dự án"
-    ],
-    "departments": [
-      "Phòng Kinh doanh",
-      "Phòng Nhân sự",
-      "Phòng Kỹ thuật",
-      "Phòng Marketing"
+      "Hợp đồng part-time"
     ]
   }
 }

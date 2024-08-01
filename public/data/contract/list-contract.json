@@ -1,294 +1,67 @@
-{
-  "contracts": [
-    {
-      "id": 1,
-      "contractCode": "B18DCCN008",
-      "contractType": "Hợp đồng thử việc",
-      "salary": "3.000.000",
-      "startDate": "2021-01-01",
-      "endDate": "2021-12-31",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "contractCode": "B18DCCN009",
-      "contractType": "Hợp đồng chính thức",
-      "salary": "4.500.000",
-      "startDate": "2021-02-01",
-      "endDate": "2022-01-31",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "contractCode": "B18DCCN010",
-      "contractType": "Hợp đồng bán thời gian",
-      "salary": "2.000.000",
-      "startDate": "2021-03-01",
-      "endDate": "2021-09-01",
-      "status": "Đã kết thúc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "contractCode": "B18DCCN011",
-      "contractType": "Hợp đồng học việc",
-      "salary": "1.500.000",
-      "startDate": "2021-04-01",
-      "endDate": "2021-12-01",
-      "status": "Đã kết thúc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "contractCode": "B18DCCN012",
-      "contractType": "Hợp đồng thử việc",
-      "salary": "3.000.000",
-      "startDate": "2021-05-01",
-      "endDate": "2022-04-30",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "contractCode": "B18DCCN013",
-      "contractType": "Hợp đồng chính thức",
-      "salary": "5.000.000",
-      "startDate": "2021-06-01",
-      "endDate": "2022-05-31",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "contractCode": "B18DCCN014",
-      "contractType": "Hợp đồng thử việc",
-      "salary": "3.500.000",
-      "startDate": "2021-07-01",
-      "endDate": "2022-06-30",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "contractCode": "B18DCCN015",
-      "contractType": "Hợp đồng chính thức",
-      "salary": "6.000.000",
-      "startDate": "2021-08-01",
-      "endDate": "2022-07-31",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "contractCode": "B18DCCN016",
-      "contractType": "Hợp đồng học việc",
-      "salary": "2.500.000",
-      "startDate": "2021-09-01",
-      "endDate": "2021-12-31",
-      "status": "Đã kết thúc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "contractCode": "B18DCCN017",
-      "contractType": "Hợp đồng thử việc",
-      "salary": "3.000.000",
-      "startDate": "2021-10-01",
-      "endDate": "2022-09-30",
-      "status": "Đang làm việc",
-      "actions": [
-        {
-          "actionId": "view",
-          "icon": "fas fa-eye",
-          "class": "btn btn-warning",
-          "url": "/"
-        },
-        {
-          "actionId": "edit",
-          "icon": "fas fa-pen",
-          "class": "btn btn-primary",
-          "url": "/"
-        },
-        {
-          "actionId": "delete",
-          "icon": "fas fa-trash",
-          "class": "btn btn-danger",
-          "url": "/"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "employeeId": "NV001",
+    "contractType": "Full-Time",
+    "salary": "15000000",
+    "startDate": "2024-01-01",
+    "endDate": "2025-01-01",
+    "status": true,
+    "files": [
+      "path/to/image1.jpg",
+      "path/to/image1_additional.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "employeeId": "NV002",
+    "contractType": "Part-Time",
+    "salary": "8000000",
+    "startDate": "2024-03-15",
+    "endDate": "2024-12-15",
+    "status": true,
+    "files": [
+      "path/to/image2.jpg",
+      "path/to/image2_additional.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "employeeId": "NV003",
+    "contractType": "Intern",
+    "salary": "4000000",
+    "startDate": "2024-06-01",
+    "endDate": "2024-09-01",
+    "status": false,
+    "files": [
+      "path/to/image3.jpg",
+      "path/to/image3_additional.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "employeeId": "NV004",
+    "contractType": "Contractor",
+    "salary": "12000000",
+    "startDate": "2024-02-01",
+    "endDate": "2024-11-01",
+    "status": true,
+    "files": [
+      "path/to/image4.jpg",
+      "path/to/image4_additional.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "employeeId": "NV005",
+    "contractType": "Full-Time",
+    "salary": "20000000",
+    "startDate": "2024-04-01",
+    "endDate": "2025-04-01",
+    "status": true,
+    "files": [
+      "path/to/image5.jpg",
+      "path/to/image5_additional.jpg"
+    ]
+  }
+]

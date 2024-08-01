@@ -1,31 +1,39 @@
 import React, {useState} from 'react';
 import FormInput from "../../../components/FormInputComponents";
+import {NumericFormat} from 'react-number-format';
 
 const ContractForm = ({onSubmit}) => {
     const [formData, setFormData] = useState({
         employeeId: '',
-        contractType: 'Hợp đồng thử việc', // Default value
+        contractType: 'Hợp đồng thử việc',
         salary: '',
         startDate: '',
         endDate: '',
-        status: 'Còn hạn' // Default value
+        files: []
     });
 
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        const {name, value, files} = e.target;
+        if (files) {
+            setFormData({
+                ...formData,
+                [name]: Array.from(files)
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
 
     const validate = () => {
         const newErrors = {};
         if (!formData.employeeId) newErrors.employeeId = 'Mã nhân viên không được để trống';
         if (!formData.contractType) newErrors.contractType = 'Loại hợp đồng không được để trống';
-        if (!formData.salary || isNaN(formData.salary) || formData.salary <= 0)
+        if (!formData.salary || isNaN(Number(formData.salary.replace(/\./g, ''))) || Number(formData.salary.replace(/\./g, '')) <= 0)
             newErrors.salary = 'Mức lương phải là số dương';
         if (!formData.startDate) newErrors.startDate = 'Ngày bắt đầu không được để trống';
         if (!formData.endDate) newErrors.endDate = 'Ngày kết thúc không được để trống';
@@ -40,14 +48,17 @@ const ContractForm = ({onSubmit}) => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            onSubmit(formData);
+            onSubmit({
+                ...formData,
+                status: true
+            });
             setFormData({
                 employeeId: '',
-                contractType: 'Hợp đồng thử việc', // Reset to default value
+                contractType: 'Hợp đồng thử việc',
                 salary: '',
                 startDate: '',
                 endDate: '',
-                status: 'Còn hạn' // Reset to default value
+                files: []
             });
             setErrors({});
         }
@@ -72,19 +83,30 @@ const ContractForm = ({onSubmit}) => {
                     className="form-control"
                 >
                     <option value="Hợp đồng thử việc">Hợp đồng thử việc</option>
-                    <option value="Hợp đồng chính thức">Hợp đồng chính thức</option>
                     <option value="Hợp đồng part-time">Hợp đồng part-time</option>
+                    <option value="Hợp đồng chính thức">Hợp đồng chính thức</option>
                 </select>
-                {errors.contractType && <div className="invalid-feedback">{errors.contractType}</div>}
+                {errors.contractType && <div className="text-danger">{errors.contractType}</div>}
             </div>
-            <FormInput
-                label="Mức lương"
-                type="number"
-                name="salary"
-                value={formData.salary}
-                onChange={handleChange}
-                error={errors.salary}
-            />
+            <div className="form-group">
+                <label>Mức lương</label>
+                <NumericFormat
+                    className="form-control"
+                    name="salary"
+                    value={formData.salary}
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    onValueChange={(values) => {
+                        const {value} = values;
+                        setFormData({
+                            ...formData,
+                            salary: value
+                        });
+                    }}
+                    isNumericString
+                />
+                {errors.salary && <div className="text-danger">{errors.salary}</div>}
+            </div>
             <FormInput
                 label="Ngày bắt đầu"
                 type="date"
@@ -102,16 +124,24 @@ const ContractForm = ({onSubmit}) => {
                 error={errors.endDate}
             />
             <div className="form-group">
-                <label>Status</label>
-                <select
-                    name="status"
-                    value={formData.status}
+                <label>Hồ sơ hợp đồng</label>
+                <input
+                    type="file"
+                    name="files"
+                    multiple
                     onChange={handleChange}
                     className="form-control"
-                >
-                    <option value="Còn hạn">Còn hạn</option>
-                    <option value="Hết hạn">Hết hạn</option>
-                </select>
+                    accept=".doc,.docx,.xls,.xlsx,.pdf"
+                />
+                {formData.files.length > 0 && (
+                    <ul className="list-group mt-2">
+                        {formData.files.map((file, index) => (
+                            <li key={index} className="list-group-item">
+                                {file.name}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
             <button type="submit" className="btn btn-primary">Thêm hợp đồng</button>
         </form>
