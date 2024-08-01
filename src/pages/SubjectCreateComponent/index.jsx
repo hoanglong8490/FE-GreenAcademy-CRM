@@ -15,7 +15,6 @@ const SubjectCreateComponent = ({handleSubmit, formFieldsProp, initialIsEdit, in
 
     return (
         <div>
-            <h1>My Form</h1>
             <FormComponent
                 fields={formFieldsProp}
                 onSubmit={handleSubmit}

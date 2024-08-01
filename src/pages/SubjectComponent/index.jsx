@@ -8,7 +8,6 @@ import {Button} from "react-bootstrap";
 import axios from "axios";
 
 const SubjectComponent = () => {
-    const [cols, setCols] = useState([]);
     const [dataTable, setDataTable] = useState([]);
     const [titleTable, setTitleTable] = useState('');
     const [classTable, setClassTable] = useState('');
@@ -18,34 +17,56 @@ const SubjectComponent = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const apiUpdate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
     const apiCreate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
-
+    const formFieldsProp = [
+        {
+            name: 'name',
+            type: 'text',
+            label: 'Name',
+            placeholder: 'Enter the name',
+        },
+        {
+            name: 'duration',
+            type: 'text',
+            label: 'Duration',
+            placeholder: 'Enter duration',
+        },
+        {
+            name: 'programName',
+            type: 'select',
+            label: 'Program Name',
+            placeholder: 'Select a program',
+            apiUrl: '/data/status.json',
+            defaultOption: {
+                value: '',
+                label: 'Select a program'
+            }
+        },
+        {
+            name: 'status',
+            type: 'select',
+            label: 'Status',
+            placeholder: 'Select status',
+            apiUrl: '/data/status.json',
+            defaultOption: {
+                value: '',
+                label: 'Select status'
+            }
+        }
+    ]
+    const cols = ['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', '']
+    
     //BEGIN- GetData
     const getData = async () => {
         try {
-            setCols(['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái']);
-
-            const res = await axios.get('/data/subject.json');
+            const res = await axios.get('/data/subject.json'); // Get data from api
             setDataTable(res.data.data);
-
-            // Uncomment the lines below if you want to use mock data instead of the API response
-            // setDataTable([
-            //     {id: 1, name: 'Mathematics', duration: '45 hours', programName: 'STEM', status: 'Active'},
-            //     {id: 2, name: 'Physics', duration: '30 hours', programName: 'STEM', status: 'Inactive'},
-            //     {id: 3, name: 'Chemistry', duration: '40 hours', programName: 'Science', status: 'Active'},
-            //     {id: 4, name: 'Biology', duration: '35 hours', programName: 'Science', status: 'Active'},
-            //     {id: 5, name: 'History', duration: '25 hours', programName: 'Arts', status: 'Inactive'},
-            //     {id: 6, name: 'Geography', duration: '20 hours', programName: 'Arts', status: 'Active'},
-            //     {id: 7, name: 'Computer Science', duration: '50 hours', programName: 'STEM', status: 'Active'},
-            // ]);
-
             setTitleTable('SubjectComponent');
             setClassTable('table table-bordered table-hover');
             setTotalPage(5);
             setCurrentPage(1);
         } catch (error) {
             console.error("Error fetching data:", error);
-            // Handle the error appropriately
-            // e.g., set an error state or show a message to the user
+
         }
     };
 
@@ -55,11 +76,11 @@ const SubjectComponent = () => {
     }, []);
     //END - Get Data
 
-    //Paging
+    //Begin - Paging
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    //
+    //End - Paging
     //Modal
     const [modalShow, setModalShow] = useState(false);
 
@@ -84,10 +105,10 @@ const SubjectComponent = () => {
             });
 
     };
-    //
+    //Begin - Search
     const handleSearch = () => {
     }
-    // =>
+    // End - Search
     return (
         <>
             <section className="content-header">
@@ -166,15 +187,7 @@ const SubjectComponent = () => {
                 onSave={handleSave}
             >
                 <SubjectCreateComponent
-                    formFieldsProp={[
-                        {
-                            name: 'name',
-                            type: 'text',
-                            label: 'Name',
-                            placeholder: 'Enter your name',
-                        },
-                        // Add other form fields here
-                    ]}
+                    formFieldsProp={formFieldsProp}
                     initialIsEdit={isEdit}
                     initialIdCurrent={isCurrent}
                 />

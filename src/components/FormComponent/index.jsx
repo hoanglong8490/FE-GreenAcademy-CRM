@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import SelectDropdown from "../SelectDownButton";
 import axios from "axios";
+import Input from "../InputComponents";
 
 function FormComponent({fields, onSubmit, isEdit, idCurrent, onSave}) {
     const [formData, setFormData] = useState(
@@ -16,7 +17,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onSave}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(formData);
-        onSave(formData);  // Call the onSave function passed from the Modal
+        onSave(formData);
     };
 
     useEffect(() => {
@@ -40,7 +41,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onSave}) {
                         return (
                             <div key={field.name} className="form-group">
                                 <label htmlFor={field.name}>{field.label}</label>
-                                <input
+                                <Input
                                     type="text"
                                     id={field.name}
                                     name={field.name}

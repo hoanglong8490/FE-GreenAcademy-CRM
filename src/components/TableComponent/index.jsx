@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from "react-bootstrap";
 
 function TableComponents({cols, titleTable, dataTable, classTable}) {
     return (
@@ -18,6 +19,11 @@ function TableComponents({cols, titleTable, dataTable, classTable}) {
                         {Object.values(row).map((cell, cellIndex) => (
                             <td key={cellIndex}>{cell}</td>
                         ))}
+                        <td className="text-center">
+                            <Button variant="light" className="me-2">View</Button>
+                            <Button variant="primary" className="me-2">Edit</Button>
+                            <Button variant="danger">Delete</Button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
