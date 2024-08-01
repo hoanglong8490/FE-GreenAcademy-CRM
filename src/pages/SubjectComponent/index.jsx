@@ -54,7 +54,7 @@ const SubjectComponent = () => {
         }
     ]
     const cols = ['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', '']
-    
+
     //BEGIN- GetData
     const getData = async () => {
         try {
@@ -135,39 +135,55 @@ const SubjectComponent = () => {
                                 <div className="card-body">
                                     <div className="row align-items-center">
                                         <div className="col-md-10 d-flex align-items-center gap-3">
-                                            <div className="col-6 d-flex align-items-center">
+                                            <div className="d-flex gap-3 col-md-6">
                                                 <SelectDropdown
-                                                    id="programStatus"
+                                                    id="programStatus1"
                                                     defaultOption={{value: '', label: 'Chọn trạng thái'}}
                                                     apiUrl="/data/status.json"
                                                     className="form-select"
                                                 />
+                                                <SelectDropdown
+                                                    id="programStatus2"
+                                                    defaultOption={{value: '', label: 'Chọn chương trình học'}}
+                                                    apiUrl="/data/status.json"
+                                                    className="form-select"
+                                                />
                                             </div>
-                                            <div className="col-6 d-flex align-items-center">
+                                            <div
+                                                className="d-flex col-md-6 align-items-center justify-content-end gap-2">
                                                 <input
                                                     type="text"
                                                     className="form-control"
                                                     placeholder="Search..."
                                                     aria-label="Search input"
                                                 />
-                                                <Button variant="light" size="sm" className="ml-1">
+                                                <Button variant="light" size="sm">
                                                     <i className="bi bi-search"></i>
                                                 </Button>
                                             </div>
                                         </div>
-                                        <div className="col-2 d-flex align-items-center justify-content-end">
-                                            <Button variant="primary" size="sm" onClick={() => setModalShow(true)}>
-                                                Thêm mới
+                                        <div className="col-md-2 d-flex align-items-center justify-content-end">
+                                            <Button variant="primary" size="lg" onClick={() => setModalShow(true)}>
+                                                <i className="bi bi-plus-circle"></i>
                                             </Button>
                                         </div>
                                     </div>
 
-
-                                    <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}/>
-                                    <div className="row justify-content-center mt-3">
-                                        <PagingComponent totalPage={totalPage} currentPage={currentPage}
-                                                         onPageChange={handlePageChange}/>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}/>
+                                        </div>
                                     </div>
+                                    <div className="row justify-content-center mt-3">
+                                        <div className="col-auto">
+                                            <PagingComponent
+                                                totalPage={totalPage}
+                                                currentPage={currentPage}
+                                                onPageChange={handlePageChange}
+                                            />
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div className="card-footer">
 
