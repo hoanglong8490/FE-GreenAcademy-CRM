@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "employeeId": "NV001",
+    "contractType": "Full-Time",
+    "salary": "15000000",
+    "startDate": "2024-01-01",
+    "endDate": "2025-01-01",
+    "status": true,
+    "files": [
+      "path/to/image1.jpg",
+      "path/to/image1_additional.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "employeeId": "NV002",
+    "contractType": "Part-Time",
+    "salary": "8000000",
+    "startDate": "2024-03-15",
+    "endDate": "2024-12-15",
+    "status": true,
+    "files": [
+      "path/to/image2.jpg",
+      "path/to/image2_additional.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "employeeId": "NV003",
+    "contractType": "Intern",
+    "salary": "4000000",
+    "startDate": "2024-06-01",
+    "endDate": "2024-09-01",
+    "status": false,
+    "files": [
+      "path/to/image3.jpg",
+      "path/to/image3_additional.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "employeeId": "NV004",
+    "contractType": "Contractor",
+    "salary": "12000000",
+    "startDate": "2024-02-01",
+    "endDate": "2024-11-01",
+    "status": true,
+    "files": [
+      "path/to/image4.jpg",
+      "path/to/image4_additional.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "employeeId": "NV005",
+    "contractType": "Full-Time",
+    "salary": "20000000",
+    "startDate": "2024-04-01",
+    "endDate": "2025-04-01",
+    "status": true,
+    "files": [
+      "path/to/image5.jpg",
+      "path/to/image5_additional.jpg"
+    ]
+  }
+]

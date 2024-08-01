@@ -1,4 +1,5 @@
 import {BookComponent, SubjectComponent} from '../pages';
+import ContactComponents from "../pages/ContractComponents";
 
 export const routeSideBar = [
     {
@@ -11,17 +12,58 @@ export const routeSideBar = [
                 name: "Personnel-List",
                 icon: "nav-icon fas fa-user-friends",
                 to: "/PersonnelList",
-                component: "",
+                component: SubjectComponent,
                 child: []
             },
             {
                 name: "Contract-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/ContractList",
-                component: "",
+                component: ContactComponents,
                 child: []
             },
-
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/AllowanceList",
+                component: BookComponent,
+                child: []
+            },
+            {
+                name: "Department-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/DepartmentList",
+                component: BookComponent,
+                child: []
+            },
+            {
+                name: "Overtime-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/OvertimeList",
+                component: BookComponent,
+                child: []
+            },
+            {
+                name: "Position-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/PositionList",
+                component: BookComponent,
+                child: []
+            },
+            {
+                name: "Qualification-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/QualificationList",
+                component: BookComponent,
+                child: []
+            },
+            {
+                name: "SalaryAdvance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/SalaryAdvanceList",
+                component: BookComponent,
+                child: []
+            },
 
         ]
     },

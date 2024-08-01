@@ -2,6 +2,7 @@ import './App.css';
 import LayoutDefault from "./layouts/LayoutDefault";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {routeSideBar} from "./route";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (

@@ -1,0 +1,18 @@
+{
+  "contract": {
+    "id": 10,
+    "employeeId": "B18DCCN017",
+    "contractType": "Hợp đồng thử việc",
+    "salary": 3000000,
+    "startDate": "2021-10-01",
+    "endDate": "2022-09-30",
+    "status": "Đang làm việc",
+    "employeeName": "Nguyễn Văn A",
+    "department": "Phòng Kinh doanh",
+    "contractTypes": [
+      "Hợp đồng thử việc",
+      "Hợp đồng chính thức",
+      "Hợp đồng part-time"
+    ]
+  }
+}
