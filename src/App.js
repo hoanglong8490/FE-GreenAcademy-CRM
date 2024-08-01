@@ -7,33 +7,27 @@ function App() {
     return (
         <BrowserRouter>
             <LayoutDefault>
-                {/*<Routes>*/}
-                {/*    {*/}
-                {/*        routeSideBar.map((item, index) => {*/}
-                {/*            const Component = item.component;*/}
-                {/*            return <Route path={item.to} element={<Component key={index}/>} />*/}
-                {/*        })*/}
-                {/*    }*/}
-                {/*</Routes>*/}
                 <Routes>
                     {routeSideBar.map((item, index) => {
-                        //mac dinh
-                        if (item.component) {
-                            return <Route key={index} path={item.to} element={<item.component key={index}/>}/>;
+                        const Component = item.component;
+                        if (item.child.length <= 0) {
+                            return <Route key={index} path={item.to} element={<Component/>}/>;
                         }
-                        // xu li khi componenco child
-                        if (item.child && item.child.length > 0) {
-                            return item.child.map((child, childIndex) => (
-                                <Route key={childIndex} path={child.to}
-                                       element={<child.component key={childIndex}/>}/>
-                            ));
-                        }
-                        return null;
+
+                        return item.child.map((subItem, subIndex) => {
+                            const ChildComponent = subItem.component;
+                            return (
+                                <Route
+                                    key={`${index}-${subIndex}`}
+                                    path={subItem.to}
+                                    element={<ChildComponent/>}
+                                />
+                            );
+                        });
                     })}
                 </Routes>
             </LayoutDefault>
         </BrowserRouter>
-
     )
 }
 
