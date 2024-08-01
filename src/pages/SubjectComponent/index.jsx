@@ -43,8 +43,15 @@ const SubjectComponent = () => {
         setCurrentPage(pageNumber);
     };
     //
+    //Modal
     const [modalShow, setModalShow] = React.useState(false);
 
+    const handleSave = () => {
+        // Your save logic here
+        console.log('Changes saved!');
+    };
+    const handleSearch = () => {}
+    // =>
     return (
         <>
             <section className="content-header">
@@ -52,6 +59,7 @@ const SubjectComponent = () => {
                     <div className="row mb-2">
                         <div className="col-sm-6">
                             <h1>Quản lý Môn học</h1>
+
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
@@ -68,16 +76,36 @@ const SubjectComponent = () => {
                         <div className="col">
                             <div className="card card-primary">
                                 <div className="card-body">
-                                    <div className="row">
-                                        <div className="col-md-2">
-                                            <SelectDropdown
-                                                id="programStatus"
-                                                // label="Trạng thái"
-                                                defaultOption={{value: '', label: 'Chọn trạng thái'}}
-                                                apiUrl="/data/status.json"
-                                            />
+                                    <div className="row align-items-center">
+                                        <div className="col-md-10 d-flex align-items-center gap-3">
+                                            <div className="col-6 d-flex align-items-center">
+                                                <SelectDropdown
+                                                    id="programStatus"
+                                                    defaultOption={{value: '', label: 'Chọn trạng thái'}}
+                                                    apiUrl="/data/status.json"
+                                                    className="form-select"
+                                                />
+                                            </div>
+                                            <div className="col-6 d-flex align-items-center">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Search..."
+                                                    aria-label="Search input"
+                                                />
+                                                <Button  variant="light" size="sm" className="ml-1">
+                                                    <i className="bi bi-search"></i>
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div className="col-2 d-flex align-items-center justify-content-end">
+                                            <Button variant="primary" size="sm" onClick={() => setModalShow(true)}>
+                                                Thêm mới
+                                            </Button>
                                         </div>
                                     </div>
+
+
                                     <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}/>
                                     <div className="row justify-content-center mt-3">
                                         <PagingComponent totalPage={totalPage} currentPage={currentPage}
@@ -85,7 +113,7 @@ const SubjectComponent = () => {
                                     </div>
                                 </div>
                                 <div className="card-footer">
-                                    <SubjectCreateComponent/>
+
                                 </div>
 
                             </div>
@@ -93,18 +121,15 @@ const SubjectComponent = () => {
                     </div>
                 </div>
             </section>
-        {/*
+            {/*
         díplay modal
         */}
-            <Button variant="primary" onClick={() => setModalShow(true)}>
-                Open Modal
-            </Button>
-
             <ModalComponent
                 show={modalShow}
                 onHide={() => setModalShow(false)}
+                onSave={handleSave}
             >
-                <p>Your modal content here.</p>
+                <SubjectCreateComponent/>
             </ModalComponent>
         </>
     );

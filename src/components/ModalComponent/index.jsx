@@ -1,6 +1,7 @@
-import  {useState} from 'react';
-import {Button, Modal} from "react-bootstrap";
-function ModalComponent({ children, onHide, show }) {
+import React from 'react';
+import { Button, Modal } from 'react-bootstrap';
+
+function ModalComponent({ children, onHide, show, onSave }) {
     return (
         <Modal
             show={show}
@@ -9,7 +10,7 @@ function ModalComponent({ children, onHide, show }) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header >
                 <Modal.Title id="contained-modal-title-vcenter">
                     Modal heading
                 </Modal.Title>
@@ -19,13 +20,18 @@ function ModalComponent({ children, onHide, show }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>Close</Button>
-                <Button variant="primary" onClick={onHide}>
+                <Button
+                    variant="primary"
+                    onClick={() => {
+                        onSave();
+                        onHide();  // Close the modal after saving
+                    }}
+                >
                     Save Changes
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 }
-
 
 export default ModalComponent;
