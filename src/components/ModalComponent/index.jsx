@@ -22,7 +22,7 @@ function ModalComponent({children, onHide, show, onSave}) {
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Modal heading
+                    Thêm mới
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
