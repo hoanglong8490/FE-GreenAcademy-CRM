@@ -84,27 +84,30 @@ const SubjectComponent = () => {
     //Modal
     const [modalShow, setModalShow] = useState(false);
 
+
+    //Begin - Create
     const handleSave = (formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
         // Your save logic here
     };
+    //End - Create
 
-    const handleSubmit = (formData) => {
-        console.log('Form submitted with data:', formData);
-        console.log('Form submitted with data:', formData);
-        const apiUrl = isEdit ? `${apiUpdate}/${formData.id}` : apiCreate;
-        const method = isEdit ? 'put' : 'post';
-
-        axios[method](apiUrl, formData)
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
-    };
+    // const handleSubmit = (formData) => {
+    //     console.log('Form submitted with data:', formData);
+    //     console.log('Form submitted with data:', formData);
+    //     const apiUrl = isEdit ? `${apiUpdate}/${formData.id}` : apiCreate;
+    //     const method = isEdit ? 'put' : 'post';
+    //
+    //     axios[method](apiUrl, formData)
+    //         .then((res) => {
+    //             console.log(res.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error:', error);
+    //         });
+    //
+    // };
     //Begin - Search
     const handleSearch = () => {
     }
@@ -201,6 +204,7 @@ const SubjectComponent = () => {
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 onSave={handleSave}
+                action="EDIT"
             >
                 <SubjectCreateComponent
                     formFieldsProp={formFieldsProp}

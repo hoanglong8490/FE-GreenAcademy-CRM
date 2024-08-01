@@ -1,16 +1,7 @@
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 
-function ModalComponent({children, onHide, show, onSave}) {
-    const handleSave = () => {
-        const formElement = children.ref.current;
-        const formData = new FormData(formElement);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
-        onSave(data);
-    };
+function ModalComponent({children, onHide, show, onSave, action}) {
 
     return (
         <Modal
@@ -22,23 +13,13 @@ function ModalComponent({children, onHide, show, onSave}) {
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Thêm mới
+                    {action !== "EDIT" ? "Thêm mới" : "Cập nhật"}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {children}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>Close</Button>
-                <Button
-                    variant="primary"
-                    onClick={() => {
-                        handleSave();
-                        onHide();  // Close the modal after saving
-                    }}
-                >
-                    Save Changes
-                </Button>
             </Modal.Footer>
         </Modal>
     );
