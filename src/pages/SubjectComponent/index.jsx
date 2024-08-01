@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import TableComponents from '../../components/TableComponent';
 import SelectDropdown from "../../components/SelectDownButton";
 import PagingComponent from "../../components/PagingComponent";
-import SubjectCreateComponent from "../SubjectCreateComponent";
 import ModalComponent from "../../components/ModalComponent";
 import {Button} from "react-bootstrap";
 import axios from "axios";
@@ -74,18 +73,18 @@ const SubjectComponent = () => {
     useEffect(() => {
         getData();
     }, []);
-    //END - Get Data
+    //-------------
 
     //Begin - Paging
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    //End - Paging
-    //Modal
+    //---------
+    //---------Begin - Modal
     const [modalShow, setModalShow] = useState(false);
 
-
-    //Begin - Create
+    //---------
+    //---------Begin - Create
     const handleSave = (formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
@@ -93,21 +92,6 @@ const SubjectComponent = () => {
     };
     //End - Create
 
-    // const handleSubmit = (formData) => {
-    //     console.log('Form submitted with data:', formData);
-    //     console.log('Form submitted with data:', formData);
-    //     const apiUrl = isEdit ? `${apiUpdate}/${formData.id}` : apiCreate;
-    //     const method = isEdit ? 'put' : 'post';
-    //
-    //     axios[method](apiUrl, formData)
-    //         .then((res) => {
-    //             console.log(res.data);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error:', error);
-    //         });
-    //
-    // };
     //Begin - Search
     const handleSearch = () => {
     }
@@ -205,12 +189,10 @@ const SubjectComponent = () => {
                 onHide={() => setModalShow(false)}
                 onSave={handleSave}
                 action="EDIT"
+                formFieldsProp={formFieldsProp}
+                initialIsEdit={isEdit}
+                initialIdCurrent={isCurrent}
             >
-                <SubjectCreateComponent
-                    formFieldsProp={formFieldsProp}
-                    initialIsEdit={isEdit}
-                    initialIdCurrent={isCurrent}
-                />
             </ModalComponent>
         </>
     );
