@@ -2,7 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({type, className, onClick, children}) => {
+const Button = ({
+                    type = 'button',
+                    className = '',
+                    onClick = () => {
+                    },
+                    children
+                }) => {
     return (
         <button type={type} className={`btn ${className}`} onClick={onClick}>
             {children}
@@ -15,13 +21,6 @@ Button.propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
     children: PropTypes.node.isRequired
-};
-
-Button.defaultProps = {
-    type: 'button',
-    className: '',
-    onClick: () => {
-    }
 };
 
 export default Button;
