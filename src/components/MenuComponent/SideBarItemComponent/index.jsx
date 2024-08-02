@@ -7,9 +7,15 @@ const SideBarItemComponent = (props) => {
   const resolved = useResolvedPath(to);
   const isActive = useMatch({ path: resolved.pathname, end: true });
 
+<<<<<<< HEAD
   useEffect(() => {
     setIsOpen(isActive);
   }, [isActive]);
+=======
+    useEffect(() => {
+        setIsOpen(isActive);
+    }, []);
+>>>>>>> 779fe9e736bf089f3d721566915a9cf0e97ce497
 
   const handleToggle = (event) => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
