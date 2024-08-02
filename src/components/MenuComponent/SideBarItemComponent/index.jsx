@@ -1,4 +1,4 @@
-import {NavLink, useMatch, useResolvedPath} from "react-router-dom";
+import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 
 const SideBarItemComponent = (props) => {
     const {to, name, icon, child} = props.item;
