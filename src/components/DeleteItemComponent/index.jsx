@@ -27,7 +27,7 @@ function DeleteComponent({show, onHide, onConfirm, deleteItem, apiDelete}) {
                 <Modal.Title>Xác nhận xoá</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Bạn cos chắc chăn muốn xoá không >
+                Bạn cos chắc chăn muốn xoá không ?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
