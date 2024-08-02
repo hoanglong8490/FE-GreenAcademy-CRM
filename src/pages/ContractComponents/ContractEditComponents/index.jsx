@@ -29,16 +29,17 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     }, [contract]);
 
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
-        if (files) {
+        const {name, value, files, type, checked} = e.target;
+        if (type === 'file') {
             setFormData({
                 ...formData,
                 [name]: Array.from(files)
             });
-        } else if (name === "status") {
+        } else if (name === 'status') {
+            // Chuyển đổi giá trị chuỗi thành boolean
             setFormData({
                 ...formData,
-                [name]: value === "true" // Convert string to boolean
+                [name]: value === 'true'
             });
         } else {
             setFormData({
@@ -49,7 +50,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     };
 
     const handleSave = () => {
-        onSave(formData);
+        const updatedContract = {
+            ...formData,
+            id: contract.id
+        };
+        console.log('Hợp đồng đã cập nhật:', updatedContract); // Kiểm tra dữ liệu đã cập nhật
+        onSave(updatedContract);
         handleClose();
     };
 
@@ -94,7 +100,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                             const {value} = values;
                             setFormData({
                                 ...formData,
-                                salary: value
+                                salary: parseFloat(value) // Chuyển đổi thành số nếu cần
                             });
                         }}
                         isNumericString
@@ -124,7 +130,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                     <label>Trạng thái</label>
                     <select
                         name="status"
-                        value={formData.status}
+                        value={formData.status.toString()} // Chuyển boolean thành chuỗi cho select
                         onChange={handleChange}
                         className="form-control"
                     >

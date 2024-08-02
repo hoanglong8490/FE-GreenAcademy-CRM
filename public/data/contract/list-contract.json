@@ -8,7 +8,7 @@
     "endDate": "2025-01-01",
     "status": true,
     "files": [
-      "path/to/image1.jpg",
+      "path/data/logo192.png",
       "path/to/image1_additional.jpg"
     ]
   },

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const TableBodyComponents = ({rows}) => {
     const handleActionClick = (action, item) => {
         if (action.onClick) {
-            action.onClick(item); // Đảm bảo rằng item được truyền đúng
+            action.onClick(item);
         }
     };
 
