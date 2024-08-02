@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = ({type, name, value, onChange, placeholder}) => {
+const Input = ({type='text', name, value, onChange, placeholder=''}) => {
     return (
         <input
             type={type}
@@ -23,9 +23,9 @@ Input.propTypes = {
     placeholder: PropTypes.string
 };
 
-Input.defaultProps = {
-    type: 'text',
-    placeholder: ''
-};
+// Input.defaultProps = {
+//     type: 'text',
+//     placeholder: ''
+// };
 
 export default Input;
