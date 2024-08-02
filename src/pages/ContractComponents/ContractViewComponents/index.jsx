@@ -66,7 +66,9 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         <ul className="list-group mt-2">
                             {contract.files.map((file, index) => (
                                 <li key={index} className="list-group-item">
-                                    {file.name}
+                                    <a href={file.url} download={file.name}>
+                                        {file.name}
+                                    </a>
                                 </li>
                             ))}
                         </ul>

@@ -5,7 +5,7 @@ import {NumericFormat} from 'react-number-format';
 const ContractForm = ({onSubmit}) => {
     const [formData, setFormData] = useState({
         employeeId: '',
-        contractType: 'Hợp đồng thử việc',
+        contractType: '',
         salary: '',
         startDate: '',
         endDate: '',
@@ -48,13 +48,21 @@ const ContractForm = ({onSubmit}) => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            onSubmit({
-                ...formData,
-                status: true
+            // Create FormData object for file upload
+            const data = new FormData();
+            Object.keys(formData).forEach(key => {
+                if (Array.isArray(formData[key])) {
+                    formData[key].forEach(file => data.append(key, file));
+                } else {
+                    data.append(key, formData[key]);
+                }
             });
+
+            // Submit form data
+            onSubmit(data);
             setFormData({
                 employeeId: '',
-                contractType: 'Hợp đồng thử việc',
+                contractType: '',
                 salary: '',
                 startDate: '',
                 endDate: '',
@@ -82,9 +90,11 @@ const ContractForm = ({onSubmit}) => {
                     onChange={handleChange}
                     className="form-control"
                 >
-                    <option value="Hợp đồng thử việc">Hợp đồng thử việc</option>
-                    <option value="Hợp đồng part-time">Hợp đồng part-time</option>
-                    <option value="Hợp đồng chính thức">Hợp đồng chính thức</option>
+                    <option value="fulltime">Full-time (Toàn thời gian)</option>
+                    <option value="parttime">Part-time (Bán thời gian)</option>
+                    <option value="freelance">Freelance (Làm việc tự do)</option>
+                    <option value="intern">Internship (Thực tập)</option>
+                    <option value="seasonal">Seasonal (Theo mùa vụ)</option>
                 </select>
                 {errors.contractType && <div className="text-danger">{errors.contractType}</div>}
             </div>
