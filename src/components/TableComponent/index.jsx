@@ -1,3 +1,29 @@
+<<<<<<< HEAD
+import React from "react";
+
+function TableComponents({ cols, dataTable, classTable }) {
+  return (
+    <>
+      <table className={classTable}>
+        <thead>
+          <tr>
+            {Array.isArray(cols) &&
+              cols.map((col, index) => <th key={index}>{col}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {dataTable.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {Object.values(row).map((cell, cellIndex) => (
+                <td key={cellIndex}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+=======
 import React, {useState} from 'react';
 import {Button} from "react-bootstrap";
 import ModalComponent from "../ModalComponent";
@@ -99,6 +125,7 @@ function TableComponents({
             />
         </>
     );
+>>>>>>> 779fe9e736bf089f3d721566915a9cf0e97ce497
 }
 
 export default TableComponents;
