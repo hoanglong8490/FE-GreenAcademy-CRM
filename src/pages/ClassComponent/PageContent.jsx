@@ -5,37 +5,9 @@ import PagingComponent from "../../components/PagingComponent";
 import ModalAdd from "./ModalAdd";
 import SearchComponent from "./SearchComponent";
 
-const PageContent = ({ headerContent }) => {
-  const [cols, setCols] = useState([]);
-  const [dataTable, setDataTable] = useState([]);
+const PageContent = ({ headerContent, cols, dataTable }) => {
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const getData = () => {
-    setCols([
-      "Mã lớp",
-      "Mã chương trình đào tạo",
-      "Tên lớp",
-      "Sĩ số",
-      "Ngày bắt đầu",
-      "Ngày kết thúc",
-      "Hành động",
-    ]);
-    setDataTable([
-      {
-        id: "abc",
-        trainingProgramId: "def",
-        name: "ghk",
-        size: "99",
-        startDate: "1/7/2024",
-        endDate: "1/10/2024",
-        action: <>haha</>,
-      },
-    ]);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
   return (
     <>
       <section className="content">

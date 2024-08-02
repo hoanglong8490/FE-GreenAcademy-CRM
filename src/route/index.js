@@ -28,11 +28,11 @@ export const routeSideBar = [
     icon: "nav-icon fas fa-book",
     to: "#",
     child: [
-      // {
-      //   name: "Quản lý học viên",
-      //   icon: "nav-icon fas fa-user",
-      //   to: "/students",
-      // },
+      {
+        name: "Quản lý học viên",
+        icon: "nav-icon fas fa-user",
+        to: "/students",
+      },
       {
         name: "Quản lý môn học",
         icon: "nav-icon fas fa-book",
@@ -45,46 +45,46 @@ export const routeSideBar = [
         component: ClassComponent,
         to: "/classes",
       },
-      // {
-      //   name: "Quản lý bảo lưu",
-      //   icon: "nav-icon fas fa-pause-circle",
-      //   to: "/reservations",
-      // },
-      // {
-      //   name: "Quản lý thành viên lớp",
-      //   icon: "nav-icon fas fa-users",
-      //   to: "/class-members",
-      // },
-      // {
-      //   name: "Quản lý chương trình đào tạo",
-      //   icon: "nav-icon fas fa-cogs",
-      //   to: "/programs",
-      // },
-      // {
-      //   name: "Quản lý điểm danh",
-      //   icon: "nav-icon fas fa-calendar-check",
-      //   to: "/attendance",
-      // },
-      // {
-      //   name: "Quản lý khoá học",
-      //   icon: "nav-icon fas fa-clipboard-list",
-      //   to: "/courses",
-      // },
-      // {
-      //   name: "Quản lý lịch học",
-      //   icon: "nav-icon fas fa-calendar-alt",
-      //   to: "/schedules",
-      // },
-      // {
-      //   name: "Quản lý lịch thi",
-      //   icon: "nav-icon fas fa-calendar-plus",
-      //   to: "/exams",
-      // },
-      // {
-      //   name: "Quản lý điểm số",
-      //   icon: "nav-icon fas fa-chart-line",
-      //   to: "/grades",
-      // },
+      {
+        name: "Quản lý bảo lưu",
+        icon: "nav-icon fas fa-pause-circle",
+        to: "/reservations",
+      },
+      {
+        name: "Quản lý thành viên lớp",
+        icon: "nav-icon fas fa-users",
+        to: "/class-members",
+      },
+      {
+        name: "Quản lý chương trình đào tạo",
+        icon: "nav-icon fas fa-cogs",
+        to: "/programs",
+      },
+      {
+        name: "Quản lý điểm danh",
+        icon: "nav-icon fas fa-calendar-check",
+        to: "/attendance",
+      },
+      {
+        name: "Quản lý khoá học",
+        icon: "nav-icon fas fa-clipboard-list",
+        to: "/courses",
+      },
+      {
+        name: "Quản lý lịch học",
+        icon: "nav-icon fas fa-calendar-alt",
+        to: "/schedules",
+      },
+      {
+        name: "Quản lý lịch thi",
+        icon: "nav-icon fas fa-calendar-plus",
+        to: "/exams",
+      },
+      {
+        name: "Quản lý điểm số",
+        icon: "nav-icon fas fa-chart-line",
+        to: "/grades",
+      },
     ],
   },
 ];

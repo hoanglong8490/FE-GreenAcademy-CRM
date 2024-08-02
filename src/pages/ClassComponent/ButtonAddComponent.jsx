@@ -7,7 +7,7 @@ const ButtonAddComponent = ({ setShowAddModal }) => {
     <Button
       variant="primary"
       onClick={() => setShowAddModal(true)}
-      className="float-right mb-2 d-flex align-items-center"
+      className="float-right mb-3 d-flex align-items-center"
     >
       Thêm mới
       <div className="ml-1">
