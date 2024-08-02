@@ -10,19 +10,18 @@ import ContractViewComponents from "./ContractViewComponents";
 import ContractEditComponents from "./ContractEditComponents";
 import PagingComponent from "../../components/PagingComponent";
 import {format} from 'date-fns';
-// axios.get('../../../data/contract/list-contract.json')
-
+import ConfirmationComponents from "../../components/ConfirmationComponents";
 
 const ContractComponents = () => {
     const [contracts, setContracts] = useState([]);
     const [filteredContracts, setFilteredContracts] = useState([]);
     const [viewModalShow, setViewModalShow] = useState(false);
     const [editModalShow, setEditModalShow] = useState(false);
+    const [deleteModalShow, setDeleteModalShow] = useState(false); // State for delete confirmation modal
     const [selectedContract, setSelectedContract] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const itemsPerPage = 10; // Hiển thị số mục mỗi trang
-
 
     useEffect(() => {
         axios.get('https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract')
@@ -90,23 +89,40 @@ const ContractComponents = () => {
     };
 
     const handleDelete = (contractId) => {
-        axios.delete(`https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract/${contractId}`)
-            .then(() => {
-                const updatedContracts = contracts.filter(contract => contract.id !== contractId);
-                setContracts(updatedContracts);
-                setFilteredContracts(updatedContracts);
-                setTotalPage(Math.ceil(updatedContracts.length / itemsPerPage)); // Cập nhật tổng số trang
+        // Tìm hợp đồng cần cập nhật trạng thái
+        const contractToUpdate = contracts.find(contract => contract.id === contractId);
+
+        if (contractToUpdate) {
+            // Cập nhật trạng thái hợp đồng
+            axios.put(`https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract/${contractId}`, {
+                ...contractToUpdate,
+                status: false
             })
-            .catch(error => {
-                console.error('Có lỗi xảy ra khi xóa hợp đồng!', error);
-            });
+                .then(response => {
+                    // Cập nhật hợp đồng trong danh sách
+                    const updatedContracts = contracts.map(contract =>
+                        contract.id === contractId ? response.data : contract
+                    );
+                    setContracts(updatedContracts);
+                    setFilteredContracts(updatedContracts);
+                    setTotalPage(Math.ceil(updatedContracts.length / itemsPerPage)); // Cập nhật tổng số trang
+                    setDeleteModalShow(false); // Đóng modal xác nhận xóa
+                })
+                .catch(error => {
+                    console.error('Có lỗi xảy ra khi cập nhật trạng thái hợp đồng!', error);
+                });
+        }
+    };
+
+    const handleDeleteConfirm = () => {
+        if (selectedContract) {
+            handleDelete(selectedContract.id);
+        }
     };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    // kiểm tra dịnh dạng ngày
 
     const formatDate = (dateString) => {
         return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
@@ -123,6 +139,7 @@ const ContractComponents = () => {
                 thousandSeparator="."
                 decimalSeparator=","
                 prefix=""
+                renderText={value => value} // Chuyển đổi giá trị thành chuỗi
             />,
             formatDate(contract.startDate), // Định dạng ngày bắt đầu
             formatDate(contract.endDate),   // Định dạng ngày kết thúc
@@ -139,11 +156,14 @@ const ContractComponents = () => {
                 icon: 'fa-pen',
                 onClick: () => handleEdit(contract)
             },
-            {
+            ...(contract.status ? [{
                 className: 'btn-danger',
                 icon: 'fa-trash',
-                onClick: () => handleDelete(contract.id)
-            }
+                onClick: () => {
+                    setSelectedContract(contract);
+                    setDeleteModalShow(true);
+                }
+            }] : []) // Chỉ hiển thị nút xóa nếu contract.status là true
         ]
     }));
 
@@ -178,6 +198,12 @@ const ContractComponents = () => {
                 handleClose={() => setEditModalShow(false)}
                 contract={selectedContract}
                 onSave={handleSaveEdit}
+            />
+            <ConfirmationComponents
+                show={deleteModalShow}
+                handleClose={() => setDeleteModalShow(false)}
+                onConfirm={handleDeleteConfirm}
+                message="Bạn có chắc chắn muốn xóa hợp đồng này?"
             />
         </div>
     );
