@@ -89,7 +89,7 @@ function TableComponents({
                 ))}
                 </tbody>
             </table>
-            <ModalComponent show={modalShow} {...modalProps} />
+            <ModalComponent show={modalShow} getData={getData} {...modalProps} />
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
