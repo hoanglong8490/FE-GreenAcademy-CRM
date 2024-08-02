@@ -1,16 +1,20 @@
-import { Alert } from "react-bootstrap";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const NotificationComponent = ({ variant, children }) => {
+const NotificationComponent = () => {
   return (
-    <div className="d-flex justify-content-center">
-      <Alert
-        variant={variant}
-        className="w-50"
-        style={{ zIndex: 9999, position: "absolute", top: "40px" }}
-      >
-        {children}
-      </Alert>
-    </div>
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
   );
 };
 

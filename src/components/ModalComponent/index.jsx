@@ -1,21 +1,15 @@
-import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 import NotificationComponent from "../NotificationComponent";
-import { typeNotification } from "../../constants";
 
 function ModalComponent({ children, modalTitle, show, setShowAddModal }) {
-  const [showAlert, setShowAlert] = useState(false);
-
   const handleClose = () => {
     setShowAddModal(false);
   };
 
   const handleSuccess = () => {
-    setShowAlert(true);
     setShowAddModal(false);
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 1000);
+    toast.success("Add Successfully");
   };
 
   return (
@@ -42,11 +36,7 @@ function ModalComponent({ children, modalTitle, show, setShowAddModal }) {
           </Button>
         </Modal.Footer>
       </Modal>
-      {showAlert && (
-        <NotificationComponent variant={typeNotification.success}>
-          Success Alert
-        </NotificationComponent>
-      )}
+      <NotificationComponent />
     </>
   );
 }
