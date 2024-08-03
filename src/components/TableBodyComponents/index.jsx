@@ -37,7 +37,12 @@ const TableBodyComponents = ({rows}) => {
 TableBodyComponents.propTypes = {
     rows: PropTypes.arrayOf(
         PropTypes.shape({
-            data: PropTypes.arrayOf(PropTypes.string).isRequired,
+            data: PropTypes.arrayOf(
+                PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.object // Cập nhật điều này để phản ánh các loại thực tế
+                ])
+            ).isRequired,
             actions: PropTypes.arrayOf(
                 PropTypes.shape({
                     className: PropTypes.string.isRequired,

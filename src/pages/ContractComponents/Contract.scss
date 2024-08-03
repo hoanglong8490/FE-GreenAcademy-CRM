@@ -1,16 +1,19 @@
-.Contract-list {
-  padding: 20px;
+.content-wrapper {
+  background-color: #fff;
+
+
+  .contract-tittle {
+    margin: 20px;
+    padding: 20px
+  }
 
   .contract-content {
-    margin-bottom: 20px;
+    margin: 20px;
+    padding: 20px;
+  }
 
-    h3 {
-      font-size: 20px;
-    }
 
-    p {
-      font-size: 16px;
-    }
-
+  .action-button {
+    gap: 10px;
   }
 }
