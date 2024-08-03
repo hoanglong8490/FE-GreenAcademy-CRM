@@ -48,18 +48,10 @@ const ContractForm = ({onSubmit}) => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            // Create FormData object for file upload
-            const data = new FormData();
-            Object.keys(formData).forEach(key => {
-                if (Array.isArray(formData[key])) {
-                    formData[key].forEach(file => data.append(key, file));
-                } else {
-                    data.append(key, formData[key]);
-                }
+            onSubmit({
+                ...formData,
+                status: true
             });
-
-            // Submit form data
-            onSubmit(data);
             setFormData({
                 employeeId: '',
                 contractType: '',
@@ -90,6 +82,7 @@ const ContractForm = ({onSubmit}) => {
                     onChange={handleChange}
                     className="form-control"
                 >
+                    <option value="">-- Chọn loại hợp đồng --</option>
                     <option value="fulltime">Full-time (Toàn thời gian)</option>
                     <option value="parttime">Part-time (Bán thời gian)</option>
                     <option value="freelance">Freelance (Làm việc tự do)</option>
@@ -113,7 +106,6 @@ const ContractForm = ({onSubmit}) => {
                             salary: value
                         });
                     }}
-                    isNumericString
                 />
                 {errors.salary && <div className="text-danger">{errors.salary}</div>}
             </div>
