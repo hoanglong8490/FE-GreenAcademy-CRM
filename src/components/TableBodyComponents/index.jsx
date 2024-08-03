@@ -1,6 +1,6 @@
 // src/components/TableBodyComponents.js
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 const TableBodyComponents = ({rows}) => {
     const handleActionClick = (action, item) => {
