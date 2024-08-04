@@ -12,15 +12,13 @@ function ModalComponent(props) {
         action,
         formFieldsProp,
         initialIdCurrent,
-        apiUpdate,
-        apiCreate,
-        apiView,
+        api,
         getData
     } = props;
 
     // Hàm xử lý khi lưu dữ liệu
     const handleSave = (formData) => {
-        console.log("Saving data in SubjectCreate...");
+        console.log("Saving data in ModalComponent...");
         console.log("Form data:", JSON.stringify(formData));
         if (action === 'EDIT') {
             UpdateItem(formData);
@@ -31,7 +29,7 @@ function ModalComponent(props) {
 
     // Hàm cập nhật item
     const UpdateItem = (formData) => {
-        axios.put(`${apiUpdate}/${formData.id}`, formData)
+        axios.put(`${api}/${formData.id}`, formData)
             .then(response => {
                 console.log('Update successful:', response);
                 onHide();
@@ -47,7 +45,7 @@ function ModalComponent(props) {
 
     // Hàm tạo mới item
     const CreateItem = (formData) => {
-        axios.post(apiCreate, formData)
+        axios.post(api, formData)
             .then(response => {
                 console.log('Create successful:', response);
                 onHide();
@@ -82,7 +80,7 @@ function ModalComponent(props) {
                     isView={action === 'VIEW'}
                     idCurrent={initialIdCurrent}
                     onClose={onHide}
-                    apiGetById={apiView}
+                    api={api}
                 />
             </Modal.Body>
             <Modal.Footer>

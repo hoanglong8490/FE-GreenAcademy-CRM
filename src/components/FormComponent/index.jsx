@@ -7,7 +7,7 @@ import Input from "../InputComponents";
 
 // Cập nhật tên hàm từ FormComponent({ fields, onSubmit, isEdit, idCurrent, onClose, isView, apiGetById }) thành FormComponent(props)
 function FormComponent(props) {
-    const {fields, onSubmit, isEdit, idCurrent, onClose, isView, apiGetById} = props;
+    const {fields, onSubmit, isEdit, idCurrent, onClose, isView, api} = props;
 
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
@@ -26,7 +26,7 @@ function FormComponent(props) {
     useEffect(() => {
         console.log(isView);
         if (isEdit || isView) {
-            const url = `${apiGetById}/${idCurrent}`;
+            const url = `${api}/${idCurrent}`;
             axios.get(url)
                 .then((res) => {
                     setFormData(res.data);
@@ -37,7 +37,7 @@ function FormComponent(props) {
         }
         console.log('Render FORMComponent');
 
-    }, [isEdit, idCurrent, isView, apiGetById]);
+    }, [isEdit, idCurrent, isView, api]);
 
     return (
         <Form onSubmit={handleSubmit}>

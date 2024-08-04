@@ -6,7 +6,7 @@ import DeleteComponent from "../DeleteItemComponent";
 function TableComponents(props) {
     const {
         cols, titleTable, dataTable, classTable,
-        apiDelete, apiUpdate, apiView, formFieldsProp, getData
+        api, formFieldsProp, getData
     } = props;
 
     const [modalShow, setModalShow] = useState(false);
@@ -15,8 +15,7 @@ function TableComponents(props) {
         formFieldsProp: formFieldsProp,
         initialIsEdit: false,
         initialIdCurrent: null,
-        apiUpdate: apiUpdate,
-        apiView: apiView
+        api
     });
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [deleteItem, setDeleteItem] = useState(null);
@@ -48,11 +47,10 @@ function TableComponents(props) {
             formFieldsProp: formFieldsProp,
             initialIsEdit: isEdit,
             initialIdCurrent: id,
-            apiUpdate: apiUpdate,
-            apiView: apiView
+            api
         });
         setModalShow(true);
-    }, [handleSave, formFieldsProp, apiUpdate, apiView]);
+    }, [handleSave, formFieldsProp, api]);
 
     return (
         <>
@@ -91,7 +89,7 @@ function TableComponents(props) {
                 onHide={() => setShowConfirmModal(false)}
                 onConfirm={handleDeleteConfirmation}
                 deleteItem={deleteItem}
-                apiDelete={apiDelete}
+                apiDelete={api}
             />
         </>
     );

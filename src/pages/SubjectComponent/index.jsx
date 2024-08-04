@@ -184,9 +184,7 @@ const SubjectComponent = () => {
                                         <div className="col-12">
                                             <TableComponents cols={cols} dataTable={state.dataTable}
                                                              classTable={state.classTable}
-                                                             apiDelete={api}
-                                                             apiUpdate={api}
-                                                             apiView={api}
+                                                             api={api}
                                                              formFieldsProp={state.modalProps.formFieldsProp}
                                                              getData={getData}/>
                                         </div>
