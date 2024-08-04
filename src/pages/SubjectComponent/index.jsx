@@ -63,7 +63,7 @@ const SubjectComponent = () => {
     });
 
     const api = API.SUBJECT
-    const cols = ['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
+    const cols = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
 
     const getData = useCallback(async () => {
         try {

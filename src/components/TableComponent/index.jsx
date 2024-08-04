@@ -27,7 +27,7 @@ function TableComponents(props) {
         getData();
     }, [getData]);
 
-    // Hàm xử lý khi xác nhận xóa dữ liệu
+    // Hàm xử lý sau khi xác nhận xóa dữ liệu
     const handleDeleteConfirmation = useCallback(() => {
         getData();
     }, [getData]);
@@ -66,6 +66,7 @@ function TableComponents(props) {
                 <tbody>
                 {dataTable.map((row, rowIndex) => (
                     <tr key={rowIndex}>
+                        <td>{rowIndex + 1}</td>
                         <td>{row.id}</td>
                         {formFieldsProp.map((field, cellIndex) => (
                             <td key={cellIndex}>{row[field.name]}</td>
