@@ -16,9 +16,13 @@ function ModalComponent(props) {
     const [actionModal, setActionModal] = useState(initialAction);
 
     useEffect(() => {
-        setActionModal(initialAction);
+        if (['CREATE', 'EDIT', 'VIEW'].includes(initialAction)) {
+            setActionModal(initialAction);
+        } else {
+            console.warn(`Invalid action: ${initialAction}`);
+            setActionModal('CREATE'); // Default action
+        }
     }, [initialAction]);
-
 
     const handleEdit = () => {
         setActionModal('EDIT');
@@ -45,7 +49,6 @@ function ModalComponent(props) {
                     idCurrent={initialIdCurrent}
                     onClose={onHide}
                     api={api}
-                    onEdit={handleEdit}
                 />
             </Modal.Body>
             <Modal.Footer>
