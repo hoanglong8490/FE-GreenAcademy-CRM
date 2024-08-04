@@ -1,62 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import FormComponent from "../FormComponent";
-import axios from "axios";
-import {toast} from "react-toastify";
 
 function ModalComponent(props) {
-    // Lấy các props cần thiết
     const {
         onHide,
         show,
-        action,
+        action: initialAction,
         formFieldsProp,
         initialIdCurrent,
         api,
         getData
     } = props;
 
-    // Hàm xử lý khi lưu dữ liệu
-    const handleSave = (formData) => {
-        console.log("Saving data in ModalComponent...");
-        console.log("Form data:", JSON.stringify(formData));
-        if (action === 'EDIT') {
-            UpdateItem(formData);
-        } else if (action === 'CREATE') {
-            CreateItem(formData);
-        }
-    };
+    const [actionModal, setActionModal] = useState(initialAction);
 
-    // Hàm cập nhật item
-    const UpdateItem = (formData) => {
-        axios.put(`${api}/${formData.id}`, formData)
-            .then(response => {
-                console.log('Update successful:', response);
-                onHide();
-                getData();
-                toast.success("Cập nhật thành công!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            })
-            .catch(error => {
-                console.error('Có lỗi khi cập nhật item:', error);
-            });
-    };
+    useEffect(() => {
+        setActionModal(initialAction);
+    }, [initialAction]);
 
-    // Hàm tạo mới item
-    const CreateItem = (formData) => {
-        axios.post(api, formData)
-            .then(response => {
-                console.log('Create successful:', response);
-                onHide();
-                getData();
-                toast.success("Tạo mới thành công!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            })
-            .catch(error => {
-                console.error('Có lỗi khi tạo mới item:', error);
-            });
+
+    const handleEdit = () => {
+        setActionModal('EDIT');
     };
 
     return (
@@ -69,21 +34,22 @@ function ModalComponent(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {action === "EDIT" ? "Cập nhật" : action === "VIEW" ? "" : "Thêm mới"}
+                    {actionModal === 'EDIT' ? "Edit" : actionModal === 'VIEW' ? "View" : "Create"}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <FormComponent
                     fields={formFieldsProp}
-                    onSubmit={handleSave}
-                    isEdit={action === "EDIT"}
-                    isView={action === 'VIEW'}
+                    getData={getData}
+                    action={actionModal}
                     idCurrent={initialIdCurrent}
                     onClose={onHide}
                     api={api}
+                    onEdit={handleEdit}
                 />
             </Modal.Body>
             <Modal.Footer>
+                {/* Add footer content if needed */}
             </Modal.Footer>
         </Modal>
     );
