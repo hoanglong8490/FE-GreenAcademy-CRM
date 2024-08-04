@@ -1,101 +1,88 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import axios from 'axios';
+import {Button} from 'react-bootstrap';
 import TableComponents from '../../components/TableComponent';
-import SelectDropdown from "../../components/SelectDownButton";
-import PagingComponent from "../../components/PagingComponent";
-import ModalComponent from "../../components/ModalComponent";
-import {Button} from "react-bootstrap";
-import axios from "axios";
+import SelectDropdown from '../../components/SelectDownButton';
+import PagingComponent from '../../components/PagingComponent';
+import ModalComponent from '../../components/ModalComponent';
 import API from '../../store/Api';
 
+// Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
+const INITIAL_STATE = {
+    dataTable: [], // Dữ liệu bảng
+    titleTable: 'SubjectComponent', // Tiêu đề của bảng
+    classTable: 'table table-bordered table-hover', // Lớp CSS của bảng
+    totalPage: 5, // Tổng số trang
+    currentPage: 1, // Trang hiện tại
+    modalShow: false, // Trạng thái hiển thị modal
+    modalProps: {
+        show: false,
+        action: '',
+        formFieldsProp: [
+            {name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name'},
+            {name: 'duration', type: 'text', label: 'Duration', placeholder: 'Enter duration'},
+            {
+                name: 'programName',
+                type: 'select',
+                label: 'Program Name',
+                placeholder: 'Select a program',
+                apiUrl: '/data/status.json',
+                defaultOption: {value: '', label: 'Select a program'}
+            },
+            {
+                name: 'status',
+                type: 'select',
+                label: 'Status',
+                placeholder: 'Select status',
+                apiUrl: '/data/status.json',
+                defaultOption: {value: '', label: 'Select status'}
+            }
+        ],
+        initialIsEdit: false,
+        initialIdCurrent: null,
+        api: API.SUBJECT
+    }
+};
+
+const COLUMNS = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
+
 const SubjectComponent = () => {
-    const [state, setState] = useState({
-        dataTable: [],
-        titleTable: 'SubjectComponent',
-        classTable: 'table table-bordered table-hover',
-        totalPage: 5,
-        currentPage: 1,
-        isEdit: true,
-        isCurrent: null,
-        modalShow: false,
-        modalProps: {
-            show: false,
-            action: '',
-            formFieldsProp: [
-                {
-                    name: 'name',
-                    type: 'text',
-                    label: 'Name',
-                    placeholder: 'Enter the name',
-                },
-                {
-                    name: 'duration',
-                    type: 'text',
-                    label: 'Duration',
-                    placeholder: 'Enter duration',
-                },
-                {
-                    name: 'programName',
-                    type: 'select',
-                    label: 'Program Name',
-                    placeholder: 'Select a program',
-                    apiUrl: '/data/status.json',
-                    defaultOption: {
-                        value: '',
-                        label: 'Select a program'
-                    }
-                },
-                {
-                    name: 'status',
-                    type: 'select',
-                    label: 'Status',
-                    placeholder: 'Select status',
-                    apiUrl: '/data/status.json',
-                    defaultOption: {
-                        value: '',
-                        label: 'Select status'
-                    }
-                }
-            ],
-            initialIsEdit: false,
-            initialIdCurrent: null,
-            api: API.SUBJECT
-        }
-    });
+    const [state, setState] = useState(INITIAL_STATE);
 
-    const api = API.SUBJECT
-    const cols = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
+    const api = API.SUBJECT;
 
-    const getData = useCallback(async () => {
+    // Hàm lấy dữ liệu từ API
+    const fetchData = useCallback(async () => {
         try {
-            const res = await axios.get(api);
+            const {data} = await axios.get(api);
             setState(prevState => ({
                 ...prevState,
-                dataTable: res.data,
+                dataTable: data,
                 currentPage: 1
             }));
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error('Lỗi khi lấy dữ liệu:', error);
         }
     }, [api]);
 
     useEffect(() => {
-        getData();
+        fetchData();
         console.log('Render SubjectComponent');
-    }, [getData]);
+    }, [fetchData]);
 
-    const handlePageChange = useCallback((pageNumber) => {
-        setState(prevState => ({
-            ...prevState,
-            currentPage: pageNumber
-        }));
+    // Hàm xử lý thay đổi trang
+    const handlePageChange = useCallback(pageNumber => {
+        setState(prevState => ({...prevState, currentPage: pageNumber}));
     }, []);
 
-    const handleSave = useCallback((formData) => {
-        console.log("Saving data...");
-        console.log("Form data:", formData);
-        // Your save logic here
+    // Hàm xử lý lưu dữ liệu
+    const handleSave = useCallback(formData => {
+        console.log('Đang lưu dữ liệu...');
+        console.log('Dữ liệu biểu mẫu:', formData);
+        // Thêm logic lưu dữ liệu ở đây
     }, []);
 
+    // Hàm hiển thị modal
     const handleModalShow = useCallback(() => {
         setState(prevState => ({
             ...prevState,
@@ -112,7 +99,8 @@ const SubjectComponent = () => {
         }));
     }, [handleSave]);
 
-    const getModalProps = useMemo(() => ({
+    // Các thuộc tính của modal
+    const modalProps = useMemo(() => ({
         ...state.modalProps,
         show: state.modalShow,
         onHide: () => setState(prevState => ({...prevState, modalShow: false})),
@@ -144,49 +132,67 @@ const SubjectComponent = () => {
                         <div className="col">
                             <div className="card card-primary">
                                 <div className="card-body">
-                                    <div className="row align-items-center">
-                                        <div className="col-md-10 d-flex align-items-center gap-3">
-                                            <div className="d-flex gap-3 col-md-6">
-                                                <SelectDropdown
-                                                    id="programStatus1"
-                                                    defaultOption={{value: '', label: 'Chọn trạng thái'}}
-                                                    apiUrl="/data/status.json"
-                                                    className="form-select"
-                                                />
-                                                <SelectDropdown
-                                                    id="programStatus2"
-                                                    defaultOption={{value: '', label: 'Chọn chương trình học'}}
-                                                    apiUrl="/data/status.json"
-                                                    className="form-select"
-                                                />
-                                            </div>
-                                            <div
-                                                className="d-flex col-md-6 align-items-center justify-content-end gap-2">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    placeholder="Search..."
-                                                    aria-label="Search input"
-                                                />
-                                                <Button variant="light" size="sm">
-                                                    <i className="bi bi-search"></i>
-                                                </Button>
-                                            </div>
+                                    <div className="row mb-4">
+                                        {/* First Part: Filters */}
+                                        <div className="col-md-4 d-flex align-items-center gap-3">
+                                            <SelectDropdown
+                                                id="programStatus1"
+                                                defaultOption={{value: '', label: 'Chọn trạng thái'}}
+                                                apiUrl="/data/status.json"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                            />
+                                            <SelectDropdown
+                                                id="programStatus2"
+                                                defaultOption={{value: '', label: 'Chọn chương trình học'}}
+                                                apiUrl="/data/status.json"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                            />
+
                                         </div>
-                                        <div className="col-md-2 d-flex align-items-center justify-content-end">
-                                            <Button variant="primary" size="lg" onClick={handleModalShow}>
-                                                <i className="bi bi-plus-circle"></i>
+
+                                        {/* Second Part: Search Input and Button */}
+                                        <div className="col-md-4 d-flex align-items-center gap-3">
+                                            <input
+                                                type="text"
+                                                className="form-control rounded-pill border-secondary flex-fill"
+                                                placeholder="Search..."
+                                                aria-label="Search input"
+                                            />
+                                            <Button
+                                                variant="outline-secondary"
+                                                size="sm"
+                                                aria-label="Search"
+                                                className="d-flex align-items-center px-3 rounded-pill"
+                                            >
+                                                <i className="bi bi-search"></i>
+                                            </Button>
+                                        </div>
+
+                                        {/* Third Part: Add New Button */}
+                                        <div className="col-md-4 d-flex align-items-center justify-content-end">
+                                            <Button
+                                                variant="primary"
+                                                size="sm"
+                                                onClick={handleModalShow}
+                                                aria-label="Add new item"
+                                                className="d-flex align-items-center px-3 rounded-pill"
+                                            >
+                                                <i className="bi bi-plus-circle me-2"></i>
+                                                Add New
                                             </Button>
                                         </div>
                                     </div>
 
                                     <div className="row">
                                         <div className="col-12">
-                                            <TableComponents cols={cols} dataTable={state.dataTable}
-                                                             classTable={state.classTable}
-                                                             api={api}
-                                                             formFieldsProp={state.modalProps.formFieldsProp}
-                                                             getData={getData}/>
+                                            <TableComponents
+                                                cols={COLUMNS}
+                                                dataTable={state.dataTable}
+                                                classTable={state.classTable}
+                                                api={api}
+                                                formFieldsProp={state.modalProps.formFieldsProp}
+                                                getData={fetchData}
+                                            />
                                         </div>
                                     </div>
                                     <div className="row justify-content-center mt-3">
@@ -198,18 +204,14 @@ const SubjectComponent = () => {
                                             />
                                         </div>
                                     </div>
-
                                 </div>
-                                <div className="card-footer">
-
-                                </div>
-
+                                <div className="card-footer"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <ModalComponent {...getModalProps} getData={getData}/>
+            <ModalComponent {...modalProps} getData={fetchData}/>
         </>
     );
 }
