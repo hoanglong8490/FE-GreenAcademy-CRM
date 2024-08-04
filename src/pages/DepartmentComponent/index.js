@@ -1,20 +1,52 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TableComponents from '../../components/TableComponents';
 import TableBodyComponents from '../../components/TableBodyComponents';
 import FormInput from '../../components/FormInputComponents';
 import './sass/DepartmentStyle.scss'
-// import Input from '../../components/InputComponents';
+import InfoModal from './ModalDepartment/InfoDepartment';
+import { createDepartment, deleteDepartment, fetchDepartmentById, fetchDepartments, fetchStatus, updateDepartment } from './service/DepartmentService';
+
 
 
 export default function DepartmentComponent() {
-
-
+    const [departments, setDepartments] = useState([]);
+    const [statuses, setStatuses] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState({ title: '', content: '' });
     const [formValue, setFormValue] = useState({
         departmentName: "",
-        descripstion: "",
-        status: "Hoạt Động",
-        update: "",
+        description: "",
+        status: "",
+        createDate: "",
+        updateDate: "",
     })
+    const [editingDepartmentId, setEditingDepartmentId] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchDepartments();
+            setDepartments(data);
+        };
+        fetchData();
+    }, [])
+    useEffect(() => {
+        const fetchStatuses = async () => {
+            const data = await fetchStatus();
+            setStatuses(data);
+        };
+        fetchStatuses();
+    }, [])
+    const [search, setSearch] = useState('');
+    const closeModal = () => setModalOpen(false);
+    const convertDateToISO = (dateString) => {
+        if (!dateString) return '';
+        const [year, month, day] = dateString.split('-');
+        if (day && month && year) {
+            return `${day}/${month}/${year}`;
+        }
+        return '';
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValue({
@@ -22,30 +54,129 @@ export default function DepartmentComponent() {
             [name]: value
         })
     }
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setFormValue({
-            deparment: "",
-            descripstion: "",
-            status: "",
-            update: ""
-        })
-        console.log(formValue)
-    }
 
+        const departmentData = {
+            departmentName: formValue.departmentName,
+            description: formValue.description,
+            status: formValue.status,
+            createDate: convertDateToISO(formValue.createDate),
+            updateDate: convertDateToISO(formValue.updateDate)
+        };
+        try {
+            let res;
+            if (isEditing) {
+                res = await updateDepartment(editingDepartmentId, departmentData);
+                setIsEditing(false);
+            } else {
+                res = await createDepartment(departmentData);
+            }
+
+            if (res) {
+                setDepartments(isEditing ? departments.map(dep => dep.id === editingDepartmentId ? res : dep) : [...departments, res]);
+                alert(isEditing ? "Cập nhật thành công!" : "Thêm mới thành công!");
+                setFormValue({
+                    departmentName: "",
+                    description: "",
+                    status: "",
+                    createDate: "",
+                    updateDate: "",
+                });
+                setEditingDepartmentId(null);
+            }
+        } catch (error) {
+            console.error("Error adding or updating department:", error);
+        }
+    };
+    const handleModalInfo = async (item) => {
+        const departmentId = item.data[0];
+        const department = await fetchDepartmentById(departmentId);
+        console.log("department", department)
+        if (department) {
+            setModalContent({
+                title: 'Thông tin phòng ban',
+                content: (
+                    <div>
+                        <div className="form-group">
+                            <label htmlFor="department_Id">ID:</label>
+                            <input type="number" id="department_Id" className="form-control" value={department.id} disabled />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="department_Name">Tên phòng ban:</label>
+                            <input type="text" id="department_Name" className="form-control" value={department.departmentName} disabled />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="department_Status">Trạng thái:</label>
+                            <input type="text" id="department_Status" className="form-control" value={department.status} disabled />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="department_Description">Mô tả:</label>
+                            <input type="text" id="department_Description" className="form-control" value={department.description} disabled />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="department_CreateDate">Ngày tạo:</label>
+                            <input type="text" id="department_CreateDate" className="form-control" value={department.createDate} disabled />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="department_UpdateDate">Ngày cập nhật:</label>
+                            <input type="text" id="department_UpdateDate" className="form-control" value={department.updateDate} disabled />
+                        </div>
+                    </div>
+                )
+            });
+            setModalOpen(true);
+        }
+    };
+
+    const handleUpdateDepartment = async (item) => {
+        const departmentId = item.data[0];
+        const department = await fetchDepartmentById(departmentId);
+        if (department) {
+            console.log(department.status);
+            setFormValue({
+                departmentName: department.departmentName,
+                description: department.description,
+                status: department.status,
+                createDate: convertDateToISO(department.createDate),
+                updateDate: convertDateToISO(department.updateDate)
+            });
+            setEditingDepartmentId(departmentId);
+            setIsEditing(true);
+            console.log(department.status);
+        }
+    };
+    const handleDeleteDepartment = async (item) => {
+        const departmentId = item.data[0];
+        const confirmDelete = window.confirm("Bán muôn xóa phòng ban này khong?");
+        if (confirmDelete) {
+            try {
+                await deleteDepartment(departmentId);
+                setDepartments(departments.filter(department => department.id === departmentId));
+                alert("Xóa phòng ban thành công!");
+                const updatedDepartment = await fetchDepartments();
+                setDepartments(updatedDepartment);
+            } catch (error) {
+                console.error("There was an error deleting the department!", error);
+                alert("Có lỗi xảy ra khi xóa phòng ban.");
+            }
+        }
+
+    }
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    }
+    const filteredDepartments = departments.filter(department => department.departmentName.toLowerCase().startsWith(search.toLowerCase()));
 
     const header = ["ID", "Tên phòng ban", "Trạng thái", "Chức năng"];
-    const row = [{
-        data: ["PB01", "Hành chính nhân sự", "Hoạt động"],
+    const row = filteredDepartments.map((department) => ({
+        data: [String(department.id), department.departmentName, department.status],
         actions: [
-            { href: "#edit", className: "btn-primary", icon: "fas fa-edit" },
-            { href: '#delete', className: 'btn-danger', icon: 'fa-trash' },
-            {
-                href: '#info', className: 'btn-info', icon: 'fa-info'
-            },
+            { className: "btn-primary", icon: "fas fa-edit", onClick: handleUpdateDepartment },
+            { className: 'btn-danger', icon: 'fa-trash', onClick: handleDeleteDepartment },
+            { className: 'btn-info', icon: 'fa-info', onClick: handleModalInfo }
         ]
-    }]
+    }))
 
     return (
         <div>
@@ -76,14 +207,15 @@ export default function DepartmentComponent() {
                                         <FormInput
                                             label="Tên phòng ban"
                                             name="departmentName"
+                                            disabled={isEditing}
                                             value={formValue.departmentName || ""}
                                             onChange={handleChange}
                                         />
                                         <FormInput
                                             type="textarea"
                                             label="Mô tả"
-                                            name="descripstion"
-                                            value={formValue.descripstion || ""}
+                                            name="description"
+                                            value={formValue.description || ""}
                                             onChange={handleChange}
                                         />
                                         <div className="form-group">
@@ -92,21 +224,33 @@ export default function DepartmentComponent() {
                                                 name="status"
                                                 value={formValue.status || ""}
                                                 onChange={handleChange}
-                                                className="ml-2 form-control"
+                                                className="form-control"
                                             >
-                                                <option value="Hoạt Động" style={{ color: 'green' }}>Hoạt Động</option>
-                                                <option value="Tạm Ngưng" style={{ color: 'red' }}>Tạm Ngưng</option>
+                                                <option value="" disabled hidden>Chọn trạng thái</option>
+                                                {statuses.map((opts, index) => {
+                                                    return (
+                                                        <option key={index} value={opts.label}>{opts.label}</option>
+                                                    );
+                                                })}
                                             </select>
                                         </div>
                                         <FormInput
                                             type="date"
-                                            name="update"
+                                            name="createDate"
+                                            label="Thời gian tạo"
+                                            disabled={isEditing}
+                                            value={formValue.createDate || ""}
+                                            onChange={handleChange}
+                                        />
+                                        <FormInput
+                                            type="date"
+                                            name="updateDate"
                                             label="Thời gian cập nhật"
-                                            value={formValue.update || ""}
+                                            value={formValue.updateDate || ""}
                                             onChange={handleChange}
                                         />
                                         <button type="submit" className="btn btn-primary">
-                                            Xác nhận
+                                            {isEditing ? "Cập nhật" : "Thêm mới"}
                                         </button>
                                     </form>
                                 </div>
@@ -122,8 +266,10 @@ export default function DepartmentComponent() {
                                             <div className="col-sm-12 col-md-6" >
                                             </div>
                                             <div className="col-sm-12 col-md-6" >
-                                                <div id="example1_filter" className="dataTables_filter" >
-                                                    <label>Search:<input type="search" className="form-control form-control-sm" placeholder="Nhập thông tin tại đây" aria-controls="example1" /></label>
+                                                <div id="filter" className="dataTables_filter" >
+                                                    <label>Search:
+                                                        <input type="search" className="form-control form-control-sm" value={search} onChange={handleSearch} placeholder="Nhập thông tin tại đây" />
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,54 +280,19 @@ export default function DepartmentComponent() {
                                                 </TableComponents>
                                             </div>
                                         </div>
-                                        <div className="row" >
-                                            <div className="col-sm-12 col-md-5" >
-                                                <div className="dataTables_info" id="example1_info" role="status" aria-live="polite" >Showing 1 to 4 of 4 entries</div>
-                                            </div>
-                                            <div className="col-sm-12 col-md-7" >
-                                                <div className="dataTables_paginate paging_simple_numbers" id="example1_paginate" >
-                                                    <ul className="pagination"><li className="paginate_button page-item previous disabled" id="example1_previous">
-                                                        <a href="#" aria-controls="example1" data-dt-idx={0} tabIndex={0} className="page-link">Previous</a>
-                                                    </li>
-                                                        <li className="paginate_button page-item active">
-                                                            <a href="#" aria-controls="example1" data-dt-idx={1} tabIndex={0} className="page-link">1</a>
-                                                        </li>
-                                                        <li className="paginate_button page-item next disabled" id="example1_next">
-                                                            <a href="#" aria-controls="example1" data-dt-idx={2} tabIndex={0} className="page-link">Next</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="modal fade" id="info" tabIndex={-1} aria-labelledby="infoModal" aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h5 className="modal-title" id="infoModal">Thông tin phòng ban</h5>
-                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div className="modal-body">
-                                            ...
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary">Save changes</button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </div >
+            </section >
+            <InfoModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                title={modalContent.title}
+                content={modalContent.content}
+            />
+        </div >
     )
 }
