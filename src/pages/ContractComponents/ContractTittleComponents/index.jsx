@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../Contract.scss';
 import {CSVLink} from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
 
 const ContractTitleComponents = ({contracts, onSearch}) => {
+    const [dataExport, setDataExport] = useState([]);
     const handleSearch = (searchTerm) => {
         const searchValue = searchTerm.toLowerCase();
 
@@ -31,6 +33,26 @@ const ContractTitleComponents = ({contracts, onSearch}) => {
     const handleImportClick = () => {
         document.getElementById('import').click();
     };
+    const getContractExport = (even, done) => {
+        let result = [];
+        if (contracts && contracts.length > 0) {
+            result.push(["ID", "Mã nhân viên", "Loại hợp đồng", "Mức lương", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái"]);
+            contracts.map((item, index) => {
+                let arr = [];
+                arr[0] = item.id;
+                arr[1] = item.employeeId;
+                arr[2] = item.contractType;
+                arr[3] = item.salary;
+                arr[4] = item.startDate;
+                arr[5] = item.endDate;
+                arr[6] = item.status;
+                result.push(arr);
+            });
+            setDataExport(result);
+            done();
+        }
+    };
+
 
     return (
         <div className="row contract-tittle d-flex justify-content-between align-items-center">
@@ -39,20 +61,22 @@ const ContractTitleComponents = ({contracts, onSearch}) => {
             </div>
             <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
                 <SearchComponents onSearch={handleSearch}/>
-                <button
-                    className='btn btn-danger d-flex align-items-center'
+                <ButtonComponents
+                    className='btn btn-success align-items-center'
                     onClick={handleImportClick}
                 >
-                    <i className="fa fa-upload"></i>&nbsp;Import
-                </button>
+                    <i className="fas fa-file-excel"></i>
+                </ButtonComponents>
                 <input id='import' type='file' hidden/>
 
                 <CSVLink
-                    data={contracts}
+                    data={dataExport}
+                    asyncOnClick={true}
+                    onClick={getContractExport}
                     filename={"List-Contract.csv"}
-                    className="btn btn-primary d-flex"
+                    className="btn btn-danger align-items-center"
                 >
-                    <i className="fa fa-download"></i>&nbsp;Export
+                    <i className="fas fa-file-export"></i>
                 </CSVLink>
             </div>
         </div>
