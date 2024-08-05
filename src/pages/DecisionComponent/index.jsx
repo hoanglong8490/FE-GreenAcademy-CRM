@@ -1,16 +1,21 @@
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import './style.css';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import EditDecision from './editDecision';
+
 const DecisionComponent = () => {
     const [data, setData] = useState([]);
+
     useEffect(() => {
         axios.get("data/decision.json")
-        .then((res) => setData(res.data.data))
-        .catch((err) => console.log("Xay ra loi roi" + err));
+            .then((res) => {
+                console.log(res.data);
+                setData(Array.isArray(res.data.data) ? res.data.data : []);
+            })
+            .catch((err) => console.log("Xảy ra lỗi: " + err));
     }, []);
-    console.log(data);
+
     return (
         <>
             <section className="content">
@@ -29,26 +34,27 @@ const DecisionComponent = () => {
                                     </div>
                                 </div>
                             </div>
-                            <button className="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                            <button className="btn btn-primary mb-2" data-bs-toggle="modal"
+                                    data-bs-target="#addEmployeeModal">
                                 <i className="fa-solid fa-circle-plus"></i> Thêm Nhân Viên
                             </button>
                             <table className="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>Mã NV</th>
-                                        <th>Tên NV</th>
-                                        <th>Nội dung</th>
-                                        <th>Ngày quyết định</th>
-                                        <th>Hình thức</th>
-                                        <th>Trạng Thái</th>
-                                        <th>Thao Tác</th>
-                                    </tr>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã NV</th>
+                                    <th>Tên NV</th>
+                                    <th>Nội dung</th>
+                                    <th>Ngày quyết định</th>
+                                    <th>Hình thức</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thao Tác</th>
+                                </tr>
                                 </thead>
                                 <tbody id="employeeTable">
-
-                                    {data.map((item, index) =>
-                                        <tr key={index} data-type={item.type}>
+                                {data.length > 0 ? (
+                                    data.map((item) => (
+                                        <tr key={item.id} data-type={item.type}>
                                             <td>{item.id}</td>
                                             <td>{item.manv}</td>
                                             <td>{item.name}</td>
@@ -57,16 +63,25 @@ const DecisionComponent = () => {
                                             <td>{item.hinhthuc}</td>
                                             <td>{item.status}</td>
                                             <td>
-                                                <Link data-toggle="modal" data-target="#editEmployeeModal" className='btn btn-primary' to="#"><i className="fa-regular fa-pen-to-square"></i></Link>
-                                                <Link className="eye btn btn-warning" to="#"><i className="fa-solid fa-eye"></i></Link>
-                                                <Link className="trash btn btn-danger" to="#"><i className="fa-solid fa-trash"></i></Link>
+                                                <Link data-toggle="modal" data-target="#editEmployeeModal"
+                                                      className='btn btn-primary' to="#"><i
+                                                    className="fa-regular fa-pen-to-square"></i></Link>
+                                                <Link className="eye btn btn-warning" to="#"><i
+                                                    className="fa-solid fa-eye"></i></Link>
+                                                <Link className="trash btn btn-danger" to="#"><i
+                                                    className="fa-solid fa-trash"></i></Link>
                                             </td>
                                         </tr>
-                                    ) }
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="8" className="text-center">Không có dữ liệu</td>
+                                    </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
                     <EditDecision/>
                 </div>
             </section>

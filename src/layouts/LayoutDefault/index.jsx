@@ -1,6 +1,6 @@
 import FooterLayout from "../components/FooterLayout";
 import SideBarLayout from "../components/SideBarLayout";
-import HeaderLayout from "../components/HeaderLayout";
+import HeaderLayout from "../components/HeaderLayout"; 
 
 const LayoutDefault = ({children}) => {
     return <>

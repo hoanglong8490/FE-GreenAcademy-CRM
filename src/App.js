@@ -4,14 +4,14 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {routeSideBar} from "./route";
 
 function App() {
-  return (
+    return (
         <BrowserRouter>
             <LayoutDefault>
                 <Routes>
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {
-                            return <Route key={index} path={item.to} element={<Component />} />;
+                            return <Route key={index} path={item.to} element={<Component/>}/>;
                         }
 
                         return item.child.map((subItem, subIndex) => {
@@ -20,7 +20,7 @@ function App() {
                                 <Route
                                     key={`${index}-${subIndex}`}
                                     path={subItem.to}
-                                    element={<ChildComponent />}
+                                    element={<ChildComponent/>}
                                 />
                             );
                         });
@@ -28,8 +28,7 @@ function App() {
                 </Routes>
             </LayoutDefault>
         </BrowserRouter>
-
-  )
+    )
 }
 
 export default App;

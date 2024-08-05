@@ -1,36 +1,54 @@
-import {
-    UserComponent,
-    SubjectComponent,
-    BookComponent
-} from '../pages';
-import DecisionComponent from "../pages/DecisionComponent";
+import {BookComponent, SubjectComponent} from '../pages';
+import DecisionComponent from '../pages/DecisionComponent';
+
 
 export const routeSideBar = [
     {
-        name: "Dashboard",
-        icon: "nav-icon fas fa-tachometer-alt",
-        component: UserComponent,
-        to: "/",
-        child: []
-    },
-
-    {
-        name: "Form",
+        name: "Personnel",
         icon: "nav-icon fas fa-edit",
         component: "",
-        to: "/form",
+        to: "/PersonnelManagement",
         child: [
             {
-                name: "List",
-                icon: "nav-icon fas fa-list",
-                to: "/list",
+                name: "Personnel-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/PersonnelList",
+                component: '',
+                child: []
+            },
+            {
+                name: "Contract-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/ContractList",
+                component: "",
+                child: []
+            },
+            {
+                name: "Decision-List",
+                icon: "nav-icon fas fa-building",
+                to: "/DecisionList",
+                component: DecisionComponent,
+                child: []
+            },
+        ]
+    },
+    {
+        name: "Education",
+        icon: "nav-icon fas fa-edit",
+        component: "",
+        to: "/Education",
+        child: [
+            {
+                name: "Education-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/educationList",
                 component: SubjectComponent,
                 child: [] //todo Không thêm cấp nữa
             },
             {
-                name: "check",
-                icon: "nav-icon fas fa-list",
-                to: "/check",
+                name: "List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/List",
                 component: BookComponent,
                 child: [] //todo Không thêm cấp nữa
             },
