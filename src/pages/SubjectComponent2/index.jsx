@@ -57,6 +57,13 @@ const SubjectComponent2 = () => {
 
     const [program, setProgram] = useState('');
     const [status, setStatus] = useState('');
+    const [dataForm, setDataForm] = useState({
+        subject_id: '',
+        subject_name: '',
+        status: '',
+        training_duration: '',
+        training_program_id: ''
+    })
 
     const api = API.SUBJECT;
 
@@ -187,6 +194,7 @@ const SubjectComponent2 = () => {
                                             setActionModal('CREATE'); // Reset action if needed
                                         }}
                                         api={api}
+                                        dataForm={dataForm}
                                     />
                                 </div>
                             </div>
@@ -275,10 +283,12 @@ const SubjectComponent2 = () => {
                                         actionView={(subject) => {
                                             setInitialIdCurrent(subject.subject_id);
                                             setActionModal('VIEW');
+                                            setDataForm(subject)
                                         }}
                                         actionEdit={(subject) => {
                                             setInitialIdCurrent(subject.subject_id);
                                             setActionModal('EDIT');
+                                            setDataForm(subject)
                                         }}
                                         actionDelete={confirmDelete}
                                         useModal={false}
