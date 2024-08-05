@@ -2,30 +2,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = ({type, name, value, onChange, placeholder}) => {
+const InputComponents = ({type = 'text', name, value, onChange, placeholder = '', icon}) => {
     return (
-        <input
-            type={type}
-            name={name}
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            className="form-control"
-        />
+        <div className="input-group">
+            {icon && <span className="input-group-text">{icon}</span>}
+            <input
+                type={type}
+                name={name}
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                className="form-control"
+            />
+        </div>
     );
 };
 
-Input.propTypes = {
+InputComponents.propTypes = {
     type: PropTypes.string,
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    icon: PropTypes.node // thêm prop icon để nhận component React
 };
+// Example :
+// return (
+//     <InputComponents
+//         type="text"
+//         name="username"
+//         value={value}
+//         onChange={(e) => setValue(e.target.value)}
+//         placeholder="Enter your username"
+//         icon={<FontAwesomeIcon icon={faUser} />}
+//     />
+// );
 
-Input.defaultProps = {
-    type: 'text',
-    placeholder: ''
-};
 
-export default Input;
+export default InputComponents;
+
