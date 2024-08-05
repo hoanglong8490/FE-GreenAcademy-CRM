@@ -55,15 +55,28 @@ const SubjectComponent2 = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const [program, setProgram] = useState('');
+    const [status, setStatus] = useState('');
+
     const api = API.SUBJECT;
 
+    // Fetch data with optional filters
     const fetchData = useCallback(async (search = '', page = 1) => {
         try {
+            console.log("RENDER with", {
+                page: page,
+                pageSize: 10,
+                search,
+                status,
+                program
+            });
             const {data} = await axios.get(api, {
                 params: {
                     page: page,
                     pageSize: 10,
-                    search
+                    search,
+                    status,
+                    program
                 }
             });
             setState(prevState => ({
@@ -73,9 +86,10 @@ const SubjectComponent2 = () => {
             setCurrentPage(data.page);
             setTotalPages(data.totalPages);
         } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu:', error);
+            console.error('Error fetching data:', error);
         }
-    }, [api]);
+    }, [api, status, program]);
+
     //Search
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -87,6 +101,14 @@ const SubjectComponent2 = () => {
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
+    const handleProgramChange = useCallback((event) => {
+        setProgram(event.target.value);
+    }, []);
+
+    const handleStatusChange = useCallback((event) => {
+        setStatus(event.target.value);
+    }, []);
+
     useEffect(() => {
         fetchData('', currentPage);
         console.log('Render SubjectComponent');
@@ -96,36 +118,13 @@ const SubjectComponent2 = () => {
         setCurrentPage(pageNumber);
     }, []);
 
-    // // Hàm xử lý lưu dữ liệu
-    // const handleSave = useCallback(formData => {
-    //     console.log('Đang lưu dữ liệu...');
-    //     console.log('Dữ liệu biểu mẫu:', formData);
-    //     // Thêm logic lưu dữ liệu ở đây
-    // }, []);
-
-    // // Hàm hiển thị modal
-    // const handleModalShow = useCallback(() => {
-    //     setState(prevState => ({
-    //         ...prevState,
-    //         modalShow: true,
-    //         modalProps: {
-    //             ...prevState.modalProps,
-    //             show: true,
-    //             onHide: () => setState(prevState => ({...prevState, modalShow: false})),
-    //             onSave: handleSave,
-    //             action: 'CREATE',
-    //             initialIsEdit: true,
-    //             initialIdCurrent: null
-    //         }
-    //     }));
-    // }, [handleSave]);
-
     useEffect(() => {
         // fetchData('', currentPage);
         fetchOptions();
     }, []);
     const [statusOptions, setStatusOptions] = useState([]);
     const [programOptions, setProgramOptions] = useState([]);
+    // Fetch options for filters
     const fetchOptions = useCallback(async () => {
         try {
             const [statusResponse, programResponse] = await Promise.all([
@@ -200,6 +199,8 @@ const SubjectComponent2 = () => {
                                                 id="programStatus2"
                                                 aria-label="Program"
                                                 className="form-select rounded-pill border-secondary flex-fill"
+                                                value={program}
+                                                onChange={handleProgramChange}
                                             >
                                                 <option value="">Chọn chương trình học</option>
                                                 {programOptions.map(option => (
@@ -214,6 +215,8 @@ const SubjectComponent2 = () => {
                                                 id="programStatus1"
                                                 aria-label="Status"
                                                 className="form-select rounded-pill border-secondary flex-fill"
+                                                value={status}
+                                                onChange={handleStatusChange}
                                             >
                                                 <option value="">Chọn trạng thái</option>
                                                 {statusOptions.map(option => (
