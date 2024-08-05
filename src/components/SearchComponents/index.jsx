@@ -1,7 +1,8 @@
 // src/components/SearchComponents.js
 import React, {useState} from 'react';
 import InputComponents from "../InputComponents";
-import ButtonComponents from "../ButtonComponents";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 const SearchComponents = ({onSearch}) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -23,14 +24,16 @@ const SearchComponents = ({onSearch}) => {
                 value={searchTerm}
                 onChange={handleInputChange}
                 placeholder="Tìm kiếm hợp đồng..."
+                icon={<FontAwesomeIcon icon={faSearch}/>}
+                onIconClick={handleSearchClick} // truyền hàm xử lý sự kiện nhấp chuột cho biểu tượng
             />
-            <ButtonComponents
-                type="button"
-                className="btn-primary ms-2"
-                onClick={handleSearchClick}
-            >
-                Search
-            </ButtonComponents>
+            {/*<ButtonComponents*/}
+            {/*    type="button"*/}
+            {/*    className="btn-primary ms-2"*/}
+            {/*    onClick={handleSearchClick}*/}
+            {/*>*/}
+            {/*    Search*/}
+            {/*</ButtonComponents>*/}
         </div>
     );
 };

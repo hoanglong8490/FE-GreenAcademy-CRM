@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import FormInput from "../../../components/FormInputComponents";
 import {NumericFormat} from 'react-number-format';
 
-const ContractForm = ({onSubmit}) => {
+const ContractForm = ({onSubmit, contracts}) => {
     const [formData, setFormData] = useState({
         employeeId: '',
         contractType: '',
@@ -31,14 +31,26 @@ const ContractForm = ({onSubmit}) => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.employeeId) newErrors.employeeId = 'Mã nhân viên không được để trống';
+
+        if (!formData.employeeId) {
+            newErrors.employeeId = 'Mã nhân viên không được để trống';
+        } else if (formData.employeeId.length !== 10) {
+            newErrors.employeeId = 'Mã nhân viên phải là 10 ký tự';
+        } else if (contracts.some(contract => contract.employeeId === formData.employeeId)) {
+            newErrors.employeeId = 'Mã nhân viên đã tồn tại';
+        }
+
         if (!formData.contractType) newErrors.contractType = 'Loại hợp đồng không được để trống';
+
         if (!formData.salary || isNaN(Number(formData.salary.replace(/\./g, ''))) || Number(formData.salary.replace(/\./g, '')) <= 0)
             newErrors.salary = 'Mức lương phải là số dương';
+
         if (!formData.startDate) newErrors.startDate = 'Ngày bắt đầu không được để trống';
+
         if (!formData.endDate) newErrors.endDate = 'Ngày kết thúc không được để trống';
         if (new Date(formData.startDate) > new Date(formData.endDate))
             newErrors.endDate = 'Ngày kết thúc phải sau ngày bắt đầu';
+
         return newErrors;
     };
 
