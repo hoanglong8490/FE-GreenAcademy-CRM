@@ -1,6 +1,7 @@
 import { BookComponent, SubjectComponent } from '../pages';
 import ContactComponents from "../pages/ContractComponents";
 import QualificationComponents from '../pages/QualificationComponents';
+import PersonnelComponent from '../pages/PersonelComponents';
 
 export const routeSideBar = [
     {
@@ -13,7 +14,7 @@ export const routeSideBar = [
                 name: "Personnel-List",
                 icon: "nav-icon fas fa-user-friends",
                 to: "/PersonnelList",
-                component: SubjectComponent,
+                component: PersonnelComponent,
                 child: []
             },
             {
