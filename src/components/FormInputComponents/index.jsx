@@ -2,6 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+<<<<<<< HEAD
+const FormInput = ({ label, type = 'text', name, value, onChange, placeholder = '', disabled, error = '' }) => {
+=======
 const FormInput = ({
                        label,
                        type = 'text',
@@ -11,6 +14,7 @@ const FormInput = ({
                        placeholder = '',
                        error = ''
                    }) => {
+>>>>>>> crm-hr-fix
     return (
         <div className="form-group">
             <label>{label}</label>
@@ -20,6 +24,7 @@ const FormInput = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
+                disabled={disabled}
                 className={`form-control ${error ? 'is-invalid' : ''}`}
             />
             {error && <div className="invalid-feedback">{error}</div>}
@@ -37,4 +42,13 @@ FormInput.propTypes = {
     error: PropTypes.string
 };
 
+<<<<<<< HEAD
+// FormInput.defaultProps = {
+//     type: 'text',
+//     placeholder: '',
+//     error: ''
+// };
+
+=======
+>>>>>>> crm-hr-fix
 export default FormInput;

@@ -8,7 +8,6 @@ const TableBodyComponents = ({rows}) => {
             action.onClick(item);
         }
     };
-
     return (
         <>
             {rows.map((row, index) => (
