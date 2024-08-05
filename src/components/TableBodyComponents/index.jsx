@@ -1,14 +1,13 @@
-// src/components/TableBody.js
-import React from 'react';
+// src/components/TableBodyComponents.js
 import PropTypes from 'prop-types';
+import React from 'react';
 
-const TableBodyComponents = ({ rows }) => {
+const TableBodyComponents = ({rows}) => {
     const handleActionClick = (action, item) => {
         if (action.onClick) {
-            action.onClick(item); // Đảm bảo rằng item được truyền đúng
+            action.onClick(item);
         }
     };
-
     return (
         <>
             {rows.map((row, index) => (
@@ -37,7 +36,12 @@ const TableBodyComponents = ({ rows }) => {
 TableBodyComponents.propTypes = {
     rows: PropTypes.arrayOf(
         PropTypes.shape({
-            data: PropTypes.arrayOf(PropTypes.string).isRequired,
+            data: PropTypes.arrayOf(
+                PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.object // Cập nhật điều này để phản ánh các loại thực tế
+                ])
+            ).isRequired,
             actions: PropTypes.arrayOf(
                 PropTypes.shape({
                     className: PropTypes.string.isRequired,
