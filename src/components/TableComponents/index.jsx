@@ -14,30 +14,44 @@ const TableComponents = ({ headers, children }) => {
                 (err) => console.log("Xay ra loi roi" + err)
             );
     }, []);
-    console.log(data);
+    // console.log(data);
 
     return (
         <> 
                 <Link className='btn btn-primary' style={{ margin: '10px 0 10px 0' }} to='/createDecision'>Thêm quyết định</Link>
-                <table className="table table-bordered table-hover table-striped">
-                    <thead className='table-primary'>
-                        {data.map((item) => (
-                            <tr key={item.id}>
-                                <th>{item.stt}</th>
-                                <th>{item.manv}</th>
-                                <th>{item.name}</th>
-                                <th>{item.content}</th>
-                                <th>{item.date}</th>
-                                <th>{item.hinhthuc}</th>
-                                <th>{item.status}</th>
-                                <th>{item.action}</th>
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody>
-                        <TableBodyComponents />
-                    </tbody>
-                </table> 
+                <section className="content">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="row"> 
+                            </div> 
+                            <table className="table table-bordered table-hover"> 
+                                <thead id="employeeTable">
+                                    {data.length > 0 ? (
+                                        data.map((item) => (
+                                            <tr key={item.id} data-type={item.type}>
+                                                <th>STT</th>
+                                                <th>{item.manv}</th>
+                                                <th>{item.name}</th>
+                                                <th>{item.content}</th>
+                                                <th>{item.date}</th>
+                                                <th>{item.hinhthuc}</th>
+                                                <th>{item.status}</th> 
+                                                <th>Hành Động</th> 
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="8" className="text-center">Không có dữ liệu</td>
+                                        </tr>
+                                    )}
+                                </thead>
+                                <TableBodyComponents />
+                            </table>
+                        </div>
+                    </div> 
+                </div>
+            </section>
         </>
     );
 };

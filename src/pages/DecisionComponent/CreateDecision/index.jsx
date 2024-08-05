@@ -1,6 +1,5 @@
-import { useState } from "react";
-import Input from "../../../../components/InputComponents";
-import { addDecision } from "../../../../service/decision";
+import { useState } from "react";  
+import Input from "../../../components/InputComponents";
 
 function CreateDecision() {
     const [data, setData] = useState([]);

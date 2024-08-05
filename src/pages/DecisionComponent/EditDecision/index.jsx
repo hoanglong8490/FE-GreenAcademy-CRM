@@ -93,8 +93,7 @@ function EditDecision({ decision }) {
                     value={formData.status}
                     onChange={handleChange}
                 />
-            </div>
-            <button type="submit" className="btn btn-primary">Lưu</button>
+            </div> 
         </form>
     );
 }
