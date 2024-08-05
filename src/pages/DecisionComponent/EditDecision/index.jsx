@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Input from "../../components/InputComponents";
+import Input from "../../../components/InputComponents";
 
 function EditDecision({ decision }) {
     const [formData, setFormData] = useState(decision);

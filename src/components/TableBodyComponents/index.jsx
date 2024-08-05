@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import EditDecision from '../../pages/EditDecision';
+import EditDecision from '../../pages/DecisionComponent/EditDecision';
 
 const TableBodyComponents = () => {
     const [data, setData] = useState([]);

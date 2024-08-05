@@ -1,7 +1,7 @@
 import {BookComponent, SubjectComponent} from '../pages';
-import CreateDecison from '../pages/CreateDecision';
+import CreateDecison from '../pages/DecisionComponent/DetailDecision/CreateDecision';
 import DecisionComponent from '../pages/DecisionComponent';  
-import DetailPage from '../pages/DetailDecision';
+import DetailPage from '../pages/DecisionComponent/DetailDecision';
 
 export const routeSideBar = [
     {
