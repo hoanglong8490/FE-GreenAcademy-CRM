@@ -1,4 +1,7 @@
 import {BookComponent, SubjectComponent} from '../pages';
+import CreateDecison from '../pages/CreateDecision';
+import DecisionComponent from '../pages/DecisionComponent';  
+import DetailPage from '../pages/DetailDecision';
 
 export const routeSideBar = [
     {
@@ -11,7 +14,7 @@ export const routeSideBar = [
                 name: "Personnel-List",
                 icon: "nav-icon fas fa-user-friends",
                 to: "/PersonnelList",
-                component: "",
+                component: '',
                 child: []
             },
             {
@@ -21,8 +24,20 @@ export const routeSideBar = [
                 component: "",
                 child: []
             },
-
-
+            {
+                name: "Decision-List",
+                icon: "nav-icon fas fa-building",
+                to: "/DepartmentList",
+                component: DecisionComponent,
+                child: []
+            },
+            {
+                name: "Create Decison",
+                icon: "nav-icon fas fa-user-tie",
+                to: "/createDecision",
+                component: CreateDecison,
+                child: []
+            } 
         ]
     },
     {
@@ -46,5 +61,5 @@ export const routeSideBar = [
                 child: [] //todo Không thêm cấp nữa
             }
         ]
-    }
+    } 
 ]
