@@ -73,6 +73,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                         name="employeeId"
                         value={formData.employeeId}
                         onChange={handleChange}
+                        disabled
                     />
                 </div>
                 <div className="form-group">

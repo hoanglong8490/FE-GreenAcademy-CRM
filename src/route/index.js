@@ -1,4 +1,6 @@
-import { BookComponent, SubjectComponent } from '../pages';
+import {BookComponent, SubjectComponent} from '../pages';
+
+import DepartmentComponent from '../pages/DepartmentComponent';
 import ContactComponents from "../pages/ContractComponents";
 import QualificationComponents from '../pages/QualificationComponents';
 import PersonnelComponent from '../pages/PersonelComponents';
@@ -35,10 +37,11 @@ export const routeSideBar = [
                 name: "Department-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/DepartmentList",
-                component: BookComponent,
+                component: DepartmentComponent,
                 child: []
             },
             {
+
                 name: "Overtime-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/OvertimeList",
