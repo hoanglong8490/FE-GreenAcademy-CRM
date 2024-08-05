@@ -31,5 +31,4 @@ FormInput.propTypes = {
     error: PropTypes.string
 };
 
-
 export default FormInput;

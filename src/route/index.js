@@ -33,6 +33,14 @@ export const routeSideBar = [
                 child: []
             },
             {
+                name: "Department-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/DepartmentList",
+                component: DepartmentComponent,
+                child: []
+            },
+            {
+
                 name: "Overtime-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/OvertimeList",
@@ -58,13 +66,6 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-file-contract",
                 to: "/SalaryAdvanceList",
                 component: BookComponent,
-                child: []
-            },
-            {
-                name: "Department-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/DepartmentList",
-                component: DepartmentComponent,
                 child: []
             },
 
