@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import EditDecision from '../../pages/DecisionComponent/EditDecision';
-import DetailDecision from '../../pages/DecisionComponent/DetailDecision';
+import DetailDecision from '../../pages/DecisionComponent/DetailDecision'; 
 import ConfirmDeleteModal from '../../pages/DecisionComponent/deleteDecision';
 
 const TableBodyComponents = () => {
@@ -11,6 +10,8 @@ const TableBodyComponents = () => {
     const [data, setData] = useState([]);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false);
 
     useEffect(() => {
         axios.get('data/decision.json')
@@ -26,14 +27,12 @@ const TableBodyComponents = () => {
 
     const handleEditClick = (decision) => {
         setCurrentDecision(decision);
-        const modal = new window.bootstrap.Modal(document.getElementById('editEmployeeModal'));
-        modal.show();
+        setShowEditModal(true);
     };
 
     const handleDetailClick = (decision) => {
         setDetailDecision(decision);
-        const modal = new window.bootstrap.Modal(document.getElementById('detailEmployeeModal'));
-        modal.show();
+        setShowDetailModal(true);
     };
 
     const handleDelete = (id) => {
@@ -56,6 +55,14 @@ const TableBodyComponents = () => {
 
     const handleCloseConfirmModal = () => {
         setShowConfirmModal(false);
+    };
+
+    const handleCloseEditModal = () => {
+        setShowEditModal(false);
+    };
+
+    const handleCloseDetailModal = () => {
+        setShowDetailModal(false);
     };
 
     return (
@@ -96,24 +103,24 @@ const TableBodyComponents = () => {
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="8">No data available</td>
+                        <td colSpan="8">Không có dữ liệu</td>
                     </tr>
                 )}
             </tbody>
 
             {/* Edit Modal */}
-            <div className="modal fade" id="editEmployeeModal" tabIndex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+            <div className={`modal fade ${showEditModal ? 'show' : ''}`} style={{ display: showEditModal ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden={!showEditModal}>
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="editEmployeeModalLabel">Chỉnh sửa quyết định</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" onClick={handleCloseEditModal} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             {currentDecision ? <EditDecision decision={currentDecision} /> : <p>Loading...</p>}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" className="btn btn-secondary" onClick={handleCloseEditModal}>Đóng</button>
                             <button type="button" className="btn btn-primary">Lưu thay đổi</button>
                         </div>
                     </div>
@@ -121,18 +128,18 @@ const TableBodyComponents = () => {
             </div>
 
             {/* Detail Modal */}
-            <div className="modal fade" id="detailEmployeeModal" tabIndex="-1" aria-labelledby="detailEmployeeModalLabel" aria-hidden="true">
+            <div className={`modal fade ${showDetailModal ? 'show' : ''}`} style={{ display: showDetailModal ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="detailEmployeeModalLabel" aria-hidden={!showDetailModal}>
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="detailEmployeeModalLabel">Chi tiết quyết định</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" onClick={handleCloseDetailModal} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             {detailDecision ? <DetailDecision decision={detailDecision} /> : <p>Loading...</p>}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" className="btn btn-secondary" onClick={handleCloseDetailModal}>Đóng</button>
                         </div>
                     </div>
                 </div>
@@ -144,64 +151,8 @@ const TableBodyComponents = () => {
                 onClose={handleCloseConfirmModal}
                 onConfirm={confirmDelete}
             />
-=======
-// src/components/TableBodyComponents.js
-import PropTypes from 'prop-types';
-import React from 'react';
-
-const TableBodyComponents = ({rows}) => {
-    const handleActionClick = (action, item) => {
-        if (action.onClick) {
-            action.onClick(item);
-        }
-    };
-    return (
-        <>
-            {rows.map((row, index) => (
-                <tr key={index}>
-                    {row.data.map((cell, cellIndex) => (
-                        <td key={cellIndex}>{cell}</td>
-                    ))}
-                    <td>
-                        {row.actions.map((action, actionIndex) => (
-                            <button
-                                type="button"
-                                className={`btn ${action.className}`}
-                                key={actionIndex}
-                                onClick={() => handleActionClick(action, row)}
-                            >
-                                <i className={`fas ${action.icon}`}></i>
-                            </button>
-                        ))}
-                    </td>
-                </tr>
-            ))}
->>>>>>> origin/crm-hr
         </>
     );
 };
 
-<<<<<<< HEAD
-=======
-TableBodyComponents.propTypes = {
-    rows: PropTypes.arrayOf(
-        PropTypes.shape({
-            data: PropTypes.arrayOf(
-                PropTypes.oneOfType([
-                    PropTypes.string,
-                    PropTypes.object // Cập nhật điều này để phản ánh các loại thực tế
-                ])
-            ).isRequired,
-            actions: PropTypes.arrayOf(
-                PropTypes.shape({
-                    className: PropTypes.string.isRequired,
-                    icon: PropTypes.string.isRequired,
-                    onClick: PropTypes.func // Xử lý sự kiện nhấp chuột
-                })
-            ).isRequired
-        })
-    ).isRequired
-};
-
->>>>>>> origin/crm-hr
 export default TableBodyComponents;

@@ -1,5 +1,8 @@
 import {BookComponent, SubjectComponent} from '../pages';
-
+import DecisionComponent from '../pages/DecisionComponent';
+import CreateDecision from '../pages/DecisionComponent/CreateDecision';
+import DepartmentComponent from '../pages/DepartmentComponent';
+import QualificationComponents from '../pages/QualificationComponents';
 export const routeSideBar = [
     {
         name: "Personnel",
@@ -18,7 +21,7 @@ export const routeSideBar = [
                 name: "Contract-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/ContractList",
-                component: ContactComponents,
+                component: QualificationComponents,
                 child: []
             },
             {
@@ -36,33 +39,19 @@ export const routeSideBar = [
                 child: []
             },
             {
-                name: "Overtime-List",
+                name: "Descision-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/OvertimeList",
-                component: BookComponent,
+                to: "/DecisionList",
+                component: DecisionComponent,
                 child: []
             },
             {
-                name: "Position-List",
+                name: "Create-Decision",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/PositionList",
-                component: BookComponent,
+                to: "/CreateDecision",
+                component: CreateDecision,
                 child: []
-            },
-            {
-                name: "Qualification-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/QualificationList",
-                component: QualificationComponents,
-                child: []
-            },
-            {
-                name: "SalaryAdvance-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/SalaryAdvanceList",
-                component: BookComponent,
-                child: []
-            },
+            }
 
 
         ]
