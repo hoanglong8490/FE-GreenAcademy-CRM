@@ -1,21 +1,24 @@
-// src/components/PersonnelComponents.js
+// Importing necessary modules and components
 import React, { useEffect, useState } from 'react';
 import './Personnel.scss';
 import TableComponents from "../../components/TableComponents";
 import TableBodyComponents from "../../components/TableBodyComponents";
-import PersonnelFormComponent from "./PersonnelFormComponent";
+import PersonnelFormComponent from "./PersonnelFormComponents";
 import axios from "axios";
-import PersonnelViewComponents from "../PersonelComponents/PersonnelViewComponent";
-import PersonnelEditComponents from "../PersonelComponents/PersonelEditComponent";
+import PersonnelViewComponent from "./PersonnelViewComponents";
+import PersonnelEditComponent from "./PersonelEditComponents";
 import PagingComponent from "../../components/PagingComponent";
 import { format } from 'date-fns';
-import ConfirmationComponents from "../../components/ConfirmationComponents";
-import PersonnelTitleComponents from "./PersonnelTittleComponent";
+import ConfirmationComponent from "../../components/ConfirmationComponents";
+import PersonnelTitleComponent from "./PersonnelTittleComponents";
+import { toast } from 'react-toastify';
 
+// Constants
 const itemsPerPage = 10;
 
 const PersonnelComponents = () => {
-    const [Personnels, setPersonnels] = useState([]);
+    // State variables to manage personnels, modals, and pagination
+    const [personnels, setPersonnels] = useState([]);
     const [filteredPersonnels, setFilteredPersonnels] = useState([]);
     const [viewModalShow, setViewModalShow] = useState(false);
     const [editModalShow, setEditModalShow] = useState(false);
@@ -24,12 +27,15 @@ const PersonnelComponents = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
 
-    const headerPersonnel = ['ID', 'Họ tên', 'Ngày sinh', 'Giới tính', 'Email', 'Trạng thái', 'Action'];
+    // Header labels for the personnel table
+    const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Ngày sinh', 'Giới tính', 'Email', 'Trạng thái', 'Action'];
 
+    // Fetch personnels data on component mount
     useEffect(() => {
         fetchPersonnels();
     }, []);
 
+    // Fetch personnels data from the API and update state
     const fetchPersonnels = async () => {
         try {
             const response = await axios.get('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel');
@@ -42,6 +48,7 @@ const PersonnelComponents = () => {
         }
     };
 
+    // Handle search and update filtered personnels
     const handleSearch = (filtered) => {
         const sortedFiltered = filtered.sort((a, b) => b.status - a.status);
         setFilteredPersonnels(sortedFiltered);
@@ -49,104 +56,117 @@ const PersonnelComponents = () => {
         setCurrentPage(1);
     };
 
+    // Handle adding a new personnel
     const handleAddPersonnel = async (newPersonnel) => {
         try {
-            const response = await axios.post('https://66a9b8e2613eced4eba6017a.mockapi.io/api/Personnels/Personnel', newPersonnel);
-            const updatedPersonnels = [...Personnels, response.data].sort((a, b) => b.status - a.status);
+            const response = await axios.post('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel', newPersonnel);
+            const updatedPersonnels = [...personnels, response.data].sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
             setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             setCurrentPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
+            toast.success('Thêm thành công nhân viên');
         } catch (error) {
-            console.error('Có lỗi xảy ra khi thêm hợp đồng!', error);
+            console.error('Có lỗi xảy ra khi thêm nhân viên!', error);
         }
     };
 
+    // Handle editing an existing personnel
     const handleSaveEdit = async (updatedPersonnel) => {
         try {
-            const response = await axios.put(`https://66a9b8e2613eced4eba6017a.mockapi.io/api/Personnels/Personnel/${updatedPersonnel.id}`, updatedPersonnel);
-            const updatedPersonnels = Personnels.map(Personnel =>
-                Personnel.id === updatedPersonnel.id ? response.data : Personnel
+            const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${updatedPersonnel.id}`, updatedPersonnel);
+            const updatedPersonnels = personnels.map(personnel =>
+                personnel.id === updatedPersonnel.id ? response.data : personnel
             ).sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
             setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             setEditModalShow(false);
+            toast.success('Cập nhật thành công!');
         } catch (error) {
-            console.error('Có lỗi xảy ra khi cập nhật hợp đồng!', error);
+            console.error('Có lỗi xảy ra khi cập nhật nhân viên!', error);
         }
     };
 
-    const handleDelete = async (PersonnelId) => {
+    // Handle deleting a personnel
+    const handleDelete = async (personnelId) => {
         try {
-            const PersonnelToUpdate = Personnels.find(Personnel => Personnel.employeeId === PersonnelId);
-            if (PersonnelToUpdate) {
-                const response = await axios.put(`https://66a9b8e2613eced4eba6017a.mockapi.io/api/Personnels/Personnel/${PersonnelId}`, {
-                    ...PersonnelToUpdate,
+            const personnelToUpdate = personnels.find(personnel => personnel.id === personnelId);
+            if (personnelToUpdate) {
+                const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${personnelId}`, {
+                    ...personnelToUpdate,
                     status: false
                 });
-                const updatedPersonnels = Personnels.map(Personnel =>
-                    Personnel.id === PersonnelId ? response.data : Personnel
+                const updatedPersonnels = personnels.map(personnel =>
+                    personnel.id === personnelId ? response.data : personnel
                 ).sort((a, b) => b.status - a.status);
                 setPersonnels(updatedPersonnels);
                 setFilteredPersonnels(updatedPersonnels);
                 setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
                 setDeleteModalShow(false);
+                toast.success("Xóa thành công nhân viên");
             }
         } catch (error) {
             console.error('Có lỗi xảy ra khi cập nhật thông tin nhân viên!', error);
         }
     };
 
+    // Confirm deletion handler
     const handleDeleteConfirm = () => {
         if (selectedPersonnel) {
             handleDelete(selectedPersonnel.id);
         }
     };
 
+    // Handle page change for pagination
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    // Format date to a readable format
     const formatDate = (dateString) => {
         return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
     };
 
+    // Handle view action for a personnel
     const handleView = (personnel) => {
         setSelectedPersonnel(personnel);
         setViewModalShow(true);
     };
 
-    const handleEdit = (Personnel) => {
-        setSelectedPersonnel(Personnel);
+    // Handle edit action for a personnel
+    const handleEdit = (personnel) => {
+        setSelectedPersonnel(personnel);
         setEditModalShow(true);
     };
 
-    const rows = filteredPersonnels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(Personnel => ({
+    // Prepare rows for the table
+    const rows = filteredPersonnels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(personnel => ({
         data: [
-            Personnel.id,
-            Personnel.employeeName,
-            Personnel.date,
-            Personnel.gender,
-            Personnel.email,
-            Personnel.status ? 'Active' : 'Inactive',
+            personnel.id,
+            personnel.employeeID,
+            personnel.employeeName,
+            formatDate(personnel.date),
+            personnel.gender,
+            personnel.email,
+            personnel.status ? 'Active' : 'Inactive',
         ],
         actions: [
             {
-                className: 'btn-info',
-                icon: 'fa-eye',
-                onClick: () => handleView(Personnel)
+                className: 'btn-info d-flex flex-column mb-2',
+                icon: 'fa fa-eye',
+                onClick: () => handleView(personnel)
             },
             {
-                className: 'btn-warning',
-                icon: 'fa-pen',
-                onClick: () => handleEdit(Personnel)
+                className: 'btn-warning d-flex flex-column mb-2',
+                icon: 'fa fa-pen',
+                onClick: () => handleEdit(personnel)
             },
-            ...(Personnel.status ? [{
-                className: 'btn-danger',
-                icon: 'fa-trash',
+            ...(personnel.status ? [{
+                className: 'btn-danger d-flex flex-column',
+                icon: 'fa fa-trash',
                 onClick: () => {
-                    setSelectedPersonnel(Personnel);
+                    setSelectedPersonnel(personnel);
                     setDeleteModalShow(true);
                 }
             }] : [])
@@ -154,9 +174,9 @@ const PersonnelComponents = () => {
     }));
 
     return (
-        <div className="Personnel-list">
-            <PersonnelTitleComponents onSearch={handleSearch} Personnels={Personnels} />
-            <div className="row Personnel-content">
+        <div className="personnel-list">
+            <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} />
+            <div className="row personnel-content">
                 <div className="col-4">
                     <h3>Thêm nhân viên</h3>
                     <PersonnelFormComponent onSubmit={handleAddPersonnel} />
@@ -172,18 +192,18 @@ const PersonnelComponents = () => {
                     />
                 </div>
             </div>
-            <PersonnelViewComponents
+            <PersonnelViewComponent
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
-                Personnel={selectedPersonnel}
+                personnel={selectedPersonnel}
             />
-            <PersonnelEditComponents
+            <PersonnelEditComponent
                 show={editModalShow}
                 handleClose={() => setEditModalShow(false)}
-                Personnel={selectedPersonnel}
+                personnel={selectedPersonnel}
                 onSave={handleSaveEdit}
             />
-            <ConfirmationComponents
+            <ConfirmationComponent
                 show={deleteModalShow}
                 handleClose={() => setDeleteModalShow(false)}
                 onConfirm={handleDeleteConfirm}
