@@ -18,7 +18,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         className="form-control"
                         value={contract.employeeId}
-                        readOnly
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -27,7 +27,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         className="form-control"
                         value={contract.contractType}
-                        readOnly
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -39,7 +39,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         decimalSeparator=","
                         prefix=""
                         className="form-control"
-                        readOnly
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -48,7 +48,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         className="form-control"
                         value={contract.startDate}
-                        readOnly
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -57,7 +57,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         className="form-control"
                         value={contract.endDate}
-                        readOnly
+                        disabled
                     />
                 </div>
                 <div className="form-group">

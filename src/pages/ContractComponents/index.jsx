@@ -12,6 +12,8 @@ import {format} from 'date-fns';
 import ConfirmationComponents from "../../components/ConfirmationComponents";
 import {NumericFormat} from 'react-number-format';
 import ContractTitleComponents from "./ContractTittleComponents";
+import {toast} from 'react-toastify';
+
 
 const itemsPerPage = 10;
 
@@ -38,8 +40,10 @@ const ContractComponents = () => {
             setContracts(sortedContracts);
             setFilteredContracts(sortedContracts);
             setTotalPage(Math.ceil(sortedContracts.length / itemsPerPage));
+            toast.success('Dữ liệu hợp đồng đã được tải thành công!');
         } catch (error) {
             console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
+            toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
     };
 
@@ -58,8 +62,10 @@ const ContractComponents = () => {
             setFilteredContracts(updatedContracts);
             setTotalPage(Math.ceil(updatedContracts.length / itemsPerPage));
             setCurrentPage(Math.ceil(updatedContracts.length / itemsPerPage));
+            toast.success('Thêm hợp đồng thành công!');
         } catch (error) {
             console.error('Có lỗi xảy ra khi thêm hợp đồng!', error);
+            toast.error('Có lỗi xảy ra khi thêm hợp đồng!');
         }
     };
 
@@ -73,8 +79,10 @@ const ContractComponents = () => {
             setFilteredContracts(updatedContracts);
             setTotalPage(Math.ceil(updatedContracts.length / itemsPerPage));
             setEditModalShow(false);
+            toast.success('Cập nhật thành công hợp đồng!');
         } catch (error) {
             console.error('Có lỗi xảy ra khi cập nhật hợp đồng!', error);
+            toast.error('Có lỗi xảy ra khi cập nhật hợp đồng!');
         }
     };
 
@@ -93,9 +101,11 @@ const ContractComponents = () => {
                 setFilteredContracts(updatedContracts);
                 setTotalPage(Math.ceil(updatedContracts.length / itemsPerPage));
                 setDeleteModalShow(false);
+                toast.success('Xóa thành công hợp đồng!');
             }
         } catch (error) {
             console.error('Có lỗi xảy ra khi cập nhật trạng thái hợp đồng!', error);
+            toast.error('Có lỗi xảy ra khi xóa hợp đồng!');
         }
     };
 
@@ -168,7 +178,7 @@ const ContractComponents = () => {
             <div className="row contract-content">
                 <div className="col-4">
                     <h3>Thêm hợp đồng</h3>
-                    <ContractForm onSubmit={handleAddContract}/>
+                    <ContractForm onSubmit={handleAddContract} contracts={contracts}/>
                 </div>
                 <div className="col-8">
                     <TableComponents headers={headerContract}>
