@@ -39,7 +39,9 @@ const ContractComponents = () => {
             setContracts(contractsData);
             setFilteredContracts(contractsData);
             setTotalPage(Math.ceil(contractsData.length / itemsPerPage));
+
             // toast.success('Dữ liệu hợp đồng đã được tải thành công!');
+
         } catch (error) {
             toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }

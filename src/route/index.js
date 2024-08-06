@@ -40,6 +40,13 @@ export const routeSideBar = [
                 component: DepartmentComponent,
                 child: []
             },
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/AllowanceList",
+                component: BookComponent,
+                child: []
+            },
 
             {
                 name: "Decision-List",
