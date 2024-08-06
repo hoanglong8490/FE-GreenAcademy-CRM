@@ -4,6 +4,7 @@ import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
 import ContractComponents from "../pages/ContractComponents";
+import PersonnelComponents from "../pages/PersonelComponents";
 
 export const routeSideBar = [
     {
@@ -16,7 +17,7 @@ export const routeSideBar = [
                 name: "Personnel-List",
                 icon: "nav-icon fas fa-user-friends",
                 to: "/PersonnelList",
-                component: PersonnelComponent,
+                component: PersonnelComponents,
                 child: []
             },
             {
