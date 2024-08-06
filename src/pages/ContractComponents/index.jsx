@@ -4,7 +4,6 @@ import './Contract.scss';
 import TableComponents from "../../components/TableComponents";
 import TableBodyComponents from "../../components/TableBodyComponents";
 import ContractForm from "./ContractFormComponents/index.";
-import axios from "axios";
 import ContractViewComponents from "./ContractViewComponents";
 import ContractEditComponents from "./ContractEditComponents";
 import PagingComponent from "../../components/PagingComponent";
@@ -12,8 +11,9 @@ import { format } from 'date-fns';
 import ConfirmationComponents from "../../components/ConfirmationComponents";
 import { NumericFormat } from 'react-number-format';
 import ContractTitleComponents from "./ContractTittleComponents";
-import { toast } from 'react-toastify';
-
+import {addContract, deleteContract, fetchContracts, updateContract} from "./ContractService/contractService";
+import {toast} from "react-toastify";
+import {Col, Container, Row} from "react-bootstrap";
 
 const itemsPerPage = 10;
 
@@ -30,19 +30,19 @@ const ContractComponents = () => {
     const headerContract = ['ID', 'Mã nhân viên', 'Loại hợp đồng', 'Mức lương', 'Ngày bắt đầu', 'Ngày kết thúc', 'Trạng thái', 'Action'];
 
     useEffect(() => {
-        fetchContracts();
+        loadContracts();
     }, []);
 
-    const fetchContracts = async () => {
+    const loadContracts = async () => {
         try {
-            const response = await axios.get('https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract');
-            const sortedContracts = response.data.sort((a, b) => b.status - a.status);
-            setContracts(sortedContracts);
-            setFilteredContracts(sortedContracts);
-            setTotalPage(Math.ceil(sortedContracts.length / itemsPerPage));
-            toast.success('Dữ liệu hợp đồng đã được tải thành công!');
+            const contractsData = await fetchContracts();
+            setContracts(contractsData);
+            setFilteredContracts(contractsData);
+            setTotalPage(Math.ceil(contractsData.length / itemsPerPage));
+
+            // toast.success('Dữ liệu hợp đồng đã được tải thành công!');
+
         } catch (error) {
-            console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
             toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
     };
@@ -56,24 +56,23 @@ const ContractComponents = () => {
 
     const handleAddContract = async (newContract) => {
         try {
-            const response = await axios.post('https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract', newContract);
-            const updatedContracts = [...contracts, response.data].sort((a, b) => b.status - a.status);
+            const addedContract = await addContract(newContract);
+            const updatedContracts = [...contracts, addedContract].sort((a, b) => b.status - a.status);
             setContracts(updatedContracts);
             setFilteredContracts(updatedContracts);
             setTotalPage(Math.ceil(updatedContracts.length / itemsPerPage));
             setCurrentPage(Math.ceil(updatedContracts.length / itemsPerPage));
             toast.success('Thêm hợp đồng thành công!');
         } catch (error) {
-            console.error('Có lỗi xảy ra khi thêm hợp đồng!', error);
             toast.error('Có lỗi xảy ra khi thêm hợp đồng!');
         }
     };
 
     const handleSaveEdit = async (updatedContract) => {
         try {
-            const response = await axios.put(`https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract/${updatedContract.id}`, updatedContract);
+            const savedContract = await updateContract(updatedContract);
             const updatedContracts = contracts.map(contract =>
-                contract.id === updatedContract.id ? response.data : contract
+                contract.id === updatedContract.id ? savedContract : contract
             ).sort((a, b) => b.status - a.status);
             setContracts(updatedContracts);
             setFilteredContracts(updatedContracts);
@@ -81,7 +80,6 @@ const ContractComponents = () => {
             setEditModalShow(false);
             toast.success('Cập nhật thành công hợp đồng!');
         } catch (error) {
-            console.error('Có lỗi xảy ra khi cập nhật hợp đồng!', error);
             toast.error('Có lỗi xảy ra khi cập nhật hợp đồng!');
         }
     };
@@ -90,12 +88,9 @@ const ContractComponents = () => {
         try {
             const contractToUpdate = contracts.find(contract => contract.id === contractId);
             if (contractToUpdate) {
-                const response = await axios.put(`https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract/${contractId}`, {
-                    ...contractToUpdate,
-                    status: false
-                });
+                const deletedContract = await deleteContract(contractId, contractToUpdate);
                 const updatedContracts = contracts.map(contract =>
-                    contract.id === contractId ? response.data : contract
+                    contract.id === contractId ? deletedContract : contract
                 ).sort((a, b) => b.status - a.status);
                 setContracts(updatedContracts);
                 setFilteredContracts(updatedContracts);
@@ -104,7 +99,6 @@ const ContractComponents = () => {
                 toast.success('Xóa thành công hợp đồng!');
             }
         } catch (error) {
-            console.error('Có lỗi xảy ra khi cập nhật trạng thái hợp đồng!', error);
             toast.error('Có lỗi xảy ra khi xóa hợp đồng!');
         }
     };
@@ -175,14 +169,14 @@ const ContractComponents = () => {
     }));
 
     return (
-        <div className="Contract-list">
-            <ContractTitleComponents onSearch={handleSearch} contracts={contracts} />
-            <div className="row contract-content">
-                <div className="col-4">
+        <Container fluid className="Contract-list">
+            <ContractTitleComponents onSearch={handleSearch} contracts={contracts}/>
+            <Row className="contract-content">
+                <Col xs={12} md={4}>
                     <h3>Thêm hợp đồng</h3>
-                    <ContractForm onSubmit={handleAddContract} contracts={contracts} />
-                </div>
-                <div className="col-8">
+                    <ContractForm onSubmit={handleAddContract} contracts={contracts}/>
+                </Col>
+                <Col xs={12} md={8}>
                     <TableComponents headers={headerContract}>
                         <TableBodyComponents rows={rows} />
                     </TableComponents>
@@ -191,8 +185,8 @@ const ContractComponents = () => {
                         currentPage={currentPage}
                         onPageChange={handlePageChange}
                     />
-                </div>
-            </div>
+                </Col>
+            </Row>
             <ContractViewComponents
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
@@ -210,7 +204,7 @@ const ContractComponents = () => {
                 onConfirm={handleDeleteConfirm}
                 message="Bạn có chắc chắn muốn xóa hợp đồng này?"
             />
-        </div>
+        </Container>
     );
 };
 
