@@ -1,8 +1,9 @@
 import {BookComponent, SubjectComponent} from '../pages';
-
+import DecisionComponent from '../pages/DecisionComponent';
+import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
-import ContactComponents from "../pages/ContractComponents";
 import QualificationComponents from '../pages/QualificationComponents';
+import ContractComponents from "../pages/ContractComponents";
 
 export const routeSideBar = [
     {
@@ -22,36 +23,7 @@ export const routeSideBar = [
                 name: "Contract-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/ContractList",
-                component: ContactComponents,
-                child: []
-            },
-            {
-                name: "Allowance-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/AllowanceList",
-                component: BookComponent,
-                child: []
-            },
-            {
-                name: "Department-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/DepartmentList",
-                component: DepartmentComponent,
-                child: []
-            },
-            {
-
-                name: "Overtime-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/OvertimeList",
-                component: BookComponent,
-                child: []
-            },
-            {
-                name: "Position-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/PositionList",
-                component: BookComponent,
+                component: ContractComponents,
                 child: []
             },
             {
@@ -62,12 +34,27 @@ export const routeSideBar = [
                 child: []
             },
             {
-                name: "SalaryAdvance-List",
+                name: "Department-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/SalaryAdvanceList",
-                component: BookComponent,
+                to: "/DepartmentList",
+                component: DepartmentComponent,
                 child: []
             },
+
+            {
+                name: "Decision-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/DecisionList",
+                component: DecisionComponent,
+                child: []
+            },
+            {
+                name: "Create-Decision",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/CreateDecision",
+                component: CreateDecision,
+                child: []
+            }
 
         ]
     },
