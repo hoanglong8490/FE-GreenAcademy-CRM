@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import ConfirmationComponent from "../../components/ConfirmationComponents";
 import PersonnelTitleComponent from "./PersonnelTittleComponents";
 import { toast } from 'react-toastify';
-
+import { addPersonnel, deletePersonnel, fetchContracts, updatedPersonnel } from "./PersonnelService/PersonnelSevice";
 // Constants
 const itemsPerPage = 10;
 
@@ -32,22 +32,34 @@ const PersonnelComponents = () => {
 
     // Fetch personnels data on component mount
     useEffect(() => {
-        fetchPersonnels();
+        loadPersonnels();
     }, []);
 
     // Fetch personnels data from the API and update state
-    const fetchPersonnels = async () => {
+    // const fetchPersonnels = async () => {
+    //     try {
+    //         const response = await axios.get('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel');
+    //         const sortedPersonnels = response.data.sort((a, b) => b.status - a.status);
+    //         setPersonnels(sortedPersonnels);
+    //         setFilteredPersonnels(sortedPersonnels);
+    //         setTotalPage(Math.ceil(sortedPersonnels.length / itemsPerPage));
+    //     } catch (error) {
+    //         console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
+    //     }
+    // };
+    const loadPersonnels = async () => {
         try {
-            const response = await axios.get('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel');
-            const sortedPersonnels = response.data.sort((a, b) => b.status - a.status);
-            setPersonnels(sortedPersonnels);
-            setFilteredPersonnels(sortedPersonnels);
-            setTotalPage(Math.ceil(sortedPersonnels.length / itemsPerPage));
+            const personnelsData = await fetchContracts();
+            setPersonnels(personnelsData);
+            setFilteredPersonnels(personnelsData);
+            setTotalPage(Math.ceil(personnelsData.length / itemsPerPage));
+
+            // toast.success('Dữ liệu hợp đồng đã được tải thành công!');
+
         } catch (error) {
-            console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
+            toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
     };
-
     // Handle search and update filtered personnels
     const handleSearch = (filtered) => {
         const sortedFiltered = filtered.sort((a, b) => b.status - a.status);
@@ -59,8 +71,8 @@ const PersonnelComponents = () => {
     // Handle adding a new personnel
     const handleAddPersonnel = async (newPersonnel) => {
         try {
-            const response = await axios.post('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel', newPersonnel);
-            const updatedPersonnels = [...personnels, response.data].sort((a, b) => b.status - a.status);
+            const addedPersonnel = await addPersonnel(newPersonnel);
+            const updatedPersonnels = [...personnels, addedPersonnel].sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
             setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
@@ -72,11 +84,12 @@ const PersonnelComponents = () => {
     };
 
     // Handle editing an existing personnel
-    const handleSaveEdit = async (updatedPersonnel) => {
+    const handleSaveEdit = async (updatPersonnel) => {
         try {
-            const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${updatedPersonnel.id}`, updatedPersonnel);
+            console.log(updatedPersonnel);
+            const savedPersonnel = await updatedPersonnel(updatPersonnel);
             const updatedPersonnels = personnels.map(personnel =>
-                personnel.id === updatedPersonnel.id ? response.data : personnel
+                personnel.id === updatedPersonnel.id ? savedPersonnel : personnel
             ).sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
@@ -93,12 +106,9 @@ const PersonnelComponents = () => {
         try {
             const personnelToUpdate = personnels.find(personnel => personnel.id === personnelId);
             if (personnelToUpdate) {
-                const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${personnelId}`, {
-                    ...personnelToUpdate,
-                    status: false
-                });
+                const deletedPersonnel = await deletePersonnel(personnelId, personnelToUpdate);
                 const updatedPersonnels = personnels.map(personnel =>
-                    personnel.id === personnelId ? response.data : personnel
+                    personnel.id === personnelId ? deletedPersonnel : personnel
                 ).sort((a, b) => b.status - a.status);
                 setPersonnels(updatedPersonnels);
                 setFilteredPersonnels(updatedPersonnels);
@@ -144,7 +154,7 @@ const PersonnelComponents = () => {
     const rows = filteredPersonnels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(personnel => ({
         data: [
             personnel.id,
-            personnel.employeeID,
+            personnel.employeeId,
             personnel.employeeName,
             formatDate(personnel.date),
             personnel.gender,
@@ -202,6 +212,7 @@ const PersonnelComponents = () => {
                 handleClose={() => setEditModalShow(false)}
                 personnel={selectedPersonnel}
                 onSave={handleSaveEdit}
+
             />
             <ConfirmationComponent
                 show={deleteModalShow}
