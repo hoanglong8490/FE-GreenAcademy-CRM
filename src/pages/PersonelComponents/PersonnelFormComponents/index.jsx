@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FormInput from "../../../components/FormInputComponents";
 
-const PersonnelForm = ({ onSubmit }) => {
+const PersonnelForm = ({ onSubmit, personnels }) => {
     const [formData, setFormData] = useState({
         employeeId: '',
         employeeName: '',
@@ -10,6 +10,7 @@ const PersonnelForm = ({ onSubmit }) => {
         gender: '',
         email: '',
         phoneNumber: '',
+        qualification: '',
         CCCD: '',
         status: true,
         image: [], // Đảm bảo rằng image là một mảng
@@ -34,12 +35,43 @@ const PersonnelForm = ({ onSubmit }) => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.employeeId) newErrors.employeeId = 'Mã nhân viên không được để trống';
+        const isNumber = value => /^\d+$/.test(value);
+        const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!formData.employeeId) {
+            newErrors.employeeId = 'Mã nhân viên không được để trống';
+        } else if (formData.employeeId.length !== 10) {
+            newErrors.employeeId = 'Mã nhân viên phải là 10 ký tự';
+        } else if (personnels.some(personnel => personnel.employeeId === formData.employeeId)) {
+            newErrors.employeeId = 'Mã nhân viên đã tồn tại';
+        }
         if (!formData.employeeName) newErrors.employeeName = 'Tên nhân viên không được để trống';
-        if (!formData.CCCD) newErrors.CCCD = 'CCCD không được để trống';
+
+        if (!formData.CCCD) {
+            newErrors.CCCD = 'CCCD không được để trống';
+        } else if (!isNumber(formData.CCCD)) {
+            newErrors.CCCD = 'CCCD chỉ được chứa số';
+        } else if (formData.CCCD.length !== 12) {
+            newErrors.CCCD = 'CCCD phải là 12 ký tự';
+        } else if (personnels.some(personnel => personnel.CCCD === formData.CCCD)) {
+            newErrors.CCCD = 'CCCD đã tồn tại';
+        }
         if (!formData.position) newErrors.position = 'Chức vụ không được để trống';
-        if (!formData.phoneNumber) newErrors.phoneNumber = 'Số điện thoại không được để trống';
-        if (!formData.email) newErrors.email = 'Email không được để trống';
+
+        if (!formData.phoneNumber) {
+            newErrors.phoneNumber = 'Số điện thoại không được để trống';
+        } else if (!isNumber(formData.phoneNumber)) {
+            newErrors.phoneNumber = 'Số điện thoại chỉ được chứa số';
+        } else if (formData.phoneNumber.length !== 10) {
+            newErrors.phoneNumber = 'Số điện thoại phải là 10 ký tự';
+        }
+
+        if (!formData.email) {
+            newErrors.email = 'Email không được để trống';
+        } else if (!isValidEmail(formData.email)) {
+            newErrors.email = 'Email không hợp lệ';
+        }
+
         return newErrors;
     };
 
@@ -93,14 +125,20 @@ const PersonnelForm = ({ onSubmit }) => {
                 onChange={handleChange}
                 error={errors.employeeName}
             />
-            <FormInput
-                label="Chức vụ"
-                type="text"
-                name="position"
-                value={formData.position}
-                onChange={handleChange}
-                error={errors.position}
-            />
+            <div className="form-group">
+                <label>Chức vụ</label>
+                <select
+                    name="position"
+                    value={formData.position}
+                    onChange={handleChange}
+                    className="form-control"
+                >
+                    <option value="Giám đốc">Giám đốc</option>
+                    <option value="Trưởng phòng">Trưởng phòng</option>
+                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                    <option value="Nhân viên thử việc">Nhân viên thử việc</option>
+                </select>
+            </div>
             <FormInput
                 label="Ngày sinh"
                 type="date"

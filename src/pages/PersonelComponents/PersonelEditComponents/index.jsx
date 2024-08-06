@@ -5,7 +5,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
 
     const [formData, setFormData] = useState({
         id: '',
-        employeeID: '',
+        employeeId: '',
         employeeName: '',
         position: '',
         date: '',
@@ -22,7 +22,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
         if (personnel) {
             setFormData({
                 id: personnel.id || '',
-                employeeID: personnel.employeeID || '',
+                employeeId: personnel.employeeId || '',
                 employeeName: personnel.employeeName || '',
                 position: personnel.position || '',
                 date: personnel.date || '',
@@ -76,7 +76,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                                 type="text"
                                 className="form-control"
                                 name="employeeID"
-                                value={formData.employeeID}
+                                value={formData.employeeId}
                                 onChange={handleChange}
                                 disabled
                             />
