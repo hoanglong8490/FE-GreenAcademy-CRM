@@ -3,6 +3,9 @@ import DecisionComponent from '../pages/DecisionComponent';
 import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
+import ContractComponents from "../pages/ContractComponents";
+import PersonnelComponents from "../pages/PersonelComponents";
+
 export const routeSideBar = [
     {
         name: "Personnel",
@@ -14,21 +17,21 @@ export const routeSideBar = [
                 name: "Personnel-List",
                 icon: "nav-icon fas fa-user-friends",
                 to: "/PersonnelList",
-                component: SubjectComponent,
+                component: PersonnelComponents,
                 child: []
             },
             {
                 name: "Contract-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/ContractList",
-                component: QualificationComponents,
+                component: ContractComponents,
                 child: []
             },
             {
-                name: "Allowance-List",
+                name: "Qualification-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/AllowanceList",
-                component: BookComponent,
+                to: "/QualificationList",
+                component: QualificationComponents,
                 child: []
             },
             {
@@ -38,14 +41,21 @@ export const routeSideBar = [
                 component: DepartmentComponent,
                 child: []
             },
-            { 
-                name: "Descision-List",
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/AllowanceList",
+                component: BookComponent,
+                child: []
+            },
+
+            {
+                name: "Decision-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/DecisionList",
                 component: DecisionComponent,
                 child: []
             } 
-
 
         ]
     },
@@ -68,7 +78,7 @@ export const routeSideBar = [
                 to: "/List",
                 component: BookComponent,
                 child: [] //todo Không thêm cấp nữa
-            } 
+            }
         ]
     }
 ]
