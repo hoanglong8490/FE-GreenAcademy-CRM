@@ -7,6 +7,7 @@ import ContractComponents from "../pages/ContractComponents";
 import PersonnelComponents from "../pages/PersonelComponents";
 import LiabilityComponents from "../pages/LiabilityComponents";
 
+
 export const routeSideBar = [
     {
         name: "Personnel",
@@ -24,14 +25,21 @@ export const routeSideBar = [
             {
                 name: "Contract-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/ContractList",
+                to: "/Contract",
                 component: ContractComponents,
+                child: []
+            },
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/Allowance",
+                component: BookComponent,
                 child: []
             },
             {
                 name: "Qualification-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/QualificationList",
+                to: "/Qualification",
                 component: QualificationComponents,
                 child: []
             },
@@ -53,7 +61,7 @@ export const routeSideBar = [
             {
                 name: "Decision-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/DecisionList",
+                to: "/Decision",
                 component: DecisionComponent,
                 child: []
             },

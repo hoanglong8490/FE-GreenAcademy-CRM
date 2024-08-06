@@ -67,12 +67,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
             <Modal.Body>
                 <div className="form-group">
                     <label>Mã nhân viên</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
                         name="employeeId"
                         value={formData.employeeId}
                         onChange={handleChange}
+                        placeholder=""
                         disabled
                     />
                 </div>
@@ -109,22 +109,22 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
                 <div className="form-group">
                     <label>Ngày bắt đầu</label>
-                    <input
+                    <InputComponents
                         type="date"
                         name="startDate"
-                        className="form-control"
                         value={formData.startDate}
                         onChange={handleChange}
+                        placeholder=""
                     />
                 </div>
                 <div className="form-group">
                     <label>Ngày kết thúc</label>
-                    <input
+                    <InputComponents
                         type="date"
                         name="endDate"
-                        className="form-control"
                         value={formData.endDate}
                         onChange={handleChange}
+                        placeholder=""
                     />
                 </div>
                 <div className="form-group">
@@ -141,12 +141,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
                 <div className="form-group">
                     <label>Hồ sơ hợp đồng</label>
-                    <input
+                    <InputComponents
                         type="file"
                         name="files"
-                        multiple
                         onChange={handleChange}
                         className="form-control"
+                        multiple
                         accept=".doc,.docx,.xls,.xlsx,.pdf"
                     />
                     {formData.files.length > 0 && (
@@ -171,6 +171,5 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         </Modal>
     );
 };
-
 
 export default ContractEditComponents;
