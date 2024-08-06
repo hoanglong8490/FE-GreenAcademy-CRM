@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {NumericFormat} from 'react-number-format';
+import InputComponents from "../../../components/InputComponents";
 
 const ContractForm = ({onSubmit, contracts}) => {
     const [formData, setFormData] = useState({

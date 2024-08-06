@@ -1,6 +1,5 @@
 import {BookComponent, SubjectComponent} from '../pages';
 import DecisionComponent from '../pages/DecisionComponent';
-import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
 import ContractComponents from "../pages/ContractComponents";
@@ -57,19 +56,11 @@ export const routeSideBar = [
                 component: BookComponent,
                 child: []
             },
-
             {
                 name: "Decision-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/Decision",
                 component: DecisionComponent,
-                child: []
-            },
-            {
-                name: "Create-Decision",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/CreateDecision",
-                component: CreateDecision,
                 child: []
             }
 
