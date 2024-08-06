@@ -1,6 +1,5 @@
 import {BookComponent, SubjectComponent} from '../pages';
 import DecisionComponent from '../pages/DecisionComponent';
-import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
 import ContractComponents from "../pages/ContractComponents";
@@ -55,7 +54,7 @@ export const routeSideBar = [
                 to: "/DecisionList",
                 component: DecisionComponent,
                 child: []
-            } 
+            },
 
         ]
     },
