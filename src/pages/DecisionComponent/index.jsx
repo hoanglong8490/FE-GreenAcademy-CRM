@@ -6,6 +6,7 @@ import PagingComponent from '../../components/PagingComponent'; // Make sure the
 import { Row, Col } from 'react-bootstrap'; // Or use another library if needed
 import ListDecision from './ListDecision';
 import { Link } from 'react-router-dom';
+import CreateDecision from './CreateDecision';
 
 const DecisionComponent = () => {
     const [rows, setRows] = useState([]);
@@ -38,11 +39,12 @@ const DecisionComponent = () => {
 
     return (
         <>
-            <Link type='submit' to='/CreateDecision' className='btn btn-primary' style={{ margin: '10px' }}>
-                Thêm quyết định
-            </Link>
-            <Row className="contract-content" style={{ textAlign: 'center' }}>
-                <Col span={12}>
+            <h3>Danh sách quyết định</h3>
+            <Row className="contract-content" style={{ textAlign: 'center', padding:'5px'}}>
+                <Col span={4}>
+                   <CreateDecision/>
+                </Col>
+                <Col span={8}>
                     <TableComponents headers={headerContract}>
                         <ListDecision rows={rows} />
                     </TableComponents>

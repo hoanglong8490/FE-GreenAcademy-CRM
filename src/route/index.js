@@ -44,14 +44,7 @@ export const routeSideBar = [
                 to: "/DecisionList",
                 component: DecisionComponent,
                 child: []
-            },
-            {
-                name: "Create-Decision",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/CreateDecision",
-                component: CreateDecision,
-                child: []
-            }
+            } 
 
 
         ]

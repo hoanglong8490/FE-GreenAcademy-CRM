@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const TableComponents = ({headers, children}) => {
     return (
-        <table className="table table-bordered table-hover table-striped">
+        <table className="table table-bordered table-hover table-striped" style={{marginTop:'18px'}}>
             <thead>
             <tr>
                 {headers.map((header, index) => (
