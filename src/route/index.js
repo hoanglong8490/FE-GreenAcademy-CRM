@@ -1,0 +1,98 @@
+import {BookComponent, SubjectComponent} from '../pages';
+import DecisionComponent from '../pages/DecisionComponent';
+import CreateDecision from '../pages/DecisionComponent/CreateDecision';
+import DepartmentComponent from '../pages/DepartmentComponent';
+import QualificationComponents from '../pages/QualificationComponents';
+import ContractComponents from "../pages/ContractComponents";
+import PersonnelComponents from "../pages/PersonelComponents";
+import PositionComponents from "../pages/PositionComponents";
+export const routeSideBar = [
+    {
+        name: "Personnel",
+        icon: "nav-icon fas fa-edit",
+        component: "",
+        to: "/PersonnelManagement",
+        child: [
+            {
+                name: "Personnel-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/PersonnelList",
+                component: PersonnelComponents,
+                child: []
+            },
+            {
+                name: "Constract-List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/PositionList",
+                component: ContractComponents,
+                child: []
+            },
+            {
+                name: "Qualification-List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/QualificationList",
+                component: QualificationComponents,
+                child: []
+            },
+            {
+                name: "Department-List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/DepartmentList",
+                component: DepartmentComponent,
+                child: []
+            },
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/AllowanceList",
+                component: BookComponent,
+                child: []
+            },
+
+            {
+                name: "Decision-List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/DecisionList",
+                component: DecisionComponent,
+                child: []
+            },
+            {
+                name: "Create-Decision",
+                icon: "nav-icon fas fa-file-position",
+                to: "/CreateDecision",
+                component: CreateDecision,
+                child: []
+            },
+            {
+                name: "Position-List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/CreatePosition",
+                component: PositionComponents,
+                child: []
+            }
+
+        ]
+    },
+    {
+        name: "Education",
+        icon: "nav-icon fas fa-edit",
+        component: "",
+        to: "/Education",
+        child: [
+            {
+                name: "Education-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/educationList",
+                component: SubjectComponent,
+                child: [] //todo Không thêm cấp nữa
+            },
+            {
+                name: "List",
+                icon: "nav-icon fas fa-file-position",
+                to: "/List",
+                component: BookComponent,
+                child: [] //todo Không thêm cấp nữa
+            }
+        ]
+    }
+]
