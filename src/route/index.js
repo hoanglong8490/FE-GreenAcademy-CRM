@@ -62,7 +62,7 @@ export const routeSideBar = [
                 to: "/Decision",
                 component: DecisionComponent,
                 child: []
-            }
+            },
 
         ]
     },
