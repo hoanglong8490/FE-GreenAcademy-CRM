@@ -1,22 +1,61 @@
-import { useState } from "react";  
+import { useState } from "react";
 import Input from "../../../components/InputComponents";
+import { addDecision } from "../service/decision";
+import { useNavigate } from "react-router-dom";
 
 function CreateDecision() {
-    const [data, setData] = useState([]);
+    const navigate = useNavigate();
+    // State to manage form data
+    const [formData, setFormData] = useState({
+        manv: '',
+        fullName: '',
+        content: '',
+        date: '',
+        phone: '',
+        email: '',
+        options: '',
+        status: '',
+        phongban: ''
+    });
 
-    const handleSave = (e) => {
-        e.preventDefault(); // Ngăn hành động mặc định của form
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
-        // Xử lý dữ liệu form ở đây
-        // Bạn có thể lấy giá trị từ các trường input nếu cần
-   
-        console.log(e);
+    // Handle form submission
+    const handleSave = async (e) => {
+        e.preventDefault(); // Prevent default form submission
 
-        // Ví dụ: console.log(e.target.elements['manv'].value);
+        try {
+            // Call addDecision to post data to the backend
+            const response = await addDecision(formData);
+            console.log("Decision added:", response);
+            // Optionally, reset the form or show a success message
+            setFormData({
+                manv: '',
+                name: '',
+                content: '',
+                date: '',
+                phone: '',
+                email: '',
+                hinhthuc: '',
+                status: '',
+                phongban: ''
+            });
+            navigate('/DecisionList');
+            // You might also redirect or display a success message here
+        } catch (error) {
+            console.error("Error adding decision:", error);
+        }
     };
 
     return (
-        <div className="create-decision" style={{ padding: '20px'}}>
+        <div className="create-decision" style={{ padding: '20px' }}>
             <form className="container" style={{ border: '1px solid gray', padding: '20px' }} onSubmit={handleSave}>
                 <h2>Thêm khen thưởng/kỷ luật</h2>
                 <div className="row">
@@ -26,17 +65,21 @@ function CreateDecision() {
                             <Input
                                 type="text"
                                 name="manv"
+                                value={formData.manv}
                                 placeholder="Nhập mã nhân viên..."
+                                onChange={handleChange}
                             />
-                        </div>  
+                        </div>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label>Họ tên</label>
                             <Input
                                 type="text"
-                                name="fullName"
+                                name="name"
+                                value={formData.name}
                                 placeholder="Nhập tên nhân viên..."
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -45,9 +88,9 @@ function CreateDecision() {
                             <label>Nội dung</label>
                             <textarea
                                 className="form-control"
-                                id="exampleInputEmail1"
                                 name="content"
-                                aria-describedby="emailHelp"
+                                value={formData.content}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -57,16 +100,20 @@ function CreateDecision() {
                             <Input
                                 type="date"
                                 name="date"
+                                value={formData.date}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
                     <div className="col-4">
                         <div className="form-group">
-                            <label>Phone</label>
+                            <label>Số điện thoại</label>
                             <Input
                                 type="text"
                                 name="phone"
+                                value={formData.phone}
                                 placeholder="Nhập số điện thoại..."
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -76,27 +123,37 @@ function CreateDecision() {
                             <Input
                                 type="email"
                                 name="email"
+                                value={formData.email}
                                 placeholder="Nhập email..."
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
                     <div className="col-3">
                         <div className="form-group">
                             <label>Hình thức</label>
-                            <select className="form-control" id="exampleSelect" name="options">
-                                <option value="">Choose...</option>
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
+                            <select
+                                className="form-control"
+                                name="hinhthuc"
+                                value={formData.hinhthuc}
+                                onChange={handleChange}
+                            >
+                                <option value="Khen thưởng">Khen thưởng</option>
+                                <option value="Kỷ luật">Kỷ luật</option>
                             </select>
                         </div>
                     </div>
                     <div className="col-3">
                         <div className="form-group">
                             <label>Trạng thái</label>
-                            <select className="form-control" id="exampleSelect" name="status">
-                                <option value="option1">Đã xử lý</option>
-                                <option value="option2">Đang chờ</option>
+                            <select
+                                className="form-control"
+                                name="status"
+                                value={formData.status}
+                                onChange={handleChange}
+                            >
+                                <option value="Đã xử lý">Đã xử lý</option>
+                                <option value="Đang chờ">Đang chờ</option>
                             </select>
                         </div>
                     </div>
@@ -106,7 +163,9 @@ function CreateDecision() {
                             <Input
                                 type="text"
                                 name="phongban"
+                                value={formData.phongban}
                                 placeholder="Nhập phòng ban..."
+                                onChange={handleChange}
                             />
                         </div>
                     </div>

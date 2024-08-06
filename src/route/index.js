@@ -10,37 +10,34 @@ export const routeSideBar = [
         component: "",
         to: "/PersonnelManagement",
         child: [
-            {
-                name: "Personnel-List",
-                icon: "nav-icon fas fa-user-friends",
-                to: "/PersonnelList",
-                component: SubjectComponent,
-                child: []
-            },
-            {
-                name: "Contract-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/ContractList",
-                component: QualificationComponents,
-                child: []
-            },
-            {
-                name: "Allowance-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/AllowanceList",
-                component: BookComponent,
-                child: []
-            },
-            {
-                name: "Department-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/DepartmentList",
-                component: DepartmentComponent,
-                child: []
-            },
-            
-
-
+            // {
+            //     name: "Personnel-List",
+            //     icon: "nav-icon fas fa-user-friends",
+            //     to: "/PersonnelList",
+            //     component: SubjectComponent,
+            //     child: []
+            // },
+            // {
+            //     name: "Contract-List",
+            //     icon: "nav-icon fas fa-file-contract",
+            //     to: "/ContractList",
+            //     component: QualificationComponents,
+            //     child: []
+            // },
+            // {
+            //     name: "Allowance-List",
+            //     icon: "nav-icon fas fa-file-contract",
+            //     to: "/AllowanceList",
+            //     component: BookComponent,
+            //     child: []
+            // },
+            // {
+            //     name: "Department-List",
+            //     icon: "nav-icon fas fa-file-contract",
+            //     to: "/DepartmentList",
+            //     component: DepartmentComponent,
+            //     child: []
+            // },
              
 
             { 
