@@ -13,7 +13,7 @@ import {NumericFormat} from 'react-number-format';
 import ContractTitleComponents from "./ContractTittleComponents";
 import {addContract, deleteContract, fetchContracts, updateContract} from "./ContractService/contractService";
 import {toast} from "react-toastify";
-
+import {Col, Container, Row} from "react-bootstrap";
 
 const itemsPerPage = 10;
 
@@ -165,14 +165,14 @@ const ContractComponents = () => {
     }));
 
     return (
-        <div className="Contract-list">
+        <Container fluid className="Contract-list">
             <ContractTitleComponents onSearch={handleSearch} contracts={contracts}/>
-            <div className="row contract-content">
-                <div className="col-4">
+            <Row className="contract-content">
+                <Col xs={12} md={4}>
                     <h3>Thêm hợp đồng</h3>
                     <ContractForm onSubmit={handleAddContract} contracts={contracts}/>
-                </div>
-                <div className="col-8">
+                </Col>
+                <Col xs={12} md={8}>
                     <TableComponents headers={headerContract}>
                         <TableBodyComponents rows={rows}/>
                     </TableComponents>
@@ -181,8 +181,8 @@ const ContractComponents = () => {
                         currentPage={currentPage}
                         onPageChange={handlePageChange}
                     />
-                </div>
-            </div>
+                </Col>
+            </Row>
             <ContractViewComponents
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
@@ -200,7 +200,7 @@ const ContractComponents = () => {
                 onConfirm={handleDeleteConfirm}
                 message="Bạn có chắc chắn muốn xóa hợp đồng này?"
             />
-        </div>
+        </Container>
     );
 };
 
