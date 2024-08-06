@@ -1,5 +1,4 @@
-import { BookComponent, SubjectComponent } from '../pages';
-
+import {BookComponent, SubjectComponent} from '../pages';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import ContactComponents from "../pages/ContractComponents";
 import QualificationComponents from '../pages/QualificationComponents';
