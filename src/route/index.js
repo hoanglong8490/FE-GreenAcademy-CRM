@@ -5,6 +5,7 @@ import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
 import ContractComponents from "../pages/ContractComponents";
 import PersonnelComponents from "../pages/PersonelComponents";
+import LiabilityComponents from "../pages/LiabilityComponents";
 
 export const routeSideBar = [
     {
@@ -86,6 +87,21 @@ export const routeSideBar = [
                 component: BookComponent,
                 child: [] //todo Không thêm cấp nữa
             }
+        ]
+    },
+    {
+        name: "Liability",
+        icon: "nav-icon fas fa-edit",
+        component: "",
+        to: "/Liability",
+        child: [
+            {
+                name: "Liability-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/liabilityList",
+                component: LiabilityComponents,
+                child: []
+            },
         ]
     }
 ]
