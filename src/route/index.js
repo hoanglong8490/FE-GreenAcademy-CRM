@@ -16,7 +16,7 @@ export const routeSideBar = [
                 name: "Personnel-List",
                 icon: "nav-icon fas fa-user-friends",
                 to: "/PersonnelList",
-                component: SubjectComponent,
+                component: PersonnelComponent,
                 child: []
             },
             {
