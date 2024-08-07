@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NumericFormat} from 'react-number-format';
 import InputComponents from "../../../components/InputComponents";
+
 
 const ContractForm = ({onSubmit, contracts}) => {
     const [formData, setFormData] = useState({
@@ -9,28 +10,41 @@ const ContractForm = ({onSubmit, contracts}) => {
         salary: '',
         startDate: '',
         endDate: '',
-        files: []
+        files: [],
+        created_at: '',
+        updated_at: ''
     });
 
     const [errors, setErrors] = useState({});
 
+    useEffect(() => {
+        const now = new Date().toISOString().slice(0, 16);
+        setFormData(prevState => ({
+            ...prevState,
+            created_at: now,
+            updated_at: now
+        }));
+    }, []);
+
     const handleChange = (e) => {
         const {name, value, files} = e.target;
+        const now = new Date().toISOString().slice(0, 16);
         if (files) {
             setFormData({
                 ...formData,
-                [name]: Array.from(files)
+                [name]: Array.from(files),
+                updated_at: now
             });
         } else {
             setFormData({
                 ...formData,
-                [name]: value
+                [name]: value,
+                updated_at: now
             });
         }
     };
 
     const validate = () => {
-        console.log(formData);
         const newErrors = {};
         if (!formData.employeeId) {
             newErrors.employeeId = 'Mã nhân viên không được để trống';
@@ -63,13 +77,16 @@ const ContractForm = ({onSubmit, contracts}) => {
                 ...formData,
                 status: true
             });
+            const now = new Date().toISOString().slice(0, 16);
             setFormData({
                 employeeId: '',
                 contractType: '',
                 salary: '',
                 startDate: '',
                 endDate: '',
-                files: []
+                files: [],
+                created_at: now,
+                updated_at: now
             });
             setErrors({});
         }
@@ -118,7 +135,8 @@ const ContractForm = ({onSubmit, contracts}) => {
                         const {value} = values;
                         setFormData({
                             ...formData,
-                            salary: value
+                            salary: value,
+                            updated_at: new Date().toISOString().slice(0, 16)
                         });
                     }}
                 />
