@@ -7,7 +7,7 @@ import PersonnelFormComponent from "./PersonnelFormComponents";
 import PersonnelViewComponent from "./PersonnelViewComponents";
 import PersonnelEditComponent from "./PersonelEditComponents";
 import PagingComponent from "../../components/PagingComponent";
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import ConfirmationComponent from "../../components/ConfirmationComponents";
 import PersonnelTitleComponent from "./PersonnelTittleComponents";
 import { toast } from 'react-toastify';
@@ -126,9 +126,9 @@ const PersonnelComponents = () => {
     };
 
     // Format date to a readable format
-    const formatDate = (dateString) => {
-        return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
-    };
+    // const formatDate = (dateString) => {
+    //     return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
+    // };
 
     // Handle view action for a personnel
     const handleView = (personnel) => {
@@ -148,7 +148,7 @@ const PersonnelComponents = () => {
             personnel.id,
             personnel.employeeId,
             personnel.employeeName,
-            personnel.position,
+            personnel.positionName,
             personnel.email,
             personnel.status ? 'Active' : 'Inactive',
         ],

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-
+import InputComponents from "../../../components/InputComponents";
 const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
     if (!personnel) return null;
 
@@ -49,11 +49,20 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+                            <label>Địa chỉ</label>
+                            <input
+                                type="address"
+                                className="form-control"
+                                value={personnel.address}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
                             <label>Chức vụ</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                value={personnel.position}
+                                value={personnel.positionName}
                                 readOnly
                             />
                         </div>
@@ -63,6 +72,15 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                                 type="text"
                                 className="form-control"
                                 value={personnel.departmentName}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Hợp đồng</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={personnel.contractName}
                                 readOnly
                             />
                         </div>
@@ -102,6 +120,28 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                                 className="form-control"
                                 value={personnel.CCCD}
                                 readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày bắt đầu</label>
+                            <InputComponents
+                                type="text"
+                                name="startDate"
+                                value={personnel.startDate}
+                                onChange={() => {
+                                }}
+                                disabled
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày kết thúc</label>
+                            <InputComponents
+                                type="text"
+                                name="endDate"
+                                value={personnel.endDate}
+                                onChange={() => {
+                                }}
+                                disabled
                             />
                         </div>
                         <div className="form-group">
