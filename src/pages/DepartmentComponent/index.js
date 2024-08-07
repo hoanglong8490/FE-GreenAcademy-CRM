@@ -98,7 +98,6 @@ export default function DepartmentComponent() {
     const handleModalInfo = async (item) => {
         const departmentId = item.data[0];
         const department = await fetchDepartmentById(departmentId);
-        console.log("department", department)
         if (department) {
             setModalContent({
                 title: 'Thông tin phòng ban',
@@ -152,7 +151,7 @@ export default function DepartmentComponent() {
     };
     const handleDeleteDepartment = async (item) => {
         const departmentId = item.data[0];
-        const confirmDelete = window.confirm("Bán muôn xóa phòng ban này khong?");
+        const confirmDelete = window.confirm(`Bán muôn xóa phòng ban này khong?`);
         if (confirmDelete) {
             try {
                 await deleteDepartment(departmentId);
@@ -192,12 +191,12 @@ export default function DepartmentComponent() {
     return (
         <div>
             <section className="content-header">
-                <div className="container-fluid" bis_skin_checked={1}>
-                    <div className="row mb-2" bis_skin_checked={1}>
-                        <div className="col-sm-6" bis_skin_checked={1}>
+                <div className="container-fluid" >
+                    <div className="row mb-2" >
+                        <div className="col-sm-6" >
                             <h1>Quản lý phòng ban</h1>
                         </div>
-                        <div className="col-sm-6" bis_skin_checked={1}>
+                        <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><NavLink to="#">Home</NavLink></li>
                                 <li className="breadcrumb-item active">Quản lý phòng ban</li>
