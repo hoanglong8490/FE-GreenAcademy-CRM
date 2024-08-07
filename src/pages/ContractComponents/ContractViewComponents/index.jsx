@@ -1,7 +1,10 @@
 // src/components/ViewContractModal.js
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
+import InputComponents from "../../../components/InputComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
+
 
 const ContractViewComponents = ({show, handleClose, contract}) => {
     if (!contract) return null;
@@ -14,19 +17,23 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
             <Modal.Body>
                 <div className="form-group">
                     <label>Mã nhân viên</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="employeeId"
                         value={contract.employeeId}
+                        onChange={() => {
+                        }}
                         disabled
                     />
                 </div>
                 <div className="form-group">
                     <label>Loại hợp đồng</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="contractType"
                         value={contract.contractType}
+                        onChange={() => {
+                        }}
                         disabled
                     />
                 </div>
@@ -44,19 +51,23 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                 </div>
                 <div className="form-group">
                     <label>Ngày bắt đầu</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="startDate"
                         value={contract.startDate}
+                        onChange={() => {
+                        }}
                         disabled
                     />
                 </div>
                 <div className="form-group">
                     <label>Ngày kết thúc</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="endDate"
                         value={contract.endDate}
+                        onChange={() => {
+                        }}
                         disabled
                     />
                 </div>
@@ -78,9 +89,9 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <ButtonComponents variant="secondary" onClick={handleClose}>
                     Đóng
-                </Button>
+                </ButtonComponents>
             </Modal.Footer>
         </Modal>
     );

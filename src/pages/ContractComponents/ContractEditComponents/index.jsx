@@ -1,7 +1,9 @@
 // src/components/EditContractModal.js
 import React, {useEffect, useState} from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
+import InputComponents from "../../../components/InputComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
 
 const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     const [formData, setFormData] = useState({
@@ -29,14 +31,13 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     }, [contract]);
 
     const handleChange = (e) => {
-        const {name, value, files, type, checked} = e.target;
+        const {name, value, files, type} = e.target;
         if (type === 'file') {
             setFormData({
                 ...formData,
                 [name]: Array.from(files)
             });
         } else if (name === 'status') {
-            // Chuyển đổi giá trị chuỗi thành boolean
             setFormData({
                 ...formData,
                 [name]: value === 'true'
@@ -54,7 +55,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
             ...formData,
             id: contract.id
         };
-        console.log('Hợp đồng đã cập nhật:', updatedContract); // Kiểm tra dữ liệu đã cập nhật
+        console.log('Hợp đồng đã cập nhật:', updatedContract);
         onSave(updatedContract);
         handleClose();
     };
@@ -67,12 +68,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
             <Modal.Body>
                 <div className="form-group">
                     <label>Mã nhân viên</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
                         name="employeeId"
                         value={formData.employeeId}
                         onChange={handleChange}
+                        placeholder=""
                         disabled
                     />
                 </div>
@@ -101,7 +102,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                             const {value} = values;
                             setFormData({
                                 ...formData,
-                                salary: parseFloat(value) // Chuyển đổi thành số nếu cần
+                                salary: parseFloat(value)
                             });
                         }}
                         isNumericString
@@ -109,29 +110,29 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
                 <div className="form-group">
                     <label>Ngày bắt đầu</label>
-                    <input
+                    <InputComponents
                         type="date"
                         name="startDate"
-                        className="form-control"
                         value={formData.startDate}
                         onChange={handleChange}
+                        placeholder=""
                     />
                 </div>
                 <div className="form-group">
                     <label>Ngày kết thúc</label>
-                    <input
+                    <InputComponents
                         type="date"
                         name="endDate"
-                        className="form-control"
                         value={formData.endDate}
                         onChange={handleChange}
+                        placeholder=""
                     />
                 </div>
                 <div className="form-group">
                     <label>Trạng thái</label>
                     <select
                         name="status"
-                        value={formData.status.toString()} // Chuyển boolean thành chuỗi cho select
+                        value={formData.status.toString()}
                         onChange={handleChange}
                         className="form-control"
                     >
@@ -141,12 +142,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
                 <div className="form-group">
                     <label>Hồ sơ hợp đồng</label>
-                    <input
+                    <InputComponents
                         type="file"
                         name="files"
-                        multiple
                         onChange={handleChange}
                         className="form-control"
+                        multiple
                         accept=".doc,.docx,.xls,.xlsx,.pdf"
                     />
                     {formData.files.length > 0 && (
@@ -161,16 +162,15 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <ButtonComponents variant="secondary" onClick={handleClose}>
                     Đóng
-                </Button>
-                <Button variant="primary" onClick={handleSave}>
+                </ButtonComponents>
+                <ButtonComponents variant="primary" onClick={handleSave}>
                     Lưu thay đổi
-                </Button>
+                </ButtonComponents>
             </Modal.Footer>
         </Modal>
     );
 };
-
 
 export default ContractEditComponents;

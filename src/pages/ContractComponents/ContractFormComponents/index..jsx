@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import FormInput from "../../../components/FormInputComponents";
 import {NumericFormat} from 'react-number-format';
+import InputComponents from "../../../components/InputComponents";
 
 const ContractForm = ({onSubmit, contracts}) => {
     const [formData, setFormData] = useState({
@@ -78,7 +78,7 @@ const ContractForm = ({onSubmit, contracts}) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <FormInput
+            <InputComponents
                 label="Mã nhân viên"
                 type="text"
                 name="employeeId"
@@ -121,7 +121,7 @@ const ContractForm = ({onSubmit, contracts}) => {
                 />
                 {errors.salary && <div className="text-danger">{errors.salary}</div>}
             </div>
-            <FormInput
+            <InputComponents
                 label="Ngày bắt đầu"
                 type="date"
                 name="startDate"
@@ -129,7 +129,7 @@ const ContractForm = ({onSubmit, contracts}) => {
                 onChange={handleChange}
                 error={errors.startDate}
             />
-            <FormInput
+            <InputComponents
                 label="Ngày kết thúc"
                 type="date"
                 name="endDate"
@@ -139,12 +139,12 @@ const ContractForm = ({onSubmit, contracts}) => {
             />
             <div className="form-group">
                 <label>Hồ sơ hợp đồng</label>
-                <input
+                <InputComponents
                     type="file"
                     name="files"
-                    multiple
                     onChange={handleChange}
                     className="form-control"
+                    multiple
                     accept=".doc,.docx,.xls,.xlsx,.pdf"
                 />
                 {formData.files.length > 0 && (

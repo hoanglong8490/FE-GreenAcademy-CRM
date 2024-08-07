@@ -1,10 +1,11 @@
 import {BookComponent, SubjectComponent} from '../pages';
 import DecisionComponent from '../pages/DecisionComponent';
-import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
 import ContractComponents from "../pages/ContractComponents";
 import PersonnelComponents from "../pages/PersonelComponents";
+import LiabilityComponents from "../pages/LiabilityComponents";
+
 
 export const routeSideBar = [
     {
@@ -23,14 +24,21 @@ export const routeSideBar = [
             {
                 name: "Contract-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/ContractList",
+                to: "/Contract",
                 component: ContractComponents,
+                child: []
+            },
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/Allowance",
+                component: BookComponent,
                 child: []
             },
             {
                 name: "Qualification-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/QualificationList",
+                to: "/Qualification",
                 component: QualificationComponents,
                 child: []
             },
@@ -48,14 +56,13 @@ export const routeSideBar = [
                 component: BookComponent,
                 child: []
             },
-
             {
                 name: "Decision-List",
                 icon: "nav-icon fas fa-file-contract",
-                to: "/DecisionList",
+                to: "/Decision",
                 component: DecisionComponent,
                 child: []
-            } 
+            },
 
         ]
     },
@@ -79,6 +86,21 @@ export const routeSideBar = [
                 component: BookComponent,
                 child: [] //todo Không thêm cấp nữa
             }
+        ]
+    },
+    {
+        name: "Liability",
+        icon: "nav-icon fas fa-edit",
+        component: "",
+        to: "/Liability",
+        child: [
+            {
+                name: "Liability-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/liabilityList",
+                component: LiabilityComponents,
+                child: []
+            },
         ]
     }
 ]
