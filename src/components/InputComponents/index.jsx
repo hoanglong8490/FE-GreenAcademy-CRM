@@ -41,7 +41,7 @@ InputComponents.propTypes = {
     placeholder: PropTypes.string,
     icon: PropTypes.node, // thêm prop icon để nhận component React
     onIconClick: PropTypes.func, // thêm prop onIconClick để nhận hàm xử lý sự kiện
-    Disabled: PropTypes.bool // thêm prop onDisabled
+    disabled: PropTypes.bool // Thêm sự kiện disabled
 };
 
 // Example :
