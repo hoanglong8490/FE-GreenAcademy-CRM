@@ -2,6 +2,7 @@ import React from 'react';
 import '../Personnel.scss';
 import { CSVLink } from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
 
 const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm bảo personnels là một mảng mặc định
     const handleSearch = (searchTerm) => {
@@ -53,12 +54,12 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
             </div>
             <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
                 <SearchComponents onSearch={handleSearch} />
-                <button
+                <ButtonComponents
                     className='btn btn-danger d-flex align-items-center'
                     onClick={handleImportClick}
                 >
                     <i className="fa fa-upload"></i>&nbsp;Import
-                </button>
+                </ButtonComponents>
                 <input id='import' type='file' hidden />
 
                 <CSVLink

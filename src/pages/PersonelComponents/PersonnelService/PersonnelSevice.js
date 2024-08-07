@@ -16,7 +16,10 @@ export const fetchContracts = async () => {
 
 export const addPersonnel = async (newPersonnel) => {
     try {
+        console.log('Thêm nhân viên mới:', newPersonnel);
         const response = await axios.post(apiEndpoint, newPersonnel);
+        console.log('Phản hồi từ API:', response.data);
+
         return response.data;
     } catch (error) {
         console.error('Có lỗi xảy ra khi thêm nhân viên!', error);
@@ -24,7 +27,7 @@ export const addPersonnel = async (newPersonnel) => {
     }
 };
 
-export const updatedPersonnel = async (updatedPersonnel) => {
+export const updatePersonnel = async (updatedPersonnel) => {
     try {
         const response = await axios.put(`${apiEndpoint}/${updatedPersonnel.id}`, updatedPersonnel);
         return response.data;
