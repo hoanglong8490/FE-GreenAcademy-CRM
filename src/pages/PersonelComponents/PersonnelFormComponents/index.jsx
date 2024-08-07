@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import FormInput from "../../../components/FormInputComponents";
-
+import InputComponents from "../../../components/InputComponents";
 const PersonnelForm = ({ onSubmit, personnels }) => {
     const [formData, setFormData] = useState({
+        id: '',
+        positionId: '',
+        allowanceId: '',
+        qualificationId: '',
+        contractId: '',
         employeeId: '',
         employeeName: '',
-        position: '',
+        positionName: '',
+        contractName: '',
         date: '',
+        address: '',
         gender: '',
         email: '',
         phoneNumber: '',
+        departmentName: '',
         qualificationName: '',
         CCCD: '',
         status: true,
-        image: [], // Đảm bảo rằng image là một mảng
+        image: [],
+        startDate: '',
+        endDate: ''
+
     });
 
     const [errors, setErrors] = useState({});
@@ -60,6 +71,8 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         if (!formData.position || formData.position === "--Chọn chức vụ--") {
             newErrors.position = 'Chức vụ không được để trống';
         }
+        if (!formData.departmentName) newErrors.departmentName = 'Tên Phòng ban không được để trống';
+        if (!formData.address) newErrors.address = 'Địa chỉ không được để trống';
         if (!formData.gender || formData.gender === "--Chọn giới tính--") {
             newErrors.gender = 'Giới tính không được để trống';
         }
@@ -82,6 +95,11 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         if (!formData.date) {
             newErrors.date = 'Ngày sinh không được để trống';
         }
+        if (!formData.startDate) newErrors.startDate = 'Ngày bắt đầu không được để trống';
+
+        if (!formData.endDate) newErrors.endDate = 'Ngày kết thúc không được để trống';
+        if (new Date(formData.startDate) > new Date(formData.endDate))
+            newErrors.endDate = 'Ngày kết thúc phải sau ngày bắt đầu';
         return newErrors;
     };
 
@@ -99,17 +117,27 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     status: true
                 });
                 setFormData({
+                    id: '',
+                    positionId: '',
+                    allowanceId: '',
+                    qualificationId: '',
+                    contractId: '',
                     employeeId: '',
                     employeeName: '',
-                    position: '',
+                    positionName: '',
+                    departmentName: '',
+                    contractName: '',
                     date: '',
+                    address: '',
                     gender: '',
                     email: '',
                     phoneNumber: '',
-                    qualificationName: '',
                     CCCD: '',
+                    qualificationName: '',
                     status: true,
-                    image: [], // Đảm bảo rằng image được đặt lại là một mảng rỗng
+                    image: [],
+                    startDate: '',
+                    endDate: ''
                 });
                 setErrors({});
             } else {
@@ -139,8 +167,8 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
             <div className="form-group">
                 <label>Chức vụ</label>
                 <select
-                    name="position"
-                    value={formData.position}
+                    name="positionName"
+                    value={formData.positionName}
                     onChange={handleChange}
                     className="form-control"
                 >
@@ -150,8 +178,16 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     <option value="Nhân viên chính thức">Nhân viên chính thức</option>
                     <option value="Nhân viên thử việc">Nhân viên thử việc</option>
                 </select>
-                {errors.position && <div className="text-danger">{errors.position}</div>}
+                {errors.positionName && <div className="text-danger">{errors.positionName}</div>}
             </div>
+            <FormInput
+                label="Phòng ban"
+                type="text"
+                name="departmentName" // Đảm bảo name khớp với tên trong state
+                value={formData.departmentName}
+                onChange={handleChange}
+                error={errors.departmentName}
+            />
             <FormInput
                 label="Ngày sinh"
                 type="date"
@@ -159,6 +195,14 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                 value={formData.date}
                 onChange={handleChange}
                 error={errors.date}
+            />
+            <FormInput
+                label="Địa chỉ"
+                type="text"
+                name="address" // Đảm bảo name khớp với tên trong state
+                value={formData.address}
+                onChange={handleChange}
+                error={errors.address}
             />
             <div className="form-group">
                 <label>Giới tính</label>
@@ -206,6 +250,28 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                 onChange={handleChange}
                 error={errors.qualificationName}
             />
+            <div className="form-group">
+                <label>Ngày bắt đầu</label>
+                <InputComponents
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                    error={errors.startDate}
+                />
+                {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
+            </div>
+            <div className="form-group">
+                <label>Ngày kết thúc</label>
+                <InputComponents
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                    error={errors.endDate}
+                />
+                {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
+            </div>
             <div className="form-group">
                 <label>Image</label>
                 <input

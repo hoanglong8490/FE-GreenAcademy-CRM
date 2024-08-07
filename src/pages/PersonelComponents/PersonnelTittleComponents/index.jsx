@@ -11,7 +11,7 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
         const filteredpersonnels = personnels.filter(personnel => {
             const employeeId = personnel.employeeId ? personnel.employeeId.toLowerCase() : '';
             const employeeName = personnel.employeeName ? personnel.employeeName.toLowerCase() : '';
-            const position = personnel.position ? personnel.position.toString().toLowerCase() : '';
+            const positionName = personnel.positionName ? personnel.positionName.toString().toLowerCase() : '';
             const email = personnel.email ? personnel.email.toLowerCase() : '';
             const phoneNumber = personnel.phoneNumber ? personnel.phoneNumber.toLowerCase() : '';
             const status = personnel.status ? (personnel.status ? 'active' : 'inactive') : '';
@@ -19,7 +19,7 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
             return (
                 employeeId.includes(searchValue) ||
                 employeeName.includes(searchValue) ||
-                position.includes(searchValue) ||
+                positionName.includes(searchValue) ||
                 email.includes(searchValue) ||
                 phoneNumber.includes(searchValue) ||
                 status.includes(searchValue) ||
@@ -40,7 +40,7 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
     const formattedPersonnels = Array.isArray(personnels) ? personnels.map(personnel => ({
         employeeId: personnel.employeeId,
         employeeName: personnel.employeeName,
-        position: personnel.position,
+        positionName: personnel.positionName,
         email: personnel.email,
         phoneNumber: personnel.phoneNumber,
         status: personnel.status ? 'active' : 'inactive',
