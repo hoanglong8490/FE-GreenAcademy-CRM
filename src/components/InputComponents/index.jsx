@@ -3,7 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './InputComponents.scss'
 
-const InputComponents = ({type = 'text', name, value, onChange, placeholder = '', icon, onIconClick}) => {
+const InputComponents = ({
+                             type = 'text',
+                             name,
+                             value,
+                             onChange,
+                             placeholder = '',
+                             icon,
+                             onIconClick,
+                             disabled = false
+                         }) => {
     return (
         <div className="input-group">
             <input
@@ -13,6 +22,7 @@ const InputComponents = ({type = 'text', name, value, onChange, placeholder = ''
                 onChange={onChange}
                 placeholder={placeholder}
                 className="form-control"
+                disabled={disabled}
             />
             {icon && (
                 <span className="input-group-text" onClick={onIconClick} style={{cursor: 'pointer'}}>
@@ -30,7 +40,8 @@ InputComponents.propTypes = {
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     icon: PropTypes.node, // thêm prop icon để nhận component React
-    onIconClick: PropTypes.func // thêm prop onIconClick để nhận hàm xử lý sự kiện
+    onIconClick: PropTypes.func, // thêm prop onIconClick để nhận hàm xử lý sự kiện
+    Disabled: PropTypes.bool // thêm prop onDisabled
 };
 
 // Example :
