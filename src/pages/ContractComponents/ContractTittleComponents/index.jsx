@@ -35,6 +35,7 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
         onSearch(filteredContracts);
     };
 
+    // Xử lí click button import file :
     const handleImportClick = () => {
         document.getElementById('import').click();
     };
@@ -48,12 +49,12 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
             return '';
         }
     };
-
+    // export file csv theo header :
     const getContractExport = () => {
         return new Promise((resolve) => {
             let result = [];
             if (contracts && contracts.length > 0) {
-                // result.push(["ID", "Mã nhân viên", "Loại hợp đồng", "Mức lương", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái", "Ngày tạo", "Ngày cập nhật", "Ảnh"]);
+                result.push(["ID", "Mã nhân viên", "Loại hợp đồng", "Mức lương", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái", "Ngày tạo", "Ngày cập nhật", "Ảnh"]);
                 contracts.forEach((item) => {
                     let arr = [];
                     arr[0] = item.id;
@@ -156,7 +157,7 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
         return newErrors;
     };
 
-
+    // Sử dụng papa để import dữ liệu
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
