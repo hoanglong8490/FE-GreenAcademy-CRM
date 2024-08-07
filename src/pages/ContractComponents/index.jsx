@@ -127,7 +127,8 @@ const ContractComponents = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+    
+    //định dạng ngày thành chuỗi hiển thị
     const formatDate = (dateString) => {
         return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
     };

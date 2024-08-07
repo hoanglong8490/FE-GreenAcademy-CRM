@@ -5,7 +5,9 @@ import {NumericFormat} from 'react-number-format';
 import InputComponents from "../../../components/InputComponents";
 import ButtonComponents from "../../../components/ButtonComponents";
 
+// Component để chỉnh sửa hợp đồng
 const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
+    // Khởi tạo state cho dữ liệu form
     const [formData, setFormData] = useState({
         employeeId: '',
         contractType: '',
@@ -17,6 +19,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         update_at: ''
     });
 
+    // useEffect để cập nhật dữ liệu form khi contract thay đổi
     useEffect(() => {
         if (contract) {
             setFormData({
@@ -32,17 +35,19 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         }
     }, [contract]);
 
+    // Hàm xử lý thay đổi dữ liệu form
+
     const handleChange = (e) => {
         const {name, value, files, type} = e.target;
         if (type === 'file') {
             setFormData({
                 ...formData,
-                [name]: Array.from(files)
+                [name]: Array.from(files) // Chuyển danh sách file thành mảng
             });
         } else if (name === 'status') {
             setFormData({
                 ...formData,
-                [name]: value === 'true'
+                [name]: value === 'true' // Chuyển đổi chuỗi thành boolean
             });
         } else {
             setFormData({
@@ -52,11 +57,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         }
     };
 
+    // Hàm xử lý khi nhấn nút lưu
     const handleSave = () => {
         const updatedContract = {
             ...formData,
             id: contract.id,
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString() // Cập nhật thời gian
         };
         console.log('Hợp đồng đã cập nhật:', updatedContract);
         onSave(updatedContract);

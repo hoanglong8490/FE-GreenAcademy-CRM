@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {NumericFormat} from 'react-number-format';
 import InputComponents from "../../../components/InputComponents";
 
+// Component để thêm hợp đồng mới
 
 const ContractForm = ({onSubmit, contracts}) => {
+
     const [formData, setFormData] = useState({
         employeeId: '',
         contractType: '',
@@ -17,6 +19,7 @@ const ContractForm = ({onSubmit, contracts}) => {
 
     const [errors, setErrors] = useState({});
 
+    // useEffect để thiết lập thời gian hiện tại khi form được tải
     useEffect(() => {
         const now = new Date().toISOString().slice(0, 16);
         setFormData(prevState => ({
@@ -26,6 +29,7 @@ const ContractForm = ({onSubmit, contracts}) => {
         }));
     }, []);
 
+    // Hàm xử lý thay đổi dữ liệu form
     const handleChange = (e) => {
         const {name, value, files} = e.target;
         const now = new Date().toISOString().slice(0, 16);
@@ -44,6 +48,7 @@ const ContractForm = ({onSubmit, contracts}) => {
         }
     };
 
+    // Hàm kiểm tra dữ liệu form
     const validate = () => {
         const newErrors = {};
         if (!formData.employeeId) {
@@ -67,6 +72,7 @@ const ContractForm = ({onSubmit, contracts}) => {
         return newErrors;
     };
 
+    // Hàm xử lý khi form được submit
     const handleSubmit = (e) => {
         e.preventDefault();
         const validationErrors = validate();
