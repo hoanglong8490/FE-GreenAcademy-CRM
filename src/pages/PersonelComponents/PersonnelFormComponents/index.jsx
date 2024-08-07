@@ -10,6 +10,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         gender: '',
         email: '',
         phoneNumber: '',
+        departmentName: '',
         qualificationName: '',
         CCCD: '',
         status: true,
@@ -60,6 +61,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         if (!formData.position || formData.position === "--Chọn chức vụ--") {
             newErrors.position = 'Chức vụ không được để trống';
         }
+        if (!formData.departmentName) newErrors.departmentName = 'Tên Phòng ban không được để trống';
         if (!formData.gender || formData.gender === "--Chọn giới tính--") {
             newErrors.gender = 'Giới tính không được để trống';
         }
@@ -102,6 +104,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     employeeId: '',
                     employeeName: '',
                     position: '',
+                    departmentName: '',
                     date: '',
                     gender: '',
                     email: '',
@@ -152,6 +155,14 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                 </select>
                 {errors.position && <div className="text-danger">{errors.position}</div>}
             </div>
+            <FormInput
+                label="Phòng ban"
+                type="text"
+                name="departmentName" // Đảm bảo name khớp với tên trong state
+                value={formData.departmentName}
+                onChange={handleChange}
+                error={errors.departmentName}
+            />
             <FormInput
                 label="Ngày sinh"
                 type="date"

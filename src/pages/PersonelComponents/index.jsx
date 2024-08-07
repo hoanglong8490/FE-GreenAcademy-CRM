@@ -12,6 +12,7 @@ import ConfirmationComponent from "../../components/ConfirmationComponents";
 import PersonnelTitleComponent from "./PersonnelTittleComponents";
 import { toast } from 'react-toastify';
 import { addPersonnel, deletePersonnel, fetchContracts, updatePersonnel } from "./PersonnelService/PersonnelSevice";
+import { Col, Container, Row } from "react-bootstrap";
 // Constants
 const itemsPerPage = 10;
 
@@ -27,7 +28,7 @@ const PersonnelComponents = () => {
     const [totalPage, setTotalPage] = useState(1);
 
     // Header labels for the personnel table
-    const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Ngày sinh', 'Giới tính', 'Email', 'Trạng thái', 'Action'];
+    const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Chức vụ', 'Email', 'Trạng thái', 'Action'];
 
     // Fetch personnels data on component mount
     useEffect(() => {
@@ -147,8 +148,7 @@ const PersonnelComponents = () => {
             personnel.id,
             personnel.employeeId,
             personnel.employeeName,
-            formatDate(personnel.date),
-            personnel.gender,
+            personnel.position,
             personnel.email,
             personnel.status ? 'Active' : 'Inactive',
         ],
@@ -175,14 +175,14 @@ const PersonnelComponents = () => {
     }));
 
     return (
-        <div className="personnel-list">
+        <Container fluid className="personnel-list">
             <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} />
-            <div className="row personnel-content">
-                <div className="col-4">
+            <Row className="personnel-content">
+                <Col xs={12} md={4}>
                     <h3>Thêm nhân viên</h3>
                     <PersonnelFormComponent onSubmit={handleAddPersonnel} personnels={personnels} />
-                </div>
-                <div className="col-8">
+                </Col>
+                <Col xs={12} md={8}>
                     <TableComponents headers={headerPersonnel}>
                         <TableBodyComponents rows={rows} />
                     </TableComponents>
@@ -191,8 +191,8 @@ const PersonnelComponents = () => {
                         currentPage={currentPage}
                         onPageChange={handlePageChange}
                     />
-                </div>
-            </div>
+                </Col>
+            </Row>
             <PersonnelViewComponent
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
@@ -211,7 +211,7 @@ const PersonnelComponents = () => {
                 onConfirm={handleDeleteConfirm}
                 message="Bạn có chắc chắn muốn xóa nhân viên này?"
             />
-        </div>
+        </Container>
     );
 };
 

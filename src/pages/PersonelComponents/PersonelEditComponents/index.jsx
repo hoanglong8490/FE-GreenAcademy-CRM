@@ -8,6 +8,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
         employeeId: '',
         employeeName: '',
         position: '',
+        departmentName: '',
         date: '',
         gender: '',
         email: '',
@@ -25,6 +26,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                 employeeId: personnel.employeeId || '',
                 employeeName: personnel.employeeName || '',
                 position: personnel.position || '',
+                departmentName: personnel.departmentName || '',
                 date: personnel.date || '',
                 gender: personnel.gender || '',
                 email: personnel.email || '',
@@ -121,6 +123,16 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                                 value={formData.position}
                                 onChange={handleChange}
                                 disabled
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Phòng ban</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="departmentName"
+                                value={formData.departmentName}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>

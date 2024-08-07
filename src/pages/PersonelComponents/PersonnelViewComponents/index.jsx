@@ -17,7 +17,7 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             <input
                                 type="text"
                                 className="form-control"
-                                value={personnel.employeeID}
+                                value={personnel.employeeId}
                                 readOnly
                             />
                         </div>
@@ -54,6 +54,15 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                                 type="text"
                                 className="form-control"
                                 value={personnel.position}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Phòng ban</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={personnel.departmentName}
                                 readOnly
                             />
                         </div>
@@ -107,15 +116,11 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                         <div className="form-group">
                             <label>Hình ảnh</label>
                             {personnel.image && Array.isArray(personnel.image) && personnel.image.length > 0 ? (
-                                <ul className="list-group mt-2">
+                                <div className="mt-2">
                                     {personnel.image.map((image, index) => (
-                                        <li key={index} className="list-group-item">
-                                            <a href={image.url} download={image.name}>
-                                                {image.name}
-                                            </a>
-                                        </li>
+                                        <img key={index} src={image.url} alt={image.name} className="img-thumbnail mb-2" style={{ width: '100px', height: '100px' }} />
                                     ))}
-                                </ul>
+                                </div>
                             ) : (
                                 <p>Chưa có hình ảnh</p>
                             )}
