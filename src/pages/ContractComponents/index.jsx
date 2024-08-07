@@ -36,6 +36,7 @@ const ContractComponents = () => {
     const loadContracts = async () => {
         try {
             const contractsData = await fetchContracts();
+            console.log(contractsData);
             setContracts(contractsData);
             setFilteredContracts(contractsData);
             setTotalPage(Math.ceil(contractsData.length / itemsPerPage));
@@ -54,6 +55,7 @@ const ContractComponents = () => {
 
     const handleAddContract = async (newContract) => {
         try {
+            console.log(newContract);
             const addedContract = await addContract(newContract);
             const updatedContracts = [...contracts, addedContract].sort((a, b) => b.status - a.status);
             setContracts(updatedContracts);
