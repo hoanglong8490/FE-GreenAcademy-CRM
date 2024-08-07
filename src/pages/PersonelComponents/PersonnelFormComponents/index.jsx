@@ -10,7 +10,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         gender: '',
         email: '',
         phoneNumber: '',
-        qualification: '',
+        qualificationName: '',
         CCCD: '',
         status: true,
         image: [], // Đảm bảo rằng image là một mảng
@@ -45,6 +45,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         } else if (personnels.some(personnel => personnel.employeeId === formData.employeeId)) {
             newErrors.employeeId = 'Mã nhân viên đã tồn tại';
         }
+
         if (!formData.employeeName) newErrors.employeeName = 'Tên nhân viên không được để trống';
 
         if (!formData.CCCD) {
@@ -56,7 +57,12 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         } else if (personnels.some(personnel => personnel.CCCD === formData.CCCD)) {
             newErrors.CCCD = 'CCCD đã tồn tại';
         }
-        if (!formData.position) newErrors.position = 'Chức vụ không được để trống';
+        if (!formData.position || formData.position === "--Chọn chức vụ--") {
+            newErrors.position = 'Chức vụ không được để trống';
+        }
+        if (!formData.gender || formData.gender === "--Chọn giới tính--") {
+            newErrors.gender = 'Giới tính không được để trống';
+        }
 
         if (!formData.phoneNumber) {
             newErrors.phoneNumber = 'Số điện thoại không được để trống';
@@ -65,13 +71,17 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         } else if (formData.phoneNumber.length !== 10) {
             newErrors.phoneNumber = 'Số điện thoại phải là 10 ký tự';
         }
-
+        if (!formData.qualificationName) {
+            newErrors.qualificationName = 'Bằng cấp không được để trống';
+        }
         if (!formData.email) {
             newErrors.email = 'Email không được để trống';
         } else if (!isValidEmail(formData.email)) {
             newErrors.email = 'Email không hợp lệ';
         }
-
+        if (!formData.date) {
+            newErrors.date = 'Ngày sinh không được để trống';
+        }
         return newErrors;
     };
 
@@ -96,6 +106,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     gender: '',
                     email: '',
                     phoneNumber: '',
+                    qualificationName: '',
                     CCCD: '',
                     status: true,
                     image: [], // Đảm bảo rằng image được đặt lại là một mảng rỗng
@@ -133,11 +144,13 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     onChange={handleChange}
                     className="form-control"
                 >
+                    <option value="">--Chọn chức vụ--</option>
                     <option value="Giám đốc">Giám đốc</option>
                     <option value="Trưởng phòng">Trưởng phòng</option>
                     <option value="Nhân viên chính thức">Nhân viên chính thức</option>
                     <option value="Nhân viên thử việc">Nhân viên thử việc</option>
                 </select>
+                {errors.position && <div className="text-danger">{errors.position}</div>}
             </div>
             <FormInput
                 label="Ngày sinh"
@@ -155,10 +168,11 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     onChange={handleChange}
                     className="form-control"
                 >
-                    <option value="">Chọn giới tính</option>
+                    <option value="">--Chọn giới tính--</option>
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
                 </select>
+                {errors.gender && <div className="text-danger">{errors.gender}</div>}
             </div>
             <FormInput
                 label="Email"
@@ -187,16 +201,16 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
             <FormInput
                 label="Bằng cấp"
                 type="text"
-                name="position"
-                value={formData.position}
+                name="qualificationName"
+                value={formData.qualificationName}
                 onChange={handleChange}
-                error={errors.position}
+                error={errors.qualificationName}
             />
             <div className="form-group">
                 <label>Image</label>
                 <input
                     type="file"
-                    name="image" // Đảm bảo name khớp với tên trong state
+                    name="image"
                     multiple
                     onChange={handleChange}
                     className="form-control"
