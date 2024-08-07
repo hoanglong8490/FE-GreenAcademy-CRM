@@ -105,7 +105,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                                 salary: parseFloat(value)
                             });
                         }}
-                        isNumericString
+                        // isNumericString
                     />
                 </div>
                 <div className="form-group">

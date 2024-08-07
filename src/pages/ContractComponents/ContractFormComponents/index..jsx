@@ -30,8 +30,8 @@ const ContractForm = ({onSubmit, contracts}) => {
     };
 
     const validate = () => {
+        console.log(formData);
         const newErrors = {};
-
         if (!formData.employeeId) {
             newErrors.employeeId = 'Mã nhân viên không được để trống';
         } else if (formData.employeeId.length !== 10) {
@@ -39,7 +39,6 @@ const ContractForm = ({onSubmit, contracts}) => {
         } else if (contracts.some(contract => contract.employeeId === formData.employeeId)) {
             newErrors.employeeId = 'Mã nhân viên đã tồn tại';
         }
-
         if (!formData.contractType) newErrors.contractType = 'Loại hợp đồng không được để trống';
 
         if (!formData.salary || isNaN(Number(formData.salary.replace(/\./g, ''))) || Number(formData.salary.replace(/\./g, '')) <= 0)
@@ -78,14 +77,18 @@ const ContractForm = ({onSubmit, contracts}) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <InputComponents
-                label="Mã nhân viên"
-                type="text"
-                name="employeeId"
-                value={formData.employeeId}
-                onChange={handleChange}
-                error={errors.employeeId}
-            />
+            <div className="form-group">
+                <label>Mã nhân viên</label>
+                <InputComponents
+                    type="text"
+                    name="employeeId"
+                    value={formData.employeeId}
+                    onChange={handleChange}
+                    error={errors.employeeId}
+                />
+                {errors.employeeId && <div className="text-danger">{errors.employeeId}</div>}
+            </div>
+
             <div className="form-group">
                 <label>Loại hợp đồng</label>
                 <select
@@ -121,22 +124,28 @@ const ContractForm = ({onSubmit, contracts}) => {
                 />
                 {errors.salary && <div className="text-danger">{errors.salary}</div>}
             </div>
-            <InputComponents
-                label="Ngày bắt đầu"
-                type="date"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-                error={errors.startDate}
-            />
-            <InputComponents
-                label="Ngày kết thúc"
-                type="date"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-                error={errors.endDate}
-            />
+            <div className="form-group">
+                <label>Ngày bắt đầu</label>
+                <InputComponents
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                    error={errors.startDate}
+                />
+                {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
+            </div>
+            <div className="form-group">
+                <label>Ngày kết thúc</label>
+                <InputComponents
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                    error={errors.endDate}
+                />
+                {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
+            </div>
             <div className="form-group">
                 <label>Hồ sơ hợp đồng</label>
                 <InputComponents
