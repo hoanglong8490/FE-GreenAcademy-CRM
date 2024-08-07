@@ -13,7 +13,8 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         startDate: '',
         endDate: '',
         status: true,
-        files: []
+        files: [],
+        update_at: ''
     });
 
     useEffect(() => {
@@ -25,7 +26,8 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 startDate: contract.startDate || '',
                 endDate: contract.endDate || '',
                 status: contract.status || false,
-                files: contract.files || []
+                files: contract.files || [],
+                updated_at: contract.updated_at || ''
             });
         }
     }, [contract]);
@@ -53,7 +55,8 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     const handleSave = () => {
         const updatedContract = {
             ...formData,
-            id: contract.id
+            id: contract.id,
+            updated_at: new Date().toISOString()
         };
         console.log('Hợp đồng đã cập nhật:', updatedContract);
         onSave(updatedContract);
