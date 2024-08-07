@@ -4,11 +4,13 @@ import EditDecision from '../EditDecision';
 import DetailDecision from '../DetailDecision';
 import ConfirmDeleteModal from '../deleteDecision';
 import axios from 'axios';
+import './style.scss';
+import { deleteDecision } from '../service/decision';
 
 
 const ListDecision = ({ rows }) => {
-    const [currentDecision, setCurrentDecision] = useState(null);
-    const [detailDecision, setDetailDecision] = useState(null);
+    const [currentDecision, setCurrentDecision] = useState([]);
+    const [detailDecision, setDetailDecision] = useState([]);
     const [data, setData] = useState([]);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
@@ -32,7 +34,7 @@ const ListDecision = ({ rows }) => {
     };
 
     const confirmDelete = () => {
-        axios.delete(`/api/decisions/${deleteId}`)
+        deleteDecision(deleteId)
             .then(response => {
                 setData(data.filter(item => item.id !== deleteId));
                 console.log('Deleted successfully');
@@ -57,8 +59,6 @@ const ListDecision = ({ rows }) => {
     };
 
 
-
-
     return (
         <>
             {rows.map((item) => (
@@ -70,7 +70,7 @@ const ListDecision = ({ rows }) => {
                     <td>{item.date}</td>
                     <td>{item.hinhthuc}</td>
                     <td>{item.status}</td>
-                    <td>
+                    <td className='action'>
                         <button
                             className='btn btn-primary'
                             onClick={() => handleEditClick(item)}
@@ -79,7 +79,7 @@ const ListDecision = ({ rows }) => {
                         </button>
                         <button
                             style={{ margin: '0 10px' }}
-                            className="btn btn-warning"
+                            className="btn btn-warning eye"
                             onClick={() => handleDetailClick(item)}
                         >
                             <i className="fa-solid fa-eye"></i>
@@ -103,15 +103,16 @@ const ListDecision = ({ rows }) => {
                             <button type="button" className="btn-close" onClick={handleCloseEditModal} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {currentDecision ? <EditDecision decision={currentDecision} /> : <p>Loading...</p>}
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={handleCloseEditModal}>Đóng</button>
-                            <button type="button" className="btn btn-primary">Lưu thay đổi</button>
-                        </div>
+                            {currentDecision ? (
+                                <EditDecision decision={currentDecision} onSubmitSuccess={handleCloseEditModal} />
+                            ) : (
+                                <p>Loading...</p>
+                            )}
+                        </div> 
                     </div>
                 </div>
             </div>
+
 
             {/* Detail Modal */}
             <div className={`modal fade ${showDetailModal ? 'show' : ''}`} style={{ display: showDetailModal ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="detailEmployeeModalLabel" aria-hidden={!showDetailModal}>
@@ -136,7 +137,7 @@ const ListDecision = ({ rows }) => {
                 show={showConfirmModal}
                 onClose={handleCloseConfirmModal}
                 onConfirm={confirmDelete}
-            />
+            />  
 
 
         </>
