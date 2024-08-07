@@ -55,8 +55,12 @@ const ContractComponents = () => {
 
     const handleAddContract = async (newContract) => {
         try {
-            console.log(newContract);
-            const addedContract = await addContract(newContract);
+            const contractWithDefaultStatus = {
+                ...newContract,
+                status: newContract.status || true,
+            };
+            console.log(contractWithDefaultStatus);
+            const addedContract = await addContract(contractWithDefaultStatus);
             const updatedContracts = [...contracts, addedContract].sort((a, b) => b.status - a.status);
             setContracts(updatedContracts);
             setFilteredContracts(updatedContracts);
@@ -170,7 +174,7 @@ const ContractComponents = () => {
 
     return (
         <Container fluid className="Contract-list">
-            <ContractTitleComponents onSearch={handleSearch} contracts={contracts}/>
+            <ContractTitleComponents onSearch={handleSearch} contracts={contracts} onAddContract={handleAddContract}/>
             <Row className="contract-content">
                 <Col xs={12} md={4}>
                     <h3>Thêm hợp đồng</h3>
