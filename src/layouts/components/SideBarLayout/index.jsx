@@ -11,7 +11,7 @@ const SideBarLayout = () => {
                 <span className="brand-text font-weight-light">LSD Admin</span>
             </a>
 
-    
+
             <div className="sidebar">
 
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">

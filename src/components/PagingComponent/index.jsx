@@ -13,7 +13,7 @@ function PagingComponent({totalPage, currentPage, onPageChange}) {
                 disabled={currentPage === 1}
             />
 
-            {[...Array(totalPage).keys()].map(number => {
+            {[...Array(totalPage).keys()].map((number) => {
                 const pageNumber = number + 1;
                 return (
                     <Pagination.Item
