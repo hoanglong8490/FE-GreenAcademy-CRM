@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< HEAD
     "id": "2",
     "employeeId": "EMP002",
     "contractType": "Part-time",
@@ -253,10 +254,20 @@
     "salary": 550000000,
     "startDate": "2024-05-15",
     "endDate": "2024-12-15",
+=======
+    "employeeId": "B18DCCN112",
+    "contractType": "fulltime",
+    "salary": "15000000",
+    "startDate": "2024-08-10",
+    "endDate": "2025-02-10",
+    "status": true,
+    "id": "30",
+>>>>>>> origin/crm-hr
     "files": [
       {
         "name": "file31.pdf",
         "url": "http://example.com/file31.pdf"
+<<<<<<< HEAD
       },
       {
         "name": "file32.docx",
@@ -272,10 +283,43 @@
     "salary": 160000000,
     "startDate": "2024-07-15",
     "endDate": "2024-12-15",
+=======
+      }
+    ],
+    "created_at": "2024-08-07T07:00",
+    "updated_at": "2024-08-07T07:00"
+  },
+  {
+    "employeeId": "B18DCCN113",
+    "contractType": "parttime",
+    "salary": "12000000",
+    "startDate": "2024-08-15",
+    "endDate": "2024-12-15",
+    "status": false,
+    "id": "31",
+    "files": [
+      {
+        "name": "file32.pdf",
+        "url": "http://example.com/file32.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T07:15",
+    "updated_at": "2024-08-07T07:15"
+  },
+  {
+    "employeeId": "B18DCCN114",
+    "contractType": "fulltime",
+    "salary": "20000000",
+    "startDate": "2024-09-01",
+    "endDate": "2025-03-01",
+    "status": true,
+    "id": "32",
+>>>>>>> origin/crm-hr
     "files": [
       {
         "name": "file33.pdf",
         "url": "http://example.com/file33.pdf"
+<<<<<<< HEAD
       },
       {
         "name": "file34.docx",
@@ -310,10 +354,64 @@
     "salary": 750000000,
     "startDate": "2024-09-01",
     "endDate": "2024-12-31",
+=======
+      }
+    ],
+    "created_at": "2024-08-07T07:30",
+    "updated_at": "2024-08-07T07:30"
+  },
+  {
+    "employeeId": "B18DCCN115",
+    "contractType": "intern",
+    "salary": "5000000",
+    "startDate": "2024-08-20",
+    "endDate": "2024-12-20",
+    "status": true,
+    "id": "33",
+    "files": [
+      {
+        "name": "file34.pdf",
+        "url": "http://example.com/file34.pdf"
+      },
+      {
+        "name": "file35.docx",
+        "url": "http://example.com/file35.docx"
+      }
+    ],
+    "created_at": "2024-08-07T07:45",
+    "updated_at": "2024-08-07T07:45"
+  },
+  {
+    "employeeId": "B18DCCN116",
+    "contractType": "parttime",
+    "salary": "7000000",
+    "startDate": "2024-08-25",
+    "endDate": "2024-11-25",
+    "status": false,
+    "id": "34",
+    "files": [
+      {
+        "name": "file36.pdf",
+        "url": "http://example.com/file36.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T08:00",
+    "updated_at": "2024-08-07T08:00"
+  },
+  {
+    "employeeId": "B18DCCN117",
+    "contractType": "fulltime",
+    "salary": "25000000",
+    "startDate": "2024-09-01",
+    "endDate": "2025-09-01",
+    "status": true,
+    "id": "35",
+>>>>>>> origin/crm-hr
     "files": [
       {
         "name": "file37.pdf",
         "url": "http://example.com/file37.pdf"
+<<<<<<< HEAD
       },
       {
         "name": "file38.docx",
@@ -329,10 +427,43 @@
     "salary": 110000000,
     "startDate": "2024-10-01",
     "endDate": "2024-12-31",
+=======
+      }
+    ],
+    "created_at": "2024-08-07T08:15",
+    "updated_at": "2024-08-07T08:15"
+  },
+  {
+    "employeeId": "B18DCCN118",
+    "contractType": "parttime",
+    "salary": "9000000",
+    "startDate": "2024-09-05",
+    "endDate": "2025-03-05",
+    "status": true,
+    "id": "36",
+    "files": [
+      {
+        "name": "file38.pdf",
+        "url": "http://example.com/file38.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T08:30",
+    "updated_at": "2024-08-07T08:30"
+  },
+  {
+    "employeeId": "B18DCCN119",
+    "contractType": "intern",
+    "salary": "6000000",
+    "startDate": "2024-09-10",
+    "endDate": "2024-12-10",
+    "status": false,
+    "id": "37",
+>>>>>>> origin/crm-hr
     "files": [
       {
         "name": "file39.pdf",
         "url": "http://example.com/file39.pdf"
+<<<<<<< HEAD
       },
       {
         "name": "file40.docx",
@@ -342,3 +473,219 @@
     "status": true
   }
 ]
+=======
+      }
+    ],
+    "created_at": "2024-08-07T08:45",
+    "updated_at": "2024-08-07T08:45"
+  },
+  {
+    "employeeId": "B18DCCN120",
+    "contractType": "fulltime",
+    "salary": "18000000",
+    "startDate": "2024-09-15",
+    "endDate": "2025-03-15",
+    "status": true,
+    "id": "38",
+    "files": [
+      {
+        "name": "file40.pdf",
+        "url": "http://example.com/file40.pdf"
+      },
+      {
+        "name": "file41.docx",
+        "url": "http://example.com/file41.docx"
+      }
+    ],
+    "created_at": "2024-08-07T09:00",
+    "updated_at": "2024-08-07T09:00"
+  },
+  {
+    "employeeId": "B18DCCN121",
+    "contractType": "parttime",
+    "salary": "8000000",
+    "startDate": "2024-09-20",
+    "endDate": "2024-12-20",
+    "status": true,
+    "id": "39",
+    "files": [
+      {
+        "name": "file42.pdf",
+        "url": "http://example.com/file42.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T09:15",
+    "updated_at": "2024-08-07T09:15"
+  },
+  {
+    "employeeId": "B18DCCN122",
+    "contractType": "intern",
+    "salary": "5500000",
+    "startDate": "2024-10-01",
+    "endDate": "2025-01-01",
+    "status": true,
+    "id": "40",
+    "files": [
+      {
+        "name": "file43.pdf",
+        "url": "http://example.com/file43.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T09:30",
+    "updated_at": "2024-08-07T09:30"
+  },
+  {
+    "employeeId": "B18DCCN123",
+    "contractType": "fulltime",
+    "salary": "22000000",
+    "startDate": "2024-10-05",
+    "endDate": "2025-04-05",
+    "status": false,
+    "id": "41",
+    "files": [
+      {
+        "name": "file44.pdf",
+        "url": "http://example.com/file44.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T09:45",
+    "updated_at": "2024-08-07T09:45"
+  },
+  {
+    "employeeId": "B18DCCN124",
+    "contractType": "parttime",
+    "salary": "9500000",
+    "startDate": "2024-10-10",
+    "endDate": "2025-03-10",
+    "status": true,
+    "id": "42",
+    "files": [
+      {
+        "name": "file45.pdf",
+        "url": "http://example.com/file45.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T10:00",
+    "updated_at": "2024-08-07T10:00"
+  },
+  {
+    "employeeId": "B18DCCN125",
+    "contractType": "intern",
+    "salary": "4000000",
+    "startDate": "2024-10-15",
+    "endDate": "2025-02-15",
+    "status": false,
+    "id": "43",
+    "files": [
+      {
+        "name": "file46.pdf",
+        "url": "http://example.com/file46.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T10:15",
+    "updated_at": "2024-08-07T10:15"
+  },
+  {
+    "employeeId": "B18DCCN126",
+    "contractType": "fulltime",
+    "salary": "30000000",
+    "startDate": "2024-10-20",
+    "endDate": "2025-10-20",
+    "status": true,
+    "id": "44",
+    "files": [
+      {
+        "name": "file47.pdf",
+        "url": "http://example.com/file47.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T10:30",
+    "updated_at": "2024-08-07T10:30"
+  },
+  {
+    "employeeId": "B18DCCN127",
+    "contractType": "parttime",
+    "salary": "11000000",
+    "startDate": "2024-11-01",
+    "endDate": "2025-04-01",
+    "status": false,
+    "id": "45",
+    "files": [
+      {
+        "name": "file48.pdf",
+        "url": "http://example.com/file48.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T10:45",
+    "updated_at": "2024-08-07T10:45"
+  },
+  {
+    "employeeId": "B18DCCN128",
+    "contractType": "intern",
+    "salary": "3000000",
+    "startDate": "2024-11-05",
+    "endDate": "2025-04-05",
+    "status": true,
+    "id": "46",
+    "files": [
+      {
+        "name": "file49.pdf",
+        "url": "http://example.com/file49.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T11:00",
+    "updated_at": "2024-08-07T11:00"
+  },
+  {
+    "employeeId": "B18DCCN129",
+    "contractType": "fulltime",
+    "salary": "26000000",
+    "startDate": "2024-11-10",
+    "endDate": "2025-05-10",
+    "status": true,
+    "id": "47",
+    "files": [
+      {
+        "name": "file50.pdf",
+        "url": "http://example.com/file50.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T11:15",
+    "updated_at": "2024-08-07T11:15"
+  },
+  {
+    "employeeId": "B18DCCN130",
+    "contractType": "parttime",
+    "salary": "10000000",
+    "startDate": "2024-11-15",
+    "endDate": "2025-05-15",
+    "status": true,
+    "id": "48",
+    "files": [
+      {
+        "name": "file51.pdf",
+        "url": "http://example.com/file51.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T11:30",
+    "updated_at": "2024-08-07T11:30"
+  },
+  {
+    "employeeId": "B18DCCN131",
+    "contractType": "intern",
+    "salary": "3500000",
+    "startDate": "2024-11-20",
+    "endDate": "2025-06-20",
+    "status": false,
+    "id": "49",
+    "files": [
+      {
+        "name": "file52.pdf",
+        "url": "http://example.com/file52.pdf"
+      }
+    ],
+    "created_at": "2024-08-07T11:45",
+    "updated_at": "2024-08-07T11:45"
+  }
+]
+>>>>>>> origin/crm-hr

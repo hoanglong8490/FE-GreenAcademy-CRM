@@ -1,37 +1,54 @@
-import React, {useState} from 'react';
-import FormInput from "../../../components/FormInputComponents";
-import {NumericFormat} from 'react-number-format';
+import React, { useEffect, useState } from 'react';
+import { NumericFormat } from 'react-number-format';
+import InputComponents from "../../../components/InputComponents";
 
-const ContractForm = ({onSubmit, contracts}) => {
+// Component để thêm hợp đồng mới
+const ContractForm = ({ onSubmit, contracts }) => {
     const [formData, setFormData] = useState({
         employeeId: '',
         contractType: '',
         salary: '',
         startDate: '',
         endDate: '',
-        files: []
+        files: [],
+        created_at: '',
+        updated_at: ''
     });
 
     const [errors, setErrors] = useState({});
 
+    // useEffect để thiết lập thời gian hiện tại khi form được tải
+    useEffect(() => {
+        const now = new Date().toISOString().slice(0, 16);
+        setFormData(prevState => ({
+            ...prevState,
+            created_at: now,
+            updated_at: now
+        }));
+    }, []);
+
+    // Hàm xử lý thay đổi dữ liệu form
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
+        const now = new Date().toISOString().slice(0, 16);
         if (files) {
             setFormData({
                 ...formData,
-                [name]: Array.from(files)
+                [name]: Array.from(files),
+                updated_at: now
             });
         } else {
             setFormData({
                 ...formData,
-                [name]: value
+                [name]: value,
+                updated_at: now
             });
         }
     };
 
+    // Hàm kiểm tra dữ liệu form
     const validate = () => {
         const newErrors = {};
-
         if (!formData.employeeId) {
             newErrors.employeeId = 'Mã nhân viên không được để trống';
         } else if (formData.employeeId.length !== 10) {
@@ -54,6 +71,7 @@ const ContractForm = ({onSubmit, contracts}) => {
         return newErrors;
     };
 
+    // Hàm xử lý khi form được submit
     const handleSubmit = (e) => {
         e.preventDefault();
         const validationErrors = validate();
@@ -64,13 +82,16 @@ const ContractForm = ({onSubmit, contracts}) => {
                 ...formData,
                 status: true
             });
+            const now = new Date().toISOString().slice(0, 16);
             setFormData({
                 employeeId: '',
                 contractType: '',
                 salary: '',
                 startDate: '',
                 endDate: '',
-                files: []
+                files: [],
+                created_at: now,
+                updated_at: now
             });
             setErrors({});
         }
@@ -78,14 +99,18 @@ const ContractForm = ({onSubmit, contracts}) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <FormInput
-                label="Mã nhân viên"
-                type="text"
-                name="employeeId"
-                value={formData.employeeId}
-                onChange={handleChange}
-                error={errors.employeeId}
-            />
+            <div className="form-group">
+                <label>Mã nhân viên</label>
+                <InputComponents
+                    type="text"
+                    name="employeeId"
+                    value={formData.employeeId}
+                    onChange={handleChange}
+                    disabled={false}
+                />
+                {errors.employeeId && <div className="text-danger">{errors.employeeId}</div>}
+            </div>
+
             <div className="form-group">
                 <label>Loại hợp đồng</label>
                 <select
@@ -112,39 +137,44 @@ const ContractForm = ({onSubmit, contracts}) => {
                     thousandSeparator="."
                     decimalSeparator=","
                     onValueChange={(values) => {
-                        const {value} = values;
+                        const { value } = values;
                         setFormData({
                             ...formData,
-                            salary: value
+                            salary: value,
+                            updated_at: new Date().toISOString().slice(0, 16)
                         });
                     }}
                 />
                 {errors.salary && <div className="text-danger">{errors.salary}</div>}
             </div>
-            <FormInput
-                label="Ngày bắt đầu"
-                type="date"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-                error={errors.startDate}
-            />
-            <FormInput
-                label="Ngày kết thúc"
-                type="date"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-                error={errors.endDate}
-            />
+            <div className="form-group">
+                <label>Ngày bắt đầu</label>
+                <InputComponents
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                />
+                {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
+            </div>
+            <div className="form-group">
+                <label>Ngày kết thúc</label>
+                <InputComponents
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                />
+                {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
+            </div>
             <div className="form-group">
                 <label>Hồ sơ hợp đồng</label>
-                <input
+                <InputComponents
                     type="file"
                     name="files"
-                    multiple
                     onChange={handleChange}
                     className="form-control"
+                    multiple
                     accept=".doc,.docx,.xls,.xlsx,.pdf"
                 />
                 {formData.files.length > 0 && (

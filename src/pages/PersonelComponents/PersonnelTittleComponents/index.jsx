@@ -2,15 +2,16 @@ import React from 'react';
 import '../Personnel.scss';
 import { CSVLink } from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
+import ButtonComponents from "../../../components/ButtonComponents"; // Import ButtonComponents
 
-const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm bảo personnels là một mảng mặc định
+const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Default personnels to an empty array
     const handleSearch = (searchTerm) => {
         const searchValue = searchTerm.toLowerCase();
 
         const filteredpersonnels = personnels.filter(personnel => {
             const employeeId = personnel.employeeId ? personnel.employeeId.toLowerCase() : '';
             const employeeName = personnel.employeeName ? personnel.employeeName.toLowerCase() : '';
-            const position = personnel.position ? personnel.position.toString().toLowerCase() : '';
+            const positionName = personnel.positionName ? personnel.positionName.toString().toLowerCase() : '';
             const email = personnel.email ? personnel.email.toLowerCase() : '';
             const phoneNumber = personnel.phoneNumber ? personnel.phoneNumber.toLowerCase() : '';
             const status = personnel.status ? (personnel.status ? 'active' : 'inactive') : '';
@@ -18,7 +19,7 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
             return (
                 employeeId.includes(searchValue) ||
                 employeeName.includes(searchValue) ||
-                position.includes(searchValue) ||
+                positionName.includes(searchValue) ||
                 email.includes(searchValue) ||
                 phoneNumber.includes(searchValue) ||
                 status.includes(searchValue) ||
@@ -33,13 +34,13 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
         document.getElementById('import').click();
     };
 
-    console.log(personnels); // Thêm dòng này để kiểm tra cấu trúc của mảng personnels
+    console.log(personnels); // Debugging: Log the personnels array to check its structure
 
-    // Kiểm tra và định dạng lại dữ liệu nếu cần thiết
+    // Format the data for CSV export
     const formattedPersonnels = Array.isArray(personnels) ? personnels.map(personnel => ({
         employeeId: personnel.employeeId,
         employeeName: personnel.employeeName,
-        position: personnel.position,
+        positionName: personnel.positionName,
         email: personnel.email,
         phoneNumber: personnel.phoneNumber,
         status: personnel.status ? 'active' : 'inactive',
@@ -53,12 +54,12 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
             </div>
             <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
                 <SearchComponents onSearch={handleSearch} />
-                <button
+                <ButtonComponents
                     className='btn btn-danger d-flex align-items-center'
                     onClick={handleImportClick}
                 >
                     <i className="fa fa-upload"></i>&nbsp;Import
-                </button>
+                </ButtonComponents>
                 <input id='import' type='file' hidden />
 
                 <CSVLink

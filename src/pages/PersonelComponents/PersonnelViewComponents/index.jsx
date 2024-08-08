@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
+import InputComponents from "../../../components/InputComponents";
 
-const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
+const PersonnelViewComponents = ({show, handleClose, personnel}) => {
     if (!personnel) return null;
 
     return (
@@ -17,7 +18,7 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             <input
                                 type="text"
                                 className="form-control"
-                                value={personnel.employeeID}
+                                value={personnel.employeeId}
                                 readOnly
                             />
                         </div>
@@ -49,11 +50,38 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+                            <label>Địa chỉ</label>
+                            <input
+                                type="address"
+                                className="form-control"
+                                value={personnel.address}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
                             <label>Chức vụ</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                value={personnel.position}
+                                value={personnel.positionName}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Phòng ban</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={personnel.departmentName}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Hợp đồng</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={personnel.contractName}
                                 readOnly
                             />
                         </div>
@@ -96,6 +124,28 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+                            <label>Ngày bắt đầu</label>
+                            <InputComponents
+                                type="text"
+                                name="startDate"
+                                value={personnel.startDate}
+                                onChange={() => {
+                                }}
+                                disabled
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày kết thúc</label>
+                            <InputComponents
+                                type="text"
+                                name="endDate"
+                                value={personnel.endDate}
+                                onChange={() => {
+                                }}
+                                disabled
+                            />
+                        </div>
+                        <div className="form-group">
                             <label>Trạng thái</label>
                             <input
                                 type="text"
@@ -107,15 +157,12 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                         <div className="form-group">
                             <label>Hình ảnh</label>
                             {personnel.image && Array.isArray(personnel.image) && personnel.image.length > 0 ? (
-                                <ul className="list-group mt-2">
+                                <div className="mt-2">
                                     {personnel.image.map((image, index) => (
-                                        <li key={index} className="list-group-item">
-                                            <a href={image.url} download={image.name}>
-                                                {image.name}
-                                            </a>
-                                        </li>
+                                        <img key={index} src={image.url} alt={image.name} className="img-thumbnail mb-2"
+                                             style={{width: '100px', height: '100px'}}/>
                                     ))}
-                                </ul>
+                                </div>
                             ) : (
                                 <p>Chưa có hình ảnh</p>
                             )}

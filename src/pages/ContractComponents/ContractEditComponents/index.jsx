@@ -1,9 +1,11 @@
-// src/components/EditContractModal.js
 import React, {useEffect, useState} from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
-
+import InputComponents from "../../../components/InputComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
+// Component để chỉnh sửa hợp đồng
 const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
+    // Khởi tạo state cho dữ liệu form
     const [formData, setFormData] = useState({
         employeeId: '',
         contractType: '',
@@ -11,9 +13,11 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         startDate: '',
         endDate: '',
         status: true,
-        files: []
+        files: [],
+        updated_at: ''
     });
 
+    // useEffect để cập nhật dữ liệu form khi contract thay đổi
     useEffect(() => {
         if (contract) {
             setFormData({
@@ -23,23 +27,24 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 startDate: contract.startDate || '',
                 endDate: contract.endDate || '',
                 status: contract.status || false,
-                files: contract.files || []
+                files: contract.files || [],
+                updated_at: contract.updated_at || ''
             });
         }
     }, [contract]);
 
+    // Hàm xử lý thay đổi dữ liệu form
     const handleChange = (e) => {
-        const {name, value, files, type, checked} = e.target;
+        const {name, value, files, type} = e.target;
         if (type === 'file') {
             setFormData({
                 ...formData,
-                [name]: Array.from(files)
+                [name]: Array.from(files) // Chuyển danh sách file thành mảng
             });
         } else if (name === 'status') {
-            // Chuyển đổi giá trị chuỗi thành boolean
             setFormData({
                 ...formData,
-                [name]: value === 'true'
+                [name]: value === 'true' // Chuyển đổi chuỗi thành boolean
             });
         } else {
             setFormData({
@@ -49,30 +54,32 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         }
     };
 
+    // Hàm xử lý khi nhấn nút lưu
     const handleSave = () => {
         const updatedContract = {
             ...formData,
-            id: contract.id
+            id: contract.id,
+            updated_at: new Date().toISOString() // Cập nhật thời gian
         };
-        console.log('Hợp đồng đã cập nhật:', updatedContract); // Kiểm tra dữ liệu đã cập nhật
+        console.log('Hợp đồng đã cập nhật:', updatedContract);
         onSave(updatedContract);
         handleClose();
     };
 
     return (
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal show={show} onHide={handleClose} size="lg" dialogClassName="custom-modal">
             <Modal.Header closeButton>
                 <Modal.Title>Chỉnh sửa hợp đồng</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="form-group">
                     <label>Mã nhân viên</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
                         name="employeeId"
                         value={formData.employeeId}
                         onChange={handleChange}
+                        placeholder=""
                         disabled
                     />
                 </div>
@@ -101,7 +108,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                             const {value} = values;
                             setFormData({
                                 ...formData,
-                                salary: parseFloat(value) // Chuyển đổi thành số nếu cần
+                                salary: parseFloat(value)
                             });
                         }}
                         isNumericString
@@ -109,29 +116,29 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
                 <div className="form-group">
                     <label>Ngày bắt đầu</label>
-                    <input
+                    <InputComponents
                         type="date"
                         name="startDate"
-                        className="form-control"
                         value={formData.startDate}
                         onChange={handleChange}
+                        placeholder=""
                     />
                 </div>
                 <div className="form-group">
                     <label>Ngày kết thúc</label>
-                    <input
+                    <InputComponents
                         type="date"
                         name="endDate"
-                        className="form-control"
                         value={formData.endDate}
                         onChange={handleChange}
+                        placeholder=""
                     />
                 </div>
                 <div className="form-group">
                     <label>Trạng thái</label>
                     <select
                         name="status"
-                        value={formData.status.toString()} // Chuyển boolean thành chuỗi cho select
+                        value={formData.status.toString()}
                         onChange={handleChange}
                         className="form-control"
                     >
@@ -141,12 +148,12 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
                 <div className="form-group">
                     <label>Hồ sơ hợp đồng</label>
-                    <input
+                    <InputComponents
                         type="file"
                         name="files"
-                        multiple
                         onChange={handleChange}
                         className="form-control"
+                        multiple
                         accept=".doc,.docx,.xls,.xlsx,.pdf"
                     />
                     {formData.files.length > 0 && (
@@ -161,16 +168,15 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <ButtonComponents className="custom-button" variant="secondary" onClick={handleClose}>
                     Đóng
-                </Button>
-                <Button variant="primary" onClick={handleSave}>
+                </ButtonComponents>
+                <ButtonComponents className="custom-button" variant="primary" onClick={handleSave}>
                     Lưu thay đổi
-                </Button>
+                </ButtonComponents>
             </Modal.Footer>
         </Modal>
     );
 };
-
 
 export default ContractEditComponents;
