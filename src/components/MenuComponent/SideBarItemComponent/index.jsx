@@ -1,51 +1,41 @@
+import {useEffect, useState} from "react";
 import {NavLink, useMatch, useResolvedPath} from "react-router-dom";
-import {useState} from "react";
 
 const SideBarItemComponent = (props) => {
     const {to, name, icon, child = []} = props.item;
+    const [isOpen, setIsOpen] = useState(false);
     const resolved = useResolvedPath(to);
     const isActive = useMatch({path: resolved.pathname, end: true});
+  
+    useEffect(() => {
+        setIsOpen(isActive);
+    }, []);
 
-    // State để quản lý menu con
-    const [isOpen, setIsOpen] = useState(false);
-
-    // Hàm để toggle trạng thái mở/đóng của menu con
-    const handleToggle = (e) => {
-        e.preventDefault(); // Ngăn chặn hành động mặc định của NavLink
-        setIsOpen(prevState => !prevState); // Đổi trạng thái mở/đóng
+    const handleToggle = (event) => {
+        setIsOpen((prevIsOpen) => !prevIsOpen);
     };
 
     return (
-        <li className="nav-item">
-            {child.length > 0 ? (
-                <>
-                    <a
-                        to={to}
-                        className={`nav-link ${isActive ? "active" : ""}`}
-                        onClick={handleToggle} // Toggle khi nhấp vào
-                    >
-                        <i className={icon}></i>
-                        <p>
-                            {name}
-                            <i className={`fas ${isOpen ? "fa-angle-down" : "fa-angle-left"} right`}></i>
-                        </p>
-                    </a>
-                    {isOpen && (
-                        <ul className="nav nav-treeview">
-                            {child.map((item, index) => (
-                                <SideBarItemComponent item={item} key={index}/>
-                            ))}
-                        </ul>
+        <li className={`nav-item ${child.length > 0 ? "menu-open" : ""}`}>
+            <NavLink
+                to={to}
+                className={isActive ? "nav-link active" : "nav-link"}
+                onClick={handleToggle}
+            >
+                <i className={icon}></i>
+                <p>
+                    {name}
+                    {child.length > 0 && (
+                        <i className={`fas fa-angle-${isOpen ? "down" : "left"} right`}></i>
                     )}
-                </>
-            ) : (
-                <NavLink
-                    to={to}
-                    className={`nav-link ${isActive ? "active" : ""}`}
-                >
-                    <i className={icon}></i>
-                    <p>{name}</p>
-                </NavLink>
+                </p>
+            </NavLink>
+            {child.length > 0 && (
+                <ul className={`nav nav-treeview ${isOpen ? "d-block" : "d-none"}`}>
+                    {child.map((item, i) => (
+                        <SideBarItemComponent item={item} key={i}/>
+                    ))}
+                </ul>
             )}
         </li>
     );

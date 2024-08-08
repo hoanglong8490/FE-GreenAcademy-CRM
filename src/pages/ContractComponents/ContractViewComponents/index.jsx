@@ -1,7 +1,20 @@
-// src/components/ViewContractModal.js
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
+import InputComponents from "../../../components/InputComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
+
+const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes}:${seconds} / ${day}-${month}-${year}`;
+};
 
 const ContractViewComponents = ({show, handleClose, contract}) => {
     if (!contract) return null;
@@ -14,20 +27,22 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
             <Modal.Body>
                 <div className="form-group">
                     <label>Mã nhân viên</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="employeeId"
                         value={contract.employeeId}
-                        readOnly
+                        onChange={() => {}}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
                     <label>Loại hợp đồng</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="contractType"
                         value={contract.contractType}
-                        readOnly
+                        onChange={() => {}}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -39,25 +54,57 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         decimalSeparator=","
                         prefix=""
                         className="form-control"
-                        readOnly
+                        disabled
                     />
                 </div>
                 <div className="form-group">
                     <label>Ngày bắt đầu</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="startDate"
                         value={contract.startDate}
-                        readOnly
+                        onChange={() => {}}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
                     <label>Ngày kết thúc</label>
-                    <input
+                    <InputComponents
                         type="text"
-                        className="form-control"
+                        name="endDate"
                         value={contract.endDate}
-                        readOnly
+                        onChange={() => {}}
+                        disabled
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Ngày tạo</label>
+                    <InputComponents
+                        type="text"
+                        name="created_at"
+                        value={formatDateTime(contract.created_at)}
+                        onChange={() => {}}
+                        disabled
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Ngày cập nhật</label>
+                    <InputComponents
+                        type="text"
+                        name="updated_at"
+                        value={formatDateTime(contract.updated_at)}
+                        onChange={() => {}}
+                        disabled
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Trạng thái</label>
+                    <InputComponents
+                        type="text"
+                        name="status"
+                        value={contract.status ? 'Active' : 'Inactive'}
+                        onChange={() => {}}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -78,9 +125,9 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <ButtonComponents variant="secondary" onClick={handleClose}>
                     Đóng
-                </Button>
+                </ButtonComponents>
             </Modal.Footer>
         </Modal>
     );

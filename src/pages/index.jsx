@@ -17,22 +17,22 @@ import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 
 export {
-    BookComponent,
-    CourseComponent,
-    ScheduleComponent3,
-    SubjectComponent,
-    LoginComponent,
-    UserComponent,
-    SubjectComponentLayout2,
-    ReservationComponent,
-    DecisionComponent,
-    DepartmentComponent,
-    QualificationComponents,
-    ContractComponents,
-    PersonelComponents,
-    LiabilityComponents,
-    ClassComponent,
-    ExamComponent,
-    TrainningProgramComponent
+  BookComponent,
+  CourseComponent,
+  ScheduleComponent3,
+  SubjectComponent,
+  LoginComponent,
+  UserComponent,
+  SubjectComponentLayout2,
+  ReservationComponent,
+  DecisionComponent,
+  DepartmentComponent,
+  QualificationComponents,
+  ContractComponents,
+  PersonelComponents,
+  LiabilityComponents,
+  ClassComponent,
+  ExamComponent,
+  TrainningProgramComponent
 };
 
