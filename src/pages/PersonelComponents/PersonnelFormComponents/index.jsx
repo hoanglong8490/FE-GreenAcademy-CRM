@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FormInput from "../../../components/FormInputComponents";
+<<<<<<< HEAD
 
 const PersonnelForm = ({ onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,33 @@ const PersonnelForm = ({ onSubmit }) => {
         CCCD: '',
         status: true,
         image: [], // Đảm bảo rằng image là một mảng
+=======
+import InputComponents from "../../../components/InputComponents";
+const PersonnelForm = ({ onSubmit, personnels }) => {
+    const [formData, setFormData] = useState({
+        id: '',
+        positionId: '',
+        allowanceId: '',
+        qualificationId: '',
+        contractId: '',
+        employeeId: '',
+        employeeName: '',
+        positionName: '',
+        contractName: '',
+        date: '',
+        address: '',
+        gender: '',
+        email: '',
+        phoneNumber: '',
+        departmentName: '',
+        qualificationName: '',
+        CCCD: '',
+        status: true,
+        image: [],
+        startDate: '',
+        endDate: ''
+
+>>>>>>> origin/crm-hr
     });
 
     const [errors, setErrors] = useState({});
@@ -34,12 +62,69 @@ const PersonnelForm = ({ onSubmit }) => {
 
     const validate = () => {
         const newErrors = {};
+<<<<<<< HEAD
         if (!formData.employeeId) newErrors.employeeId = 'Mã nhân viên không được để trống';
         if (!formData.employeeName) newErrors.employeeName = 'Tên nhân viên không được để trống';
         if (!formData.CCCD) newErrors.CCCD = 'CCCD không được để trống';
         if (!formData.position) newErrors.position = 'Chức vụ không được để trống';
         if (!formData.phoneNumber) newErrors.phoneNumber = 'Số điện thoại không được để trống';
         if (!formData.email) newErrors.email = 'Email không được để trống';
+=======
+        const isNumber = value => /^\d+$/.test(value);
+        const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!formData.employeeId) {
+            newErrors.employeeId = 'Mã nhân viên không được để trống';
+        } else if (formData.employeeId.length !== 10) {
+            newErrors.employeeId = 'Mã nhân viên phải là 10 ký tự';
+        } else if (personnels.some(personnel => personnel.employeeId === formData.employeeId)) {
+            newErrors.employeeId = 'Mã nhân viên đã tồn tại';
+        }
+
+        if (!formData.employeeName) newErrors.employeeName = 'Tên nhân viên không được để trống';
+
+        if (!formData.CCCD) {
+            newErrors.CCCD = 'CCCD không được để trống';
+        } else if (!isNumber(formData.CCCD)) {
+            newErrors.CCCD = 'CCCD chỉ được chứa số';
+        } else if (formData.CCCD.length !== 12) {
+            newErrors.CCCD = 'CCCD phải là 12 ký tự';
+        } else if (personnels.some(personnel => personnel.CCCD === formData.CCCD)) {
+            newErrors.CCCD = 'CCCD đã tồn tại';
+        }
+        if (!formData.position || formData.position === "--Chọn chức vụ--") {
+            newErrors.position = 'Chức vụ không được để trống';
+        }
+        if (!formData.departmentName) newErrors.departmentName = 'Tên Phòng ban không được để trống';
+        if (!formData.address) newErrors.address = 'Địa chỉ không được để trống';
+        if (!formData.gender || formData.gender === "--Chọn giới tính--") {
+            newErrors.gender = 'Giới tính không được để trống';
+        }
+
+        if (!formData.phoneNumber) {
+            newErrors.phoneNumber = 'Số điện thoại không được để trống';
+        } else if (!isNumber(formData.phoneNumber)) {
+            newErrors.phoneNumber = 'Số điện thoại chỉ được chứa số';
+        } else if (formData.phoneNumber.length !== 10) {
+            newErrors.phoneNumber = 'Số điện thoại phải là 10 ký tự';
+        }
+        if (!formData.qualificationName) {
+            newErrors.qualificationName = 'Bằng cấp không được để trống';
+        }
+        if (!formData.email) {
+            newErrors.email = 'Email không được để trống';
+        } else if (!isValidEmail(formData.email)) {
+            newErrors.email = 'Email không hợp lệ';
+        }
+        if (!formData.date) {
+            newErrors.date = 'Ngày sinh không được để trống';
+        }
+        if (!formData.startDate) newErrors.startDate = 'Ngày bắt đầu không được để trống';
+
+        if (!formData.endDate) newErrors.endDate = 'Ngày kết thúc không được để trống';
+        if (new Date(formData.startDate) > new Date(formData.endDate))
+            newErrors.endDate = 'Ngày kết thúc phải sau ngày bắt đầu';
+>>>>>>> origin/crm-hr
         return newErrors;
     };
 
@@ -57,16 +142,39 @@ const PersonnelForm = ({ onSubmit }) => {
                     status: true
                 });
                 setFormData({
+<<<<<<< HEAD
                     employeeId: '',
                     employeeName: '',
                     position: '',
                     date: '',
+=======
+                    id: '',
+                    positionId: '',
+                    allowanceId: '',
+                    qualificationId: '',
+                    contractId: '',
+                    employeeId: '',
+                    employeeName: '',
+                    positionName: '',
+                    departmentName: '',
+                    contractName: '',
+                    date: '',
+                    address: '',
+>>>>>>> origin/crm-hr
                     gender: '',
                     email: '',
                     phoneNumber: '',
                     CCCD: '',
+<<<<<<< HEAD
                     status: true,
                     image: [], // Đảm bảo rằng image được đặt lại là một mảng rỗng
+=======
+                    qualificationName: '',
+                    status: true,
+                    image: [],
+                    startDate: '',
+                    endDate: ''
+>>>>>>> origin/crm-hr
                 });
                 setErrors({});
             } else {
@@ -93,6 +201,7 @@ const PersonnelForm = ({ onSubmit }) => {
                 onChange={handleChange}
                 error={errors.employeeName}
             />
+<<<<<<< HEAD
             <FormInput
                 label="Chức vụ"
                 type="text"
@@ -100,6 +209,31 @@ const PersonnelForm = ({ onSubmit }) => {
                 value={formData.position}
                 onChange={handleChange}
                 error={errors.position}
+=======
+            <div className="form-group">
+                <label>Chức vụ</label>
+                <select
+                    name="positionName"
+                    value={formData.positionName}
+                    onChange={handleChange}
+                    className="form-control"
+                >
+                    <option value="">--Chọn chức vụ--</option>
+                    <option value="Giám đốc">Giám đốc</option>
+                    <option value="Trưởng phòng">Trưởng phòng</option>
+                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                    <option value="Nhân viên thử việc">Nhân viên thử việc</option>
+                </select>
+                {errors.positionName && <div className="text-danger">{errors.positionName}</div>}
+            </div>
+            <FormInput
+                label="Phòng ban"
+                type="text"
+                name="departmentName" // Đảm bảo name khớp với tên trong state
+                value={formData.departmentName}
+                onChange={handleChange}
+                error={errors.departmentName}
+>>>>>>> origin/crm-hr
             />
             <FormInput
                 label="Ngày sinh"
@@ -109,6 +243,17 @@ const PersonnelForm = ({ onSubmit }) => {
                 onChange={handleChange}
                 error={errors.date}
             />
+<<<<<<< HEAD
+=======
+            <FormInput
+                label="Địa chỉ"
+                type="text"
+                name="address" // Đảm bảo name khớp với tên trong state
+                value={formData.address}
+                onChange={handleChange}
+                error={errors.address}
+            />
+>>>>>>> origin/crm-hr
             <div className="form-group">
                 <label>Giới tính</label>
                 <select
@@ -117,10 +262,18 @@ const PersonnelForm = ({ onSubmit }) => {
                     onChange={handleChange}
                     className="form-control"
                 >
+<<<<<<< HEAD
                     <option value="">Chọn giới tính</option>
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
                 </select>
+=======
+                    <option value="">--Chọn giới tính--</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+                {errors.gender && <div className="text-danger">{errors.gender}</div>}
+>>>>>>> origin/crm-hr
             </div>
             <FormInput
                 label="Email"
@@ -149,6 +302,7 @@ const PersonnelForm = ({ onSubmit }) => {
             <FormInput
                 label="Bằng cấp"
                 type="text"
+<<<<<<< HEAD
                 name="position"
                 value={formData.position}
                 onChange={handleChange}
@@ -159,6 +313,40 @@ const PersonnelForm = ({ onSubmit }) => {
                 <input
                     type="file"
                     name="image" // Đảm bảo name khớp với tên trong state
+=======
+                name="qualificationName"
+                value={formData.qualificationName}
+                onChange={handleChange}
+                error={errors.qualificationName}
+            />
+            <div className="form-group">
+                <label>Ngày bắt đầu</label>
+                <InputComponents
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                    error={errors.startDate}
+                />
+                {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
+            </div>
+            <div className="form-group">
+                <label>Ngày kết thúc</label>
+                <InputComponents
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                    error={errors.endDate}
+                />
+                {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
+            </div>
+            <div className="form-group">
+                <label>Image</label>
+                <input
+                    type="file"
+                    name="image"
+>>>>>>> origin/crm-hr
                     multiple
                     onChange={handleChange}
                     className="form-control"

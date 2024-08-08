@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';  // Sử dụng React-Bootstrap
+<<<<<<< HEAD
 
+=======
+import InputComponents from "../../../components/InputComponents";
+>>>>>>> origin/crm-hr
 const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
 
     const [formData, setFormData] = useState({
         id: '',
+<<<<<<< HEAD
         employeeID: '',
         employeeName: '',
         position: '',
         date: '',
+=======
+        positionId: '',
+        allowanceId: '',
+        qualificationId: '',
+        contractId: '',
+        employeeId: '',
+        employeeName: '',
+        positionName: '',
+        departmentName: '',
+        contractName: '',
+        date: '',
+        address: '',
+>>>>>>> origin/crm-hr
         gender: '',
         email: '',
         phoneNumber: '',
@@ -16,23 +34,50 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
         qualificationName: '',
         status: true,
         image: [],
+<<<<<<< HEAD
+=======
+        startDate: '',
+        endDate: '',
+>>>>>>> origin/crm-hr
     });
 
     useEffect(() => {
         if (personnel) {
             setFormData({
                 id: personnel.id || '',
+<<<<<<< HEAD
                 employeeID: personnel.employeeID || '',
                 employeeName: personnel.employeeName || '',
                 position: personnel.position || '',
                 date: personnel.date || '',
+=======
+                positionId: personnel.positionId || '',
+                allowanceId: personnel.allowanceId || '',
+                qualificationId: personnel.qualificationId || '',
+                contractId: personnel.contractId || '',
+                employeeId: personnel.employeeId || '',
+                employeeName: personnel.employeeName || '',
+                positionName: personnel.positionName || '',
+                departmentName: personnel.departmentName || '',
+                date: personnel.date || '',
+                address: personnel.address || '',
+>>>>>>> origin/crm-hr
                 gender: personnel.gender || '',
                 email: personnel.email || '',
                 phoneNumber: personnel.phoneNumber || '',
                 CCCD: personnel.CCCD || '',
+<<<<<<< HEAD
                 qualificationName: personnel.qualificationName || '',
                 status: personnel.status || false,
                 image: personnel.image || []
+=======
+                contractName: personnel.contractName || '',
+                qualificationName: personnel.qualificationName || '',
+                status: personnel.status || false,
+                image: personnel.image || [],
+                startDate: personnel.startDate || '',
+                endDate: personnel.endDate || ''
+>>>>>>> origin/crm-hr
             });
         }
     }, [personnel]);
@@ -75,8 +120,13 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                             <input
                                 type="text"
                                 className="form-control"
+<<<<<<< HEAD
                                 name="employeeID"
                                 value={formData.employeeID}
+=======
+                                name="employeeId"
+                                value={formData.employeeId}
+>>>>>>> origin/crm-hr
                                 onChange={handleChange}
                                 disabled
                             />
@@ -117,14 +167,32 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                             <input
                                 type="text"
                                 className="form-control"
+<<<<<<< HEAD
                                 name="position"
                                 value={formData.position}
+=======
+                                name="positionName"
+                                value={formData.positionName}
+>>>>>>> origin/crm-hr
                                 onChange={handleChange}
                                 disabled
                             />
                         </div>
+<<<<<<< HEAD
                     </div>
                     <div className="col-md-6">
+=======
+                        <div className="form-group">
+                            <label>Phòng ban</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="departmentName"
+                                value={formData.departmentName}
+                                onChange={handleChange}
+                            />
+                        </div>
+>>>>>>> origin/crm-hr
                         <div className="form-group">
                             <label>Email</label>
                             <input
@@ -145,6 +213,21 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                                 onChange={handleChange}
                             />
                         </div>
+<<<<<<< HEAD
+=======
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Địa chỉ</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                            />
+                        </div>
+>>>>>>> origin/crm-hr
                         <div className="form-group">
                             <label>CCCD</label>
                             <input
@@ -166,6 +249,40 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                             />
                         </div>
                         <div className="form-group">
+<<<<<<< HEAD
+=======
+                            <label>Hợp đồng</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="contractName"
+                                value={formData.contractName}
+                                onChange={handleChange}
+                                disabled
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày bắt đầu</label>
+                            <InputComponents
+                                type="date"
+                                name="startDate"
+                                value={formData.startDate}
+                                onChange={handleChange}
+                                placeholder=""
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày kết thúc</label>
+                            <InputComponents
+                                type="date"
+                                name="endDate"
+                                value={formData.endDate}
+                                onChange={handleChange}
+                                placeholder=""
+                            />
+                        </div>
+                        <div className="form-group">
+>>>>>>> origin/crm-hr
                             <label>Trạng thái</label>
                             <select
                                 name="status"
@@ -177,6 +294,10 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                                 <option value={false}>Không hoạt động</option>
                             </select>
                         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/crm-hr
                         <div className="form-group">
                             <label>Image</label>
                             <input
