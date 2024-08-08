@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';  // Sử dụng React-Bootstrap
-
+import InputComponents from "../../../components/InputComponents";
 const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
 
     const [formData, setFormData] = useState({
         id: '',
-        employeeID: '',
+        positionId: '',
+        allowanceId: '',
+        qualificationId: '',
+        contractId: '',
+        employeeId: '',
         employeeName: '',
-        position: '',
+        positionName: '',
+        departmentName: '',
+        contractName: '',
         date: '',
+        address: '',
         gender: '',
         email: '',
         phoneNumber: '',
@@ -16,23 +23,34 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
         qualificationName: '',
         status: true,
         image: [],
+        startDate: '',
+        endDate: '',
     });
 
     useEffect(() => {
         if (personnel) {
             setFormData({
                 id: personnel.id || '',
-                employeeID: personnel.employeeID || '',
+                positionId: personnel.positionId || '',
+                allowanceId: personnel.allowanceId || '',
+                qualificationId: personnel.qualificationId || '',
+                contractId: personnel.contractId || '',
+                employeeId: personnel.employeeId || '',
                 employeeName: personnel.employeeName || '',
-                position: personnel.position || '',
+                positionName: personnel.positionName || '',
+                departmentName: personnel.departmentName || '',
                 date: personnel.date || '',
+                address: personnel.address || '',
                 gender: personnel.gender || '',
                 email: personnel.email || '',
                 phoneNumber: personnel.phoneNumber || '',
                 CCCD: personnel.CCCD || '',
+                contractName: personnel.contractName || '',
                 qualificationName: personnel.qualificationName || '',
                 status: personnel.status || false,
-                image: personnel.image || []
+                image: personnel.image || [],
+                startDate: personnel.startDate || '',
+                endDate: personnel.endDate || ''
             });
         }
     }, [personnel]);
@@ -75,8 +93,8 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                             <input
                                 type="text"
                                 className="form-control"
-                                name="employeeID"
-                                value={formData.employeeID}
+                                name="employeeId"
+                                value={formData.employeeId}
                                 onChange={handleChange}
                                 disabled
                             />
@@ -117,14 +135,22 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                             <input
                                 type="text"
                                 className="form-control"
-                                name="position"
-                                value={formData.position}
+                                name="positionName"
+                                value={formData.positionName}
                                 onChange={handleChange}
                                 disabled
                             />
                         </div>
-                    </div>
-                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Phòng ban</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="departmentName"
+                                value={formData.departmentName}
+                                onChange={handleChange}
+                            />
+                        </div>
                         <div className="form-group">
                             <label>Email</label>
                             <input
@@ -142,6 +168,18 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                                 className="form-control"
                                 name="phoneNumber"
                                 value={formData.phoneNumber}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Địa chỉ</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="address"
+                                value={formData.address}
                                 onChange={handleChange}
                             />
                         </div>
@@ -166,6 +204,37 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                             />
                         </div>
                         <div className="form-group">
+                            <label>Hợp đồng</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="contractName"
+                                value={formData.contractName}
+                                onChange={handleChange}
+                                disabled
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày bắt đầu</label>
+                            <InputComponents
+                                type="date"
+                                name="startDate"
+                                value={formData.startDate}
+                                onChange={handleChange}
+                                placeholder=""
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày kết thúc</label>
+                            <InputComponents
+                                type="date"
+                                name="endDate"
+                                value={formData.endDate}
+                                onChange={handleChange}
+                                placeholder=""
+                            />
+                        </div>
+                        <div className="form-group">
                             <label>Trạng thái</label>
                             <select
                                 name="status"
@@ -177,6 +246,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
                                 <option value={false}>Không hoạt động</option>
                             </select>
                         </div>
+
                         <div className="form-group">
                             <label>Image</label>
                             <input

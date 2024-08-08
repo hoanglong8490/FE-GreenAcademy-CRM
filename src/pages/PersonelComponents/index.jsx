@@ -4,15 +4,15 @@ import './Personnel.scss';
 import TableComponents from "../../components/TableComponents";
 import TableBodyComponents from "../../components/TableBodyComponents";
 import PersonnelFormComponent from "./PersonnelFormComponents";
-import axios from "axios";
 import PersonnelViewComponent from "./PersonnelViewComponents";
 import PersonnelEditComponent from "./PersonelEditComponents";
 import PagingComponent from "../../components/PagingComponent";
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import ConfirmationComponent from "../../components/ConfirmationComponents";
 import PersonnelTitleComponent from "./PersonnelTittleComponents";
 import { toast } from 'react-toastify';
-
+import { addPersonnel, deletePersonnel, fetchContracts, updatePersonnel } from "./PersonnelService/PersonnelSevice";
+import { Col, Container, Row } from "react-bootstrap";
 // Constants
 const itemsPerPage = 10;
 
@@ -28,26 +28,25 @@ const PersonnelComponents = () => {
     const [totalPage, setTotalPage] = useState(1);
 
     // Header labels for the personnel table
-    const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Ngày sinh', 'Giới tính', 'Email', 'Trạng thái', 'Action'];
+    const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Chức vụ', 'Email', 'Trạng thái', 'Action'];
 
     // Fetch personnels data on component mount
     useEffect(() => {
-        fetchPersonnels();
+        loadPersonnels();
     }, []);
-
-    // Fetch personnels data from the API and update state
-    const fetchPersonnels = async () => {
+    const loadPersonnels = async () => {
         try {
-            const response = await axios.get('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel');
-            const sortedPersonnels = response.data.sort((a, b) => b.status - a.status);
-            setPersonnels(sortedPersonnels);
-            setFilteredPersonnels(sortedPersonnels);
-            setTotalPage(Math.ceil(sortedPersonnels.length / itemsPerPage));
+            const personnelsData = await fetchContracts();
+            setPersonnels(personnelsData);
+            setFilteredPersonnels(personnelsData);
+            setTotalPage(Math.ceil(personnelsData.length / itemsPerPage));
+
+            // toast.success('Dữ liệu hợp đồng đã được tải thành công!');
+
         } catch (error) {
-            console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
+            toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
     };
-
     // Handle search and update filtered personnels
     const handleSearch = (filtered) => {
         const sortedFiltered = filtered.sort((a, b) => b.status - a.status);
@@ -56,27 +55,33 @@ const PersonnelComponents = () => {
         setCurrentPage(1);
     };
 
-    // Handle adding a new personnel
+    // Handle adding a new personnel    
     const handleAddPersonnel = async (newPersonnel) => {
         try {
-            const response = await axios.post('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel', newPersonnel);
-            const updatedPersonnels = [...personnels, response.data].sort((a, b) => b.status - a.status);
+            console.log(newPersonnel);
+            const addedPersonnel = await addPersonnel(newPersonnel);
+            const updatedPersonnels = [...personnels, addedPersonnel].sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
             setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             setCurrentPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             toast.success('Thêm thành công nhân viên');
+            console.log(addedPersonnel);
+
         } catch (error) {
+            toast.success('Có lỗi xảy ra khi thêm nhân viên');
             console.error('Có lỗi xảy ra khi thêm nhân viên!', error);
+            toast.error(error.message);
         }
     };
 
     // Handle editing an existing personnel
     const handleSaveEdit = async (updatedPersonnel) => {
         try {
-            const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${updatedPersonnel.id}`, updatedPersonnel);
+            console.log(updatedPersonnel);
+            const savedPersonnel = await updatePersonnel(updatedPersonnel);
             const updatedPersonnels = personnels.map(personnel =>
-                personnel.id === updatedPersonnel.id ? response.data : personnel
+                personnel.id === updatedPersonnel.id ? savedPersonnel : personnel
             ).sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
@@ -93,12 +98,9 @@ const PersonnelComponents = () => {
         try {
             const personnelToUpdate = personnels.find(personnel => personnel.id === personnelId);
             if (personnelToUpdate) {
-                const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${personnelId}`, {
-                    ...personnelToUpdate,
-                    status: false
-                });
+                const deletedPersonnel = await deletePersonnel(personnelId, personnelToUpdate);
                 const updatedPersonnels = personnels.map(personnel =>
-                    personnel.id === personnelId ? response.data : personnel
+                    personnel.id === personnelId ? deletedPersonnel : personnel
                 ).sort((a, b) => b.status - a.status);
                 setPersonnels(updatedPersonnels);
                 setFilteredPersonnels(updatedPersonnels);
@@ -124,9 +126,9 @@ const PersonnelComponents = () => {
     };
 
     // Format date to a readable format
-    const formatDate = (dateString) => {
-        return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
-    };
+    // const formatDate = (dateString) => {
+    //     return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
+    // };
 
     // Handle view action for a personnel
     const handleView = (personnel) => {
@@ -144,10 +146,9 @@ const PersonnelComponents = () => {
     const rows = filteredPersonnels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(personnel => ({
         data: [
             personnel.id,
-            personnel.employeeID,
+            personnel.employeeId,
             personnel.employeeName,
-            formatDate(personnel.date),
-            personnel.gender,
+            personnel.positionName,
             personnel.email,
             personnel.status ? 'Active' : 'Inactive',
         ],
@@ -174,14 +175,14 @@ const PersonnelComponents = () => {
     }));
 
     return (
-        <div className="personnel-list">
+        <Container fluid className="personnel-list">
             <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} />
-            <div className="row personnel-content">
-                <div className="col-4">
+            <Row className="personnel-content">
+                <Col xs={12} md={4}>
                     <h3>Thêm nhân viên</h3>
-                    <PersonnelFormComponent onSubmit={handleAddPersonnel} />
-                </div>
-                <div className="col-8">
+                    <PersonnelFormComponent onSubmit={handleAddPersonnel} personnels={personnels} />
+                </Col>
+                <Col xs={12} md={8}>
                     <TableComponents headers={headerPersonnel}>
                         <TableBodyComponents rows={rows} />
                     </TableComponents>
@@ -190,8 +191,8 @@ const PersonnelComponents = () => {
                         currentPage={currentPage}
                         onPageChange={handlePageChange}
                     />
-                </div>
-            </div>
+                </Col>
+            </Row>
             <PersonnelViewComponent
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
@@ -202,6 +203,7 @@ const PersonnelComponents = () => {
                 handleClose={() => setEditModalShow(false)}
                 personnel={selectedPersonnel}
                 onSave={handleSaveEdit}
+
             />
             <ConfirmationComponent
                 show={deleteModalShow}
@@ -209,7 +211,7 @@ const PersonnelComponents = () => {
                 onConfirm={handleDeleteConfirm}
                 message="Bạn có chắc chắn muốn xóa nhân viên này?"
             />
-        </div>
+        </Container>
     );
 };
 
