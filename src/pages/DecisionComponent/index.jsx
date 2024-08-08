@@ -1,35 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import './style.css';
+import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 import TableComponents from '../../components/TableComponents';
-import PagingComponent from '../../components/PagingComponent'; // Make sure the path is correct
-import { Row, Col } from 'react-bootstrap'; // Or use another library if needed
+import PagingComponent from '../../components/PagingComponent'; 
+import { Row, Col } from 'react-bootstrap'; 
 import ListDecision from './ListDecision';
-import { Link } from 'react-router-dom';
 import CreateDecision from './CreateDecision';
+import { getDecisionAll } from './service/decision';
 
 const DecisionComponent = () => {
     const [rows, setRows] = useState([]);
-    const [totalPage, setTotalPage] = useState(1); // Adjust this if your API provides pagination info
+    const [totalPage, setTotalPage] = useState(1); 
     const [currentPage, setCurrentPage] = useState(1);
 
     const headerContract = ['ID', 'Mã nhân viên', 'Tên nhân viên', 'Nội dung', 'Ngày quyết định', 'Hình thức', 'Trạng thái', 'Action'];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios('https://66b0477a6a693a95b5383ecc.mockapi.io/decision');
-                const data = response.data || []; // Adjust if your API returns a different structure
-                setRows(data); // Update rows with fetched data
-                
-                // If your API provides pagination info, update totalPage accordingly
-                // setTotalPage(response.data.totalPages || 1);
-                
-            } catch (error) {
-                console.error("Có lỗi xảy ra khi lấy dữ liệu: ", error);
-            }
-        };
+    const fetchData = async () => { 
+        try {
+            const data = await getDecisionAll();
+            setRows(data);
+        } catch (error) { 
+            console.error(error);
+        }  
+    };
 
+    useEffect(() => { 
         fetchData();
     }, [currentPage]);
 
@@ -37,14 +31,28 @@ const DecisionComponent = () => {
         setCurrentPage(page);
     };
 
+    const handleSuccess = () => {
+        fetchData(); // Refresh the list of decisions
+    };
+
+    // const updateData = async () => {
+    //     try {
+    //         const response = await axios('https://66b0477a6a693a95b5383ecc.mockapi.io/decision');
+    //         const data = response.data || [];
+    //         setRows(data);
+    //     } catch (error) {
+    //         console.error("Có lỗi xảy ra khi cập nhật dữ liệu: ", error);
+    //     }
+    // };
+
     return (
         <>
             <h3>Danh sách quyết định</h3>
             <Row className="contract-content" style={{ textAlign: 'center', padding:'5px'}}>
-                <Col span={4}>
-                   <CreateDecision/>
+                <Col className='col-4' style={{padding: '0'}}>
+                    <CreateDecision onSuccess={handleSuccess}/>
                 </Col>
-                <Col span={8}>
+                <Col className='col-8' style={{marginTop:'18px'}}>
                     <TableComponents headers={headerContract}>
                         <ListDecision rows={rows} />
                     </TableComponents>
