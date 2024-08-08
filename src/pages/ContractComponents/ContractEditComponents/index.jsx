@@ -3,7 +3,6 @@ import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
 import InputComponents from "../../../components/InputComponents";
 import ButtonComponents from "../../../components/ButtonComponents";
-
 // Component để chỉnh sửa hợp đồng
 const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     // Khởi tạo state cho dữ liệu form
@@ -68,7 +67,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     };
 
     return (
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal show={show} onHide={handleClose} size="lg" dialogClassName="custom-modal">
             <Modal.Header closeButton>
                 <Modal.Title>Chỉnh sửa hợp đồng</Modal.Title>
             </Modal.Header>
@@ -169,10 +168,10 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <ButtonComponents variant="secondary" onClick={handleClose}>
+                <ButtonComponents className="custom-button" variant="secondary" onClick={handleClose}>
                     Đóng
                 </ButtonComponents>
-                <ButtonComponents variant="primary" onClick={handleSave}>
+                <ButtonComponents className="custom-button" variant="primary" onClick={handleSave}>
                     Lưu thay đổi
                 </ButtonComponents>
             </Modal.Footer>
