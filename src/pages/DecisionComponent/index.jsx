@@ -1,29 +1,32 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import TableComponents from '../../components/TableComponents';
-import PagingComponent from '../../components/PagingComponent'; 
-import { Row, Col } from 'react-bootstrap'; 
+import PagingComponent from '../../components/PagingComponent';
+import { Row, Col } from 'react-bootstrap';
 import ListDecision from './ListDecision';
 import CreateDecision from './CreateDecision';
 import { getDecisionAll } from './service/decision';
 
 const DecisionComponent = () => {
     const [rows, setRows] = useState([]);
-    const [totalPage, setTotalPage] = useState(1); 
+    const [totalPage, setTotalPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
     const headerContract = ['ID', 'Mã nhân viên', 'Tên nhân viên', 'Nội dung', 'Ngày quyết định', 'Hình thức', 'Trạng thái', 'Action'];
 
-    const fetchData = async () => { 
+    const fetchData = async () => {
         try {
             const data = await getDecisionAll();
             setRows(data);
-        } catch (error) { 
+            // Assuming the API returns the total pages info as well
+            // Adjust according to your API response
+            // setTotalPage(response.totalPages);
+        } catch (error) {
             console.error(error);
-        }  
+        }
     };
 
-    useEffect(() => { 
+    useEffect(() => {
         fetchData();
     }, [currentPage]);
 
@@ -32,27 +35,17 @@ const DecisionComponent = () => {
     };
 
     const handleSuccess = () => {
-        fetchData(); // Refresh the list of decisions
+        fetchData(); // Refresh the list of decisions after creation
     };
-
-    // const updateData = async () => {
-    //     try {
-    //         const response = await axios('https://66b0477a6a693a95b5383ecc.mockapi.io/decision');
-    //         const data = response.data || [];
-    //         setRows(data);
-    //     } catch (error) {
-    //         console.error("Có lỗi xảy ra khi cập nhật dữ liệu: ", error);
-    //     }
-    // };
 
     return (
         <>
             <h3>Danh sách quyết định</h3>
-            <Row className="contract-content" style={{ textAlign: 'center', padding:'5px'}}>
-                <Col className='col-4' style={{padding: '0'}}>
-                    <CreateDecision onSuccess={handleSuccess}/>
+            <Row className="contract-content" style={{ textAlign: 'center', padding: '5px' }}>
+                <Col className='col-4' style={{ padding: '0' }}>
+                    <CreateDecision onSuccess={handleSuccess} />
                 </Col>
-                <Col className='col-8' style={{marginTop:'18px'}}>
+                <Col className='col-8' style={{ marginTop: '18px' }}>
                     <TableComponents headers={headerContract}>
                         <ListDecision rows={rows} />
                     </TableComponents>

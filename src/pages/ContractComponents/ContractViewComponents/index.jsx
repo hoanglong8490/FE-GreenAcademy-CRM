@@ -1,4 +1,3 @@
-// src/components/ViewContractModal.js
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
@@ -32,8 +31,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         name="employeeId"
                         value={contract.employeeId}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
@@ -43,8 +41,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         name="contractType"
                         value={contract.contractType}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
@@ -66,8 +63,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         name="startDate"
                         value={contract.startDate}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
@@ -77,8 +73,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         name="endDate"
                         value={contract.endDate}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
@@ -88,8 +83,7 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         name="created_at"
                         value={formatDateTime(contract.created_at)}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
@@ -99,19 +93,17 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         type="text"
                         name="updated_at"
                         value={formatDateTime(contract.updated_at)}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
                 <div className="form-group">
-                    <label>Status</label>
+                    <label>Trạng thái</label>
                     <InputComponents
                         type="text"
                         name="status"
                         value={contract.status ? 'Active' : 'Inactive'}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         disabled
                     />
                 </div>
@@ -131,8 +123,6 @@ const ContractViewComponents = ({show, handleClose, contract}) => {
                         <p>Chưa có hồ sơ hợp đồng</p>
                     )}
                 </div>
-
-
             </Modal.Body>
             <Modal.Footer>
                 <ButtonComponents variant="secondary" onClick={handleClose}>

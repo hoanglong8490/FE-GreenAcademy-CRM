@@ -49,7 +49,8 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
             return '';
         }
     };
-    // export file csv theo header :
+
+    // Export file csv theo header :
     const getContractExport = () => {
         return new Promise((resolve) => {
             let result = [];
@@ -99,10 +100,6 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
             }
         }
     };
-
-
-    // ID	Mã nhân viên	Loại hợp đồng	Mức lương	Ngày bắt đầu	Ngày kết thúc	Trạng thái
-    // 30	B18DCCN112	fulltime	1500000	8/10/2024	2/10/2025	Active
 
     const validateData = (data) => {
         console.log(data);
@@ -182,7 +179,6 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
         }
     };
 
-
     return (
         <div className="row contract-title d-flex justify-content-between align-items-center">
             <div className="col-sm-6">
@@ -197,7 +193,6 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
                     <i className="fas fa-file-excel"></i>
                 </ButtonComponents>
                 <input id='import' type='file' hidden onChange={handleFileChange}/>
-
                 <CSVLink
                     data={dataExport}
                     asyncOnClick={true}

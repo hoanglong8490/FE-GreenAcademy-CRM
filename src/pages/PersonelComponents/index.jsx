@@ -4,6 +4,17 @@ import './Personnel.scss';
 import TableComponents from "../../components/TableComponents";
 import TableBodyComponents from "../../components/TableBodyComponents";
 import PersonnelFormComponent from "./PersonnelFormComponents";
+<<<<<<< HEAD
+import axios from "axios";
+import PersonnelViewComponent from "./PersonnelViewComponents";
+import PersonnelEditComponent from "./PersonelEditComponents";
+import PagingComponent from "../../components/PagingComponent";
+import { format } from 'date-fns';
+import ConfirmationComponent from "../../components/ConfirmationComponents";
+import PersonnelTitleComponent from "./PersonnelTittleComponents";
+import { toast } from 'react-toastify';
+
+=======
 import PersonnelViewComponent from "./PersonnelViewComponents";
 import PersonnelEditComponent from "./PersonelEditComponents";
 import PagingComponent from "../../components/PagingComponent";
@@ -13,6 +24,7 @@ import PersonnelTitleComponent from "./PersonnelTittleComponents";
 import { toast } from 'react-toastify';
 import { addPersonnel, deletePersonnel, fetchContracts, updatePersonnel } from "./PersonnelService/PersonnelSevice";
 import { Col, Container, Row } from "react-bootstrap";
+>>>>>>> origin/crm-hr
 // Constants
 const itemsPerPage = 10;
 
@@ -28,6 +40,28 @@ const PersonnelComponents = () => {
     const [totalPage, setTotalPage] = useState(1);
 
     // Header labels for the personnel table
+<<<<<<< HEAD
+    const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Ngày sinh', 'Giới tính', 'Email', 'Trạng thái', 'Action'];
+
+    // Fetch personnels data on component mount
+    useEffect(() => {
+        fetchPersonnels();
+    }, []);
+
+    // Fetch personnels data from the API and update state
+    const fetchPersonnels = async () => {
+        try {
+            const response = await axios.get('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel');
+            const sortedPersonnels = response.data.sort((a, b) => b.status - a.status);
+            setPersonnels(sortedPersonnels);
+            setFilteredPersonnels(sortedPersonnels);
+            setTotalPage(Math.ceil(sortedPersonnels.length / itemsPerPage));
+        } catch (error) {
+            console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
+        }
+    };
+
+=======
     const headerPersonnel = ['ID', 'Mã nhân viên', 'Họ tên', 'Chức vụ', 'Email', 'Trạng thái', 'Action'];
 
     // Fetch personnels data on component mount
@@ -47,6 +81,7 @@ const PersonnelComponents = () => {
             toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
     };
+>>>>>>> origin/crm-hr
     // Handle search and update filtered personnels
     const handleSearch = (filtered) => {
         const sortedFiltered = filtered.sort((a, b) => b.status - a.status);
@@ -55,33 +90,52 @@ const PersonnelComponents = () => {
         setCurrentPage(1);
     };
 
+<<<<<<< HEAD
+    // Handle adding a new personnel
+    const handleAddPersonnel = async (newPersonnel) => {
+        try {
+            const response = await axios.post('https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel', newPersonnel);
+            const updatedPersonnels = [...personnels, response.data].sort((a, b) => b.status - a.status);
+=======
     // Handle adding a new personnel    
     const handleAddPersonnel = async (newPersonnel) => {
         try {
             console.log(newPersonnel);
             const addedPersonnel = await addPersonnel(newPersonnel);
             const updatedPersonnels = [...personnels, addedPersonnel].sort((a, b) => b.status - a.status);
+>>>>>>> origin/crm-hr
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
             setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             setCurrentPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             toast.success('Thêm thành công nhân viên');
+<<<<<<< HEAD
+        } catch (error) {
+            console.error('Có lỗi xảy ra khi thêm nhân viên!', error);
+=======
             console.log(addedPersonnel);
 
         } catch (error) {
             toast.success('Có lỗi xảy ra khi thêm nhân viên');
             console.error('Có lỗi xảy ra khi thêm nhân viên!', error);
             toast.error(error.message);
+>>>>>>> origin/crm-hr
         }
     };
 
     // Handle editing an existing personnel
     const handleSaveEdit = async (updatedPersonnel) => {
         try {
+<<<<<<< HEAD
+            const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${updatedPersonnel.id}`, updatedPersonnel);
+            const updatedPersonnels = personnels.map(personnel =>
+                personnel.id === updatedPersonnel.id ? response.data : personnel
+=======
             console.log(updatedPersonnel);
             const savedPersonnel = await updatePersonnel(updatedPersonnel);
             const updatedPersonnels = personnels.map(personnel =>
                 personnel.id === updatedPersonnel.id ? savedPersonnel : personnel
+>>>>>>> origin/crm-hr
             ).sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
@@ -98,9 +152,18 @@ const PersonnelComponents = () => {
         try {
             const personnelToUpdate = personnels.find(personnel => personnel.id === personnelId);
             if (personnelToUpdate) {
+<<<<<<< HEAD
+                const response = await axios.put(`https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/personnel/personnel/${personnelId}`, {
+                    ...personnelToUpdate,
+                    status: false
+                });
+                const updatedPersonnels = personnels.map(personnel =>
+                    personnel.id === personnelId ? response.data : personnel
+=======
                 const deletedPersonnel = await deletePersonnel(personnelId, personnelToUpdate);
                 const updatedPersonnels = personnels.map(personnel =>
                     personnel.id === personnelId ? deletedPersonnel : personnel
+>>>>>>> origin/crm-hr
                 ).sort((a, b) => b.status - a.status);
                 setPersonnels(updatedPersonnels);
                 setFilteredPersonnels(updatedPersonnels);
@@ -126,9 +189,15 @@ const PersonnelComponents = () => {
     };
 
     // Format date to a readable format
+<<<<<<< HEAD
+    const formatDate = (dateString) => {
+        return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
+    };
+=======
     // const formatDate = (dateString) => {
     //     return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
     // };
+>>>>>>> origin/crm-hr
 
     // Handle view action for a personnel
     const handleView = (personnel) => {
@@ -146,9 +215,16 @@ const PersonnelComponents = () => {
     const rows = filteredPersonnels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(personnel => ({
         data: [
             personnel.id,
+<<<<<<< HEAD
+            personnel.employeeID,
+            personnel.employeeName,
+            formatDate(personnel.date),
+            personnel.gender,
+=======
             personnel.employeeId,
             personnel.employeeName,
             personnel.positionName,
+>>>>>>> origin/crm-hr
             personnel.email,
             personnel.status ? 'Active' : 'Inactive',
         ],
@@ -175,6 +251,16 @@ const PersonnelComponents = () => {
     }));
 
     return (
+<<<<<<< HEAD
+        <div className="personnel-list">
+            <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} />
+            <div className="row personnel-content">
+                <div className="col-4">
+                    <h3>Thêm nhân viên</h3>
+                    <PersonnelFormComponent onSubmit={handleAddPersonnel} />
+                </div>
+                <div className="col-8">
+=======
         <Container fluid className="personnel-list">
             <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} />
             <Row className="personnel-content">
@@ -183,6 +269,7 @@ const PersonnelComponents = () => {
                     <PersonnelFormComponent onSubmit={handleAddPersonnel} personnels={personnels} />
                 </Col>
                 <Col xs={12} md={8}>
+>>>>>>> origin/crm-hr
                     <TableComponents headers={headerPersonnel}>
                         <TableBodyComponents rows={rows} />
                     </TableComponents>
@@ -191,8 +278,13 @@ const PersonnelComponents = () => {
                         currentPage={currentPage}
                         onPageChange={handlePageChange}
                     />
+<<<<<<< HEAD
+                </div>
+            </div>
+=======
                 </Col>
             </Row>
+>>>>>>> origin/crm-hr
             <PersonnelViewComponent
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
@@ -203,7 +295,10 @@ const PersonnelComponents = () => {
                 handleClose={() => setEditModalShow(false)}
                 personnel={selectedPersonnel}
                 onSave={handleSaveEdit}
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/crm-hr
             />
             <ConfirmationComponent
                 show={deleteModalShow}
@@ -211,7 +306,11 @@ const PersonnelComponents = () => {
                 onConfirm={handleDeleteConfirm}
                 message="Bạn có chắc chắn muốn xóa nhân viên này?"
             />
+<<<<<<< HEAD
+        </div>
+=======
         </Container>
+>>>>>>> origin/crm-hr
     );
 };
 

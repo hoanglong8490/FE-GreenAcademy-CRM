@@ -1,18 +1,17 @@
-// src/components/Input.js
 import React from 'react';
 import PropTypes from 'prop-types';
 import './InputComponents.scss'
 
 const InputComponents = ({
-                             type = 'text',
-                             name,
-                             value,
-                             onChange,
-                             placeholder = '',
-                             icon,
-                             onIconClick,
-                             disabled = false
-                         }) => {
+    type = 'text',
+    name,
+    value,
+    onChange,
+    placeholder = '',
+    icon,
+    onIconClick,
+    disabled = false
+}) => {
     return (
         <div className="input-group">
             <input
@@ -25,7 +24,7 @@ const InputComponents = ({
                 disabled={disabled}
             />
             {icon && (
-                <span className="input-group-text" onClick={onIconClick} style={{cursor: 'pointer'}}>
+                <span className="input-group-text" onClick={onIconClick} style={{ cursor: 'pointer' }}>
                     {icon}
                 </span>
             )}
@@ -56,6 +55,4 @@ InputComponents.propTypes = {
 //     />
 // );
 
-
 export default InputComponents;
-

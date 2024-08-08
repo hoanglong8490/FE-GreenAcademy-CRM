@@ -1,3 +1,5 @@
+
+=======
 import React, { useState } from 'react';
 import axios from 'axios';
 import Input from "../../../components/InputComponents";
@@ -109,11 +111,13 @@ function CreateDecision({ onSuccess }) {
                             </div>
                         </div>
                     ))}
+>>>>>>> origin/crm-hr
                     <div className="col-12">
                         <div className="form-group">
                             <label>Nội dung</label>
                             <textarea
                                 className="form-control"
+
                                 name="content"
                                 value={formData.content}
                                 onChange={handleChange}
@@ -151,6 +155,7 @@ function CreateDecision({ onSuccess }) {
                                 <option value="Đang chờ">Đang chờ</option>
                             </select>
                             {errors.status && <div className="text-danger">{errors.status}</div>}
+>>>>>>> origin/crm-hr
                         </div>
                     </div>
                     <div className="col-12">
@@ -165,7 +170,11 @@ function CreateDecision({ onSuccess }) {
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
+                <button type="submit" className="btn btn-primary">Add</button>
+=======
                 <button type="submit" className="btn btn-primary">Thêm mới</button>
+>>>>>>> origin/crm-hr
             </form>
         </div>
     );

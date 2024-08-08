@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {NumericFormat} from 'react-number-format';
+import React, { useEffect, useState } from 'react';
+import { NumericFormat } from 'react-number-format';
 import InputComponents from "../../../components/InputComponents";
 
 // Component để thêm hợp đồng mới
-
-const ContractForm = ({onSubmit, contracts}) => {
-
+const ContractForm = ({ onSubmit, contracts }) => {
     const [formData, setFormData] = useState({
         employeeId: '',
         contractType: '',
@@ -31,7 +29,7 @@ const ContractForm = ({onSubmit, contracts}) => {
 
     // Hàm xử lý thay đổi dữ liệu form
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
         const now = new Date().toISOString().slice(0, 16);
         if (files) {
             setFormData({
@@ -58,6 +56,7 @@ const ContractForm = ({onSubmit, contracts}) => {
         } else if (contracts.some(contract => contract.employeeId === formData.employeeId)) {
             newErrors.employeeId = 'Mã nhân viên đã tồn tại';
         }
+
         if (!formData.contractType) newErrors.contractType = 'Loại hợp đồng không được để trống';
 
         if (!formData.salary || isNaN(Number(formData.salary.replace(/\./g, ''))) || Number(formData.salary.replace(/\./g, '')) <= 0)
@@ -107,7 +106,7 @@ const ContractForm = ({onSubmit, contracts}) => {
                     name="employeeId"
                     value={formData.employeeId}
                     onChange={handleChange}
-                    error={errors.employeeId}
+                    disabled={false}
                 />
                 {errors.employeeId && <div className="text-danger">{errors.employeeId}</div>}
             </div>
@@ -138,7 +137,7 @@ const ContractForm = ({onSubmit, contracts}) => {
                     thousandSeparator="."
                     decimalSeparator=","
                     onValueChange={(values) => {
-                        const {value} = values;
+                        const { value } = values;
                         setFormData({
                             ...formData,
                             salary: value,
@@ -155,7 +154,6 @@ const ContractForm = ({onSubmit, contracts}) => {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    error={errors.startDate}
                 />
                 {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
             </div>
@@ -166,7 +164,6 @@ const ContractForm = ({onSubmit, contracts}) => {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
-                    error={errors.endDate}
                 />
                 {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
             </div>

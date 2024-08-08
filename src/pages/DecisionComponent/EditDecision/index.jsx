@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import Input from "../../../components/InputComponents";
+<<<<<<< HEAD
+=======
 import { updateDecision } from "../service/decision";
+>>>>>>> origin/crm-hr
 
 function EditDecision({ decision }) {
     const [formData, setFormData] = useState(decision);
@@ -19,6 +22,14 @@ function EditDecision({ decision }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+<<<<<<< HEAD
+        // Xử lý dữ liệu form ở đây
+        console.log("Form Data:", formData);
+        // Đóng modal sau khi lưu
+        // const modal = window.bootstrap.Modal.getInstance(document.getElementById('editEmployeeModal'));
+        // modal.hide();
+    };
+=======
         updateDecision(formData.id, formData)
             .then(() => {
                 // Show a success message or handle successful update
@@ -33,6 +44,7 @@ function EditDecision({ decision }) {
             });
     };
     
+>>>>>>> origin/crm-hr
 
     return (
         <form onSubmit={handleSubmit}>
@@ -44,7 +56,11 @@ function EditDecision({ decision }) {
                     id="editEmployeeId"
                     name="id"
                     value={formData.manv}
+<<<<<<< HEAD
+                    readOnly
+=======
                     readOnly 
+>>>>>>> origin/crm-hr
                 />
             </div>
             <div className="form-group">
@@ -69,6 +85,8 @@ function EditDecision({ decision }) {
                 ></textarea>
             </div>
             <div className="form-group">
+<<<<<<< HEAD
+=======
                 <label htmlFor="editEmployeeName">Số điện thoại</label>
                 <Input
                     type="text"
@@ -102,6 +120,7 @@ function EditDecision({ decision }) {
                 />
             </div>
             <div className="form-group">
+>>>>>>> origin/crm-hr
                 <label htmlFor="editDecisionDate">Ngày quyết định</label>
                 <Input
                     type="date"
@@ -135,8 +154,12 @@ function EditDecision({ decision }) {
                     value={formData.status}
                     onChange={handleChange}
                 />
+<<<<<<< HEAD
+            </div> 
+=======
             </div>  
             <button type="submit" className="btn btn-primary">Cập nhật</button> 
+>>>>>>> origin/crm-hr
         </form>
     );
 }

@@ -1,12 +1,11 @@
-// src/components/EditContractModal.js
-import React, {useEffect, useState} from 'react';
-import {Modal} from 'react-bootstrap';
-import {NumericFormat} from 'react-number-format';
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { NumericFormat } from 'react-number-format';
 import InputComponents from "../../../components/InputComponents";
 import ButtonComponents from "../../../components/ButtonComponents";
 
 // Component để chỉnh sửa hợp đồng
-const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
+const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
     // Khởi tạo state cho dữ liệu form
     const [formData, setFormData] = useState({
         employeeId: '',
@@ -16,7 +15,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         endDate: '',
         status: true,
         files: [],
-        update_at: ''
+        updated_at: ''
     });
 
     // useEffect để cập nhật dữ liệu form khi contract thay đổi
@@ -36,9 +35,8 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     }, [contract]);
 
     // Hàm xử lý thay đổi dữ liệu form
-
     const handleChange = (e) => {
-        const {name, value, files, type} = e.target;
+        const { name, value, files, type } = e.target;
         if (type === 'file') {
             setFormData({
                 ...formData,
@@ -108,13 +106,13 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                         thousandSeparator="."
                         decimalSeparator=","
                         onValueChange={(values) => {
-                            const {value} = values;
+                            const { value } = values;
                             setFormData({
                                 ...formData,
                                 salary: parseFloat(value)
                             });
                         }}
-                        // isNumericString
+                        isNumericString
                     />
                 </div>
                 <div className="form-group">

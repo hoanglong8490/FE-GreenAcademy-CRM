@@ -1,6 +1,10 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
+<<<<<<< HEAD
+
+=======
 import InputComponents from "../../../components/InputComponents";
+>>>>>>> origin/crm-hr
 const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
     if (!personnel) return null;
 
@@ -17,7 +21,11 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             <input
                                 type="text"
                                 className="form-control"
+<<<<<<< HEAD
+                                value={personnel.employeeID}
+=======
                                 value={personnel.employeeId}
+>>>>>>> origin/crm-hr
                                 readOnly
                             />
                         </div>
@@ -49,6 +57,8 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+<<<<<<< HEAD
+=======
                             <label>Địa chỉ</label>
                             <input
                                 type="address"
@@ -58,10 +68,14 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+>>>>>>> origin/crm-hr
                             <label>Chức vụ</label>
                             <input
                                 type="text"
                                 className="form-control"
+<<<<<<< HEAD
+                                value={personnel.position}
+=======
                                 value={personnel.positionName}
                                 readOnly
                             />
@@ -81,6 +95,7 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                                 type="text"
                                 className="form-control"
                                 value={personnel.contractName}
+>>>>>>> origin/crm-hr
                                 readOnly
                             />
                         </div>
@@ -123,6 +138,8 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+<<<<<<< HEAD
+=======
                             <label>Ngày bắt đầu</label>
                             <InputComponents
                                 type="text"
@@ -145,6 +162,7 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             />
                         </div>
                         <div className="form-group">
+>>>>>>> origin/crm-hr
                             <label>Trạng thái</label>
                             <input
                                 type="text"
@@ -156,11 +174,23 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                         <div className="form-group">
                             <label>Hình ảnh</label>
                             {personnel.image && Array.isArray(personnel.image) && personnel.image.length > 0 ? (
+<<<<<<< HEAD
+                                <ul className="list-group mt-2">
+                                    {personnel.image.map((image, index) => (
+                                        <li key={index} className="list-group-item">
+                                            <a href={image.url} download={image.name}>
+                                                {image.name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+=======
                                 <div className="mt-2">
                                     {personnel.image.map((image, index) => (
                                         <img key={index} src={image.url} alt={image.name} className="img-thumbnail mb-2" style={{ width: '100px', height: '100px' }} />
                                     ))}
                                 </div>
+>>>>>>> origin/crm-hr
                             ) : (
                                 <p>Chưa có hình ảnh</p>
                             )}

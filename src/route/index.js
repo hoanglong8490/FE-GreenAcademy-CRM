@@ -1,11 +1,12 @@
-import {BookComponent, SubjectComponent} from '../pages';
+import { BookComponent, SubjectComponent } from '../pages';
 import DecisionComponent from '../pages/DecisionComponent';
+import CreateDecision from '../pages/DecisionComponent/CreateDecision';
 import DepartmentComponent from '../pages/DepartmentComponent';
 import QualificationComponents from '../pages/QualificationComponents';
-import ContractComponents from "../pages/ContractComponents";
-import PersonnelComponents from "../pages/PersonelComponents";
-import LiabilityComponents from "../pages/LiabilityComponents";
-
+import ContractComponents from '../pages/ContractComponents';
+import PersonnelComponents from '../pages/PersonelComponents';
+import PositionComponents from '../pages/PositionComponents';
+import LiabilityComponents from '../pages/LiabilityComponents';
 
 export const routeSideBar = [
     {
@@ -26,13 +27,6 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-file-contract",
                 to: "/Contract",
                 component: ContractComponents,
-                child: []
-            },
-            {
-                name: "Allowance-List",
-                icon: "nav-icon fas fa-file-contract",
-                to: "/Allowance",
-                component: BookComponent,
                 child: []
             },
             {
@@ -63,7 +57,20 @@ export const routeSideBar = [
                 component: DecisionComponent,
                 child: []
             },
-
+            {
+                name: "Create-Decision",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/CreateDecision",
+                component: CreateDecision,
+                child: []
+            },
+            {
+                name: "Position-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/PositionList",
+                component: PositionComponents,
+                child: []
+            }
         ]
     },
     {
@@ -100,7 +107,7 @@ export const routeSideBar = [
                 to: "/liabilityList",
                 component: LiabilityComponents,
                 child: []
-            },
+            }
         ]
     }
-]
+];

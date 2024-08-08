@@ -2,9 +2,9 @@ import React from 'react';
 import '../Personnel.scss';
 import { CSVLink } from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
-import ButtonComponents from "../../../components/ButtonComponents";
+import ButtonComponents from "../../../components/ButtonComponents"; // Import ButtonComponents
 
-const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm bảo personnels là một mảng mặc định
+const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Default personnels to an empty array
     const handleSearch = (searchTerm) => {
         const searchValue = searchTerm.toLowerCase();
 
@@ -34,9 +34,9 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Đảm
         document.getElementById('import').click();
     };
 
-    console.log(personnels); // Thêm dòng này để kiểm tra cấu trúc của mảng personnels
+    console.log(personnels); // Debugging: Log the personnels array to check its structure
 
-    // Kiểm tra và định dạng lại dữ liệu nếu cần thiết
+    // Format the data for CSV export
     const formattedPersonnels = Array.isArray(personnels) ? personnels.map(personnel => ({
         employeeId: personnel.employeeId,
         employeeName: personnel.employeeName,

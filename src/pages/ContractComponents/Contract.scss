@@ -1,14 +1,30 @@
 .content-wrapper {
   background-color: #fff;
 
+<<<<<<< HEAD
+
+  .contract-tittle {
+    margin: 20px;
+    padding: 20px
+=======
   .contract-tittle {
     margin: 20px;
     padding: 20px;
+>>>>>>> origin/crm-hr
   }
 
   .contract-content {
     margin: 20px;
     padding: 20px;
+<<<<<<< HEAD
+  }
+
+  .action-button {
+    gap: 10px;
+  }
+}
+
+=======
     position: relative; /* Để căn giữa spinner trong phần tử này */
   }
   
@@ -30,3 +46,4 @@
   gap: 10px;
 }
 
+>>>>>>> origin/crm-hr
