@@ -18,8 +18,8 @@ const PositionEditComponents = ({show, handleClose, position, onSave}) => {
     useEffect(() => {
         if (position) {
             setFormData({
-                positionName: position.Name || '',
-                positionID: position.positionID || '',
+                positionName: position.Position_Name || '',
+                positionID: position.IDchucvu || '',
                 departmentType: position.departmentType || '',
                 status: position.status || false,
                 startDate: position.startDate || '',

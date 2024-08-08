@@ -17,7 +17,7 @@ const PositionViewComponents = ({show, handleClose, position}) => {
                     <input
                         type="text"
                         className="form-control"
-                        value={position.positionId}
+                        value={position.IDchucvu}
                         disabled
                     />
                 </div>
@@ -26,7 +26,7 @@ const PositionViewComponents = ({show, handleClose, position}) => {
                     <input
                         type="text"
                         className="form-control"
-                        value={position.positionName}
+                        value={position.Position_Name}
                         disabled
                     />
                 </div>
