@@ -14,7 +14,7 @@ const DepartmentTable = ({ header, row, pageCount, handlePageClick, search, hand
                         <div className="col-sm-12 col-md-6">
                             <div id="filter" className="dataTables_filter">
                                 <label>Search:
-                                    <input type="search" className="form-control form-control-sm" value={search} onChange={handleSearch} placeholder="Nhập thông tin tại đây" />
+                                    <input type="search" className="form-control form-control-sm" value={search} onChange={handleSearch} placeholder="Tên phòng ban" />
                                 </label>
                             </div>
                         </div>

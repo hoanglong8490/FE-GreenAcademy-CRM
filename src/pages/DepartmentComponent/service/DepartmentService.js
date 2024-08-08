@@ -18,6 +18,7 @@ export const fetchDepartments = async () => {
 export const fetchDepartmentById = async (id) => {
     try {
         const response = await axios.get(`${API_URL}/${id}`);
+        console.log("data",response);
         return response.data;
     } catch (error) {
         console.error("There was an error fetching the departments!", error);
