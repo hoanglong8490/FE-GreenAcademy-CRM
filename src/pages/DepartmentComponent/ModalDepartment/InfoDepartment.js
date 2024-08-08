@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 
-const InfoModal = ({ isOpen, onClose, title, content }) => {
+const InfoModal = ({ isOpen, onClose, title, content,className }) => {
     return (
-        <Modal show={isOpen} onHide={onClose}>
+        <Modal show={isOpen} onHide={onClose} className={className}>
             <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
@@ -21,7 +21,8 @@ InfoModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     title: PropTypes.string,
-    content: PropTypes.node
+    content: PropTypes.node,
+    className: PropTypes.string
 };
 
 export default InfoModal;

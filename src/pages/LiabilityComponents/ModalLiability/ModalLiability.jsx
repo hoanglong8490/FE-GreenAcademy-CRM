@@ -5,14 +5,14 @@ import { Modal, Button } from 'react-bootstrap';
 
 const InfoModal = ({ isOpen, onClose, title, content }) => {
     return (
-        <Modal show={isOpen} onHide={onClose}>
+        <Modal show={isOpen} onHide={onClose} className="modal_Liability">
             <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>{content}</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>Close</Button>
-            </Modal.Footer>
+            {/*<Modal.Footer>*/}
+            {/*    <Button variant="secondary">Close</Button>*/}
+            {/*</Modal.Footer>*/}
         </Modal>
     );
 };
