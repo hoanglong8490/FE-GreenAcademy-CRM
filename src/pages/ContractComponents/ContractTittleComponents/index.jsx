@@ -180,7 +180,7 @@ const ContractTitleComponents = ({contracts, onSearch, onAddContract}) => {
     };
 
     return (
-        <div className="row contract-title d-flex justify-content-between align-items-center">
+        <div className="row contract-tittle d-flex justify-content-between align-items-center">
             <div className="col-sm-6">
                 <h2>DANH SÁCH HỢP ĐỒNG</h2>
             </div>
