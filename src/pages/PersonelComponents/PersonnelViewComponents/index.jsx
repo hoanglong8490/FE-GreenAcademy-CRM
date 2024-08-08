@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import InputComponents from "../../../components/InputComponents";
-const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
+
+const PersonnelViewComponents = ({show, handleClose, personnel}) => {
     if (!personnel) return null;
 
     return (
@@ -158,7 +159,8 @@ const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
                             {personnel.image && Array.isArray(personnel.image) && personnel.image.length > 0 ? (
                                 <div className="mt-2">
                                     {personnel.image.map((image, index) => (
-                                        <img key={index} src={image.url} alt={image.name} className="img-thumbnail mb-2" style={{ width: '100px', height: '100px' }} />
+                                        <img key={index} src={image.url} alt={image.name} className="img-thumbnail mb-2"
+                                             style={{width: '100px', height: '100px'}}/>
                                     ))}
                                 </div>
                             ) : (

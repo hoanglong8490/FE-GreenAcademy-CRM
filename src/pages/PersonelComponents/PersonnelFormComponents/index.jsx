@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import FormInput from "../../../components/FormInputComponents";
 import InputComponents from "../../../components/InputComponents";
-const PersonnelForm = ({ onSubmit, personnels }) => {
+
+const PersonnelForm = ({onSubmit, personnels}) => {
     const [formData, setFormData] = useState({
         id: '',
         positionId: '',
@@ -30,7 +31,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
+        const {name, value, files} = e.target;
         if (files) {
             setFormData({
                 ...formData,
@@ -141,7 +142,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                 });
                 setErrors({});
             } else {
-                setErrors({ image: 'Hình ảnh không hợp lệ' });
+                setErrors({image: 'Hình ảnh không hợp lệ'});
             }
         }
     };

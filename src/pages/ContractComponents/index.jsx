@@ -1,5 +1,4 @@
-// src/components/ContractComponents.js
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './Contract.scss';
 import TableComponents from "../../components/TableComponents";
 import TableBodyComponents from "../../components/TableBodyComponents";
@@ -7,14 +6,13 @@ import ContractForm from "./ContractFormComponents/index.";
 import ContractViewComponents from "./ContractViewComponents";
 import ContractEditComponents from "./ContractEditComponents";
 import PagingComponent from "../../components/PagingComponent";
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 import ConfirmationComponents from "../../components/ConfirmationComponents";
-import {NumericFormat} from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
 import ContractTitleComponents from "./ContractTittleComponents";
-import {addContract, deleteContract, fetchContracts, updateContract} from "./ContractService/contractService";
-import {toast} from "react-toastify";
-import {Col, Container, Row, Spinner} from "react-bootstrap";
-
+import { addContract, deleteContract, fetchContracts, updateContract } from "./ContractService/contractService";
+import { toast } from "react-toastify";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 
 const itemsPerPage = 10;
 
@@ -127,8 +125,7 @@ const ContractComponents = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    
-    //định dạng ngày thành chuỗi hiển thị
+
     const formatDate = (dateString) => {
         return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
     };

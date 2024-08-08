@@ -8,25 +8,23 @@
   padding: 0;
   margin: 20px 0;
   justify-content: center;
+}
 
-  li {
-    margin: 0 5px;
-  }
+.pagination li {
+  margin: 0 5px;
+}
 
-  a,
-  span {
-    padding: 5px 10px;
-    //border: 1px solid $border-color;
-    border-radius: 4px;
-    text-decoration: none;
-    color: $text-color;
-    cursor: pointer;
-  }
+.pagination a,
+.pagination span {
+  padding: 5px 10px;
+  /* border: 1px solid $border-color; */
+  border-radius: 4px;
+  text-decoration: none;
+  color: $text-color;
+  cursor: pointer;
+}
 
-  .active {
-    a {
-      background-color: $active-bg-color;
-      color: $active-text-color;
-    }
-  }
+.pagination .active a {
+  background-color: $active-bg-color;
+  color: $active-text-color;
 }

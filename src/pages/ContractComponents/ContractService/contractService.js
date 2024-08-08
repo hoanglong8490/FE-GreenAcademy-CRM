@@ -1,5 +1,3 @@
-// Service methods
-// (Create, Read, Update, Delete)
 import axios from 'axios';
 
 const apiEndpoint = 'https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contract';
@@ -36,7 +34,8 @@ export const updateContract = async (updatedContract) => {
         throw error;
     }
 };
-// Xóa hợp đồng status = false :
+
+// Xóa hợp đồng (status = false)
 export const deleteContract = async (contractId, contractToUpdate) => {
     try {
         const response = await axios.put(`${apiEndpoint}/${contractId}`, {

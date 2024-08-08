@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';  // Sử dụng React-Bootstrap
+import React, {useEffect, useState} from 'react';
+import {Button, Modal} from 'react-bootstrap'; // Sử dụng React-Bootstrap
 import InputComponents from "../../../components/InputComponents";
-const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
+
+const PersonnelEditComponent = ({show, handleClose, personnel, onSave}) => {
 
     const [formData, setFormData] = useState({
         id: '',
@@ -56,7 +57,7 @@ const PersonnelEditComponent = ({ show, handleClose, personnel, onSave }) => {
     }, [personnel]);
 
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
+        const {name, value, files} = e.target;
         if (files) {
             setFormData({
                 ...formData,

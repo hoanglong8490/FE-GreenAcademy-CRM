@@ -2,9 +2,9 @@
 import React from 'react';
 import './App.css';
 import LayoutDefault from "./layouts/LayoutDefault";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { routeSideBar } from "./route";
-import 'react-toastify/dist/ReactToastify.css'; 
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {routeSideBar} from "./route";
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {
-                            return <Route key={index} path={item.to} element={<Component />} />;
+                            return <Route key={index} path={item.to} element={<Component/>}/>;
                         }
 
                         return item.child.map((subItem, subIndex) => {
@@ -24,7 +24,7 @@ function App() {
                                 <Route
                                     key={`${index}-${subIndex}`}
                                     path={subItem.to}
-                                    element={<ChildComponent />}
+                                    element={<ChildComponent/>}
                                 />
                             );
                         });
@@ -34,5 +34,6 @@ function App() {
         </BrowserRouter>
     );
 }
+
 
 export default App;

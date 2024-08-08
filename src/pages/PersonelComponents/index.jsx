@@ -1,18 +1,20 @@
 // Importing necessary modules and components
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './Personnel.scss';
 import TableComponents from "../../components/TableComponents";
 import TableBodyComponents from "../../components/TableBodyComponents";
-import PersonnelFormComponent from "./PersonnelFormComponents";
-import PersonnelViewComponent from "./PersonnelViewComponents";
-import PersonnelEditComponent from "./PersonelEditComponents";
 import PagingComponent from "../../components/PagingComponent";
-// import { format } from 'date-fns';
 import ConfirmationComponent from "../../components/ConfirmationComponents";
 import PersonnelTitleComponent from "./PersonnelTittleComponents";
-import { toast } from 'react-toastify';
-import { addPersonnel, deletePersonnel, fetchContracts, updatePersonnel } from "./PersonnelService/PersonnelSevice";
-import { Col, Container, Row } from "react-bootstrap";
+import {toast} from 'react-toastify';
+// import { format } from 'date-fns';
+import {addPersonnel, deletePersonnel, fetchContracts, updatePersonnel} from "./PersonnelService/PersonnelSevice";
+import {Col, Container, Row} from "react-bootstrap";
+import PersonnelFormComponents from "./PersonnelFormComponents";
+import PersonnelViewComponents from "./PersonnelViewComponents";
+import PersonnelEditComponent from "./PersonelEditComponents";
+
+// Constants
 // Constants
 const itemsPerPage = 10;
 
@@ -34,19 +36,19 @@ const PersonnelComponents = () => {
     useEffect(() => {
         loadPersonnels();
     }, []);
+
     const loadPersonnels = async () => {
         try {
             const personnelsData = await fetchContracts();
             setPersonnels(personnelsData);
             setFilteredPersonnels(personnelsData);
             setTotalPage(Math.ceil(personnelsData.length / itemsPerPage));
-
-            // toast.success('Dữ liệu hợp đồng đã được tải thành công!');
-
+            toast.success('Dữ liệu hợp đồng đã được tải thành công!');
         } catch (error) {
             toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
     };
+
     // Handle search and update filtered personnels
     const handleSearch = (filtered) => {
         const sortedFiltered = filtered.sort((a, b) => b.status - a.status);
@@ -55,10 +57,9 @@ const PersonnelComponents = () => {
         setCurrentPage(1);
     };
 
-    // Handle adding a new personnel    
+    // Handle adding a new personnel
     const handleAddPersonnel = async (newPersonnel) => {
         try {
-            console.log(newPersonnel);
             const addedPersonnel = await addPersonnel(newPersonnel);
             const updatedPersonnels = [...personnels, addedPersonnel].sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
@@ -66,19 +67,14 @@ const PersonnelComponents = () => {
             setTotalPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             setCurrentPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             toast.success('Thêm thành công nhân viên');
-            console.log(addedPersonnel);
-
         } catch (error) {
-            toast.success('Có lỗi xảy ra khi thêm nhân viên');
-            console.error('Có lỗi xảy ra khi thêm nhân viên!', error);
-            toast.error(error.message);
+            toast.error('Có lỗi xảy ra khi thêm nhân viên');
         }
     };
 
     // Handle editing an existing personnel
     const handleSaveEdit = async (updatedPersonnel) => {
         try {
-            console.log(updatedPersonnel);
             const savedPersonnel = await updatePersonnel(updatedPersonnel);
             const updatedPersonnels = personnels.map(personnel =>
                 personnel.id === updatedPersonnel.id ? savedPersonnel : personnel
@@ -89,7 +85,7 @@ const PersonnelComponents = () => {
             setEditModalShow(false);
             toast.success('Cập nhật thành công!');
         } catch (error) {
-            console.error('Có lỗi xảy ra khi cập nhật nhân viên!', error);
+            toast.error('Có lỗi xảy ra khi cập nhật nhân viên!');
         }
     };
 
@@ -109,7 +105,7 @@ const PersonnelComponents = () => {
                 toast.success("Xóa thành công nhân viên");
             }
         } catch (error) {
-            console.error('Có lỗi xảy ra khi cập nhật thông tin nhân viên!', error);
+            toast.error('Có lỗi xảy ra khi cập nhật thông tin nhân viên!');
         }
     };
 
@@ -124,11 +120,6 @@ const PersonnelComponents = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    // Format date to a readable format
-    // const formatDate = (dateString) => {
-    //     return dateString ? format(new Date(dateString), 'dd/MM/yyyy') : '';
-    // };
 
     // Handle view action for a personnel
     const handleView = (personnel) => {
@@ -176,15 +167,15 @@ const PersonnelComponents = () => {
 
     return (
         <Container fluid className="personnel-list">
-            <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} />
+            <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels}/>
             <Row className="personnel-content">
                 <Col xs={12} md={4}>
                     <h3>Thêm nhân viên</h3>
-                    <PersonnelFormComponent onSubmit={handleAddPersonnel} personnels={personnels} />
+                    <PersonnelFormComponents onSubmit={handleAddPersonnel} personnels={personnels}/>
                 </Col>
                 <Col xs={12} md={8}>
                     <TableComponents headers={headerPersonnel}>
-                        <TableBodyComponents rows={rows} />
+                        <TableBodyComponents rows={rows}/>
                     </TableComponents>
                     <PagingComponent
                         totalPage={totalPage}
@@ -193,7 +184,7 @@ const PersonnelComponents = () => {
                     />
                 </Col>
             </Row>
-            <PersonnelViewComponent
+            <PersonnelViewComponents
                 show={viewModalShow}
                 handleClose={() => setViewModalShow(false)}
                 personnel={selectedPersonnel}
@@ -203,7 +194,6 @@ const PersonnelComponents = () => {
                 handleClose={() => setEditModalShow(false)}
                 personnel={selectedPersonnel}
                 onSave={handleSaveEdit}
-
             />
             <ConfirmationComponent
                 show={deleteModalShow}

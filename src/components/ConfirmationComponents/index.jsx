@@ -23,4 +23,3 @@ const ConfirmationComponents = ({show, handleClose, onConfirm, message}) => {
 
 export default ConfirmationComponents;
 
-

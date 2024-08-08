@@ -4,7 +4,7 @@ import axios from "axios";
 const UserComponent = () => {
     const [users, setUsers] = useState([]);
     useEffect(() => {
-        axios.get("data/user.json").then((res) => setUsers(res.data.data)).catch((err) => console.log("Xay ra loi roi" + err));
+        axios.get("data/user.json").then((res) => setUsers(res.data.data)).catch((err) => console.log("Xay ra loi roi"+ err))    ;
     }, [])
     console.log("user render")
     return <>
@@ -47,7 +47,6 @@ const UserComponent = () => {
                                     {
                                         users.length > 0 &&
                                         users.map((user, index) => {
-                                  
                                             return <tr key={index}>
                                                 <td>{user.name}</td>
                                                 <td>Internet

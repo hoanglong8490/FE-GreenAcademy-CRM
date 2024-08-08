@@ -1,4 +1,3 @@
-// src/components/EditContractModal.js
 import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {NumericFormat} from 'react-number-format';
@@ -15,7 +14,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
         endDate: '',
         status: true,
         files: [],
-        update_at: ''
+        updated_at: ''
     });
 
     // useEffect để cập nhật dữ liệu form khi contract thay đổi
@@ -35,7 +34,6 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
     }, [contract]);
 
     // Hàm xử lý thay đổi dữ liệu form
-
     const handleChange = (e) => {
         const {name, value, files, type} = e.target;
         if (type === 'file') {
@@ -113,7 +111,7 @@ const ContractEditComponents = ({show, handleClose, contract, onSave}) => {
                                 salary: parseFloat(value)
                             });
                         }}
-                        // isNumericString
+                        isNumericString
                     />
                 </div>
                 <div className="form-group">
