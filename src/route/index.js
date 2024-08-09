@@ -1,19 +1,19 @@
 import {
-  BookComponent,
-  ClassComponent,
-  ContractComponents,
-  CourseComponent,
-  DecisionComponent,
-  DepartmentComponent,
-  ExamComponent,
-  LiabilityComponents,
-  PersonelComponents,
-  QualificationComponents,
-  ReservationComponent,
-  ScheduleComponent3,
-  SubjectComponent,
-  TrainningProgramComponent,
-  UserComponent
+    BookComponent,
+    ClassComponent,
+    ContractComponents,
+    CourseComponent,
+    DecisionComponent,
+    DepartmentComponent,
+    ExamComponent,
+    LiabilityComponents,
+    PersonelComponents,
+    QualificationComponents,
+    ReservationComponent,
+    ScheduleComponent3,
+    SubjectComponent,
+    TrainningProgramComponent,
+    UserComponent
 } from "../pages";
 
 

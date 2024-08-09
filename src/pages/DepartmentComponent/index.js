@@ -7,6 +7,7 @@ import DepartmentForm from './Utils/DepartmentForm';
 import DepartmentTable from './Utils/DepartmentTable';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { validateDepartmentForm } from './Utils/ValidationDepartment';
 
 
 
@@ -26,7 +27,7 @@ export default function DepartmentComponent() {
     const [editingDepartmentId, setEditingDepartmentId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
-
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,15 +52,16 @@ export default function DepartmentComponent() {
             ...formValue,
             [name]: value
         })
-    }    
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const createDateISO = formatDate(formValue.createDate);
-        const updateDateISO = formatDate(formValue.updateDate);
-        if (!createDateISO || !updateDateISO) {
-            alert("Ngày tạo hoặc ngày cập nhật không hợp lệ");
+        const validationErrors = validateDepartmentForm(formValue, departments,editingDepartmentId);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
+        const createDateISO = formatDate(formValue.createDate);
+        const updateDateISO = formatDate(formValue.updateDate);
         const departmentData = {
             departmentName: formValue.departmentName,
             description: formValue.description,
@@ -77,7 +79,7 @@ export default function DepartmentComponent() {
             }
             if (res) {
                 setDepartments(isEditing ? departments.map(dep => dep.id === editingDepartmentId ? res : dep) : [...departments, res]);
-                toast.success(isEditing ? "Cập nhật phòng ban thành công!":"Thêm mới phòng ban thành công!")
+                toast.success(isEditing ? "Cập nhật phòng ban thành công!" : "Thêm mới phòng ban thành công!")
                 setFormValue({
                     departmentName: "",
                     description: "",
@@ -86,15 +88,16 @@ export default function DepartmentComponent() {
                     updateDate: "",
                 });
                 setEditingDepartmentId(null);
+                setErrors({});
             }
         } catch (error) {
             console.error("Error adding or updating department:", error);
+            setErrors(error.response?.data?.errors || {});
         }
     };
     const handleModalInfo = async (item) => {
         const departmentId = item.data[0];
         const department = await fetchDepartmentById(departmentId);
-        console.log("department", department)
         if (department) {
             setModalContent({
                 title: 'Thông tin phòng ban',
@@ -143,12 +146,12 @@ export default function DepartmentComponent() {
             });
             setEditingDepartmentId(departmentId);
             setIsEditing(true);
-
+            setErrors({});
         }
     };
     const handleDeleteDepartment = async (item) => {
         const departmentId = item.data[0];
-        const confirmDelete = window.confirm("Bán muôn xóa phòng ban này khong?");
+        const confirmDelete = window.confirm(`Bán muôn xóa phòng ban này khong?`);
         if (confirmDelete) {
             try {
                 await deleteDepartment(departmentId);
@@ -182,19 +185,18 @@ export default function DepartmentComponent() {
             { className: 'btn-info', icon: 'fa-eye', onClick: handleModalInfo },
             { className: "btn-warning", icon: "fa-pen", onClick: handleUpdateDepartment },
             { className: 'btn-danger', icon: 'fa-trash', onClick: handleDeleteDepartment }
-
         ]
     }))
 
     return (
         <div>
             <section className="content-header">
-                <div className="container-fluid" bis_skin_checked={1}>
-                    <div className="row mb-2" bis_skin_checked={1}>
-                        <div className="col-sm-6" bis_skin_checked={1}>
+                <div className="container-fluid" >
+                    <div className="row mb-2" >
+                        <div className="col-sm-6" >
                             <h1>Quản lý phòng ban</h1>
                         </div>
-                        <div className="col-sm-6" bis_skin_checked={1}>
+                        <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><NavLink to="#">Home</NavLink></li>
                                 <li className="breadcrumb-item active">Quản lý phòng ban</li>
@@ -207,18 +209,13 @@ export default function DepartmentComponent() {
                 <div className="container-fluid">
                     <div className="row" >
                         {/* FROM INOUT */}
-                        <DepartmentForm formValue={formValue} handleChange={handleChange} handleSubmit={handleSubmit} isEditing={isEditing} statuses={statuses} />
+                        <DepartmentForm formValue={formValue} handleChange={handleChange} handleSubmit={handleSubmit} isEditing={isEditing} statuses={statuses} errors={errors} />
                         {/* LIST DEPARTMENT */}
                         <DepartmentTable header={header} row={row} pageCount={pageCount} handlePageClick={handlePageClick} search={search} handleSearch={handleSearch} />
                     </div>
                 </div >
             </section >
-            <InfoModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                title={modalContent.title}
-                content={modalContent.content}
-            />
+            <InfoModal isOpen={isModalOpen} onClose={closeModal} title={modalContent.title} content={modalContent.content} />
         </div >
     )
 }
