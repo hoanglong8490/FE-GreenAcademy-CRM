@@ -39,7 +39,6 @@ const PersonnelComponents = () => {
             setPersonnels(personnelsData);
             setFilteredPersonnels(personnelsData);
             setTotalPage(Math.ceil(personnelsData.length / itemsPerPage));
-            toast.success('Dữ liệu hợp đồng đã được tải thành công!');
         } catch (error) {
             toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
@@ -62,6 +61,8 @@ const PersonnelComponents = () => {
             setCurrentPage(Math.ceil(updatedPersonnels.length / itemsPerPage));
             toast.success('Thêm thành công nhân viên');
             setShowAddForm(false);
+            console.log();
+
         } catch (error) {
             toast.error('Có lỗi xảy ra khi thêm nhân viên');
         }
@@ -157,7 +158,7 @@ const PersonnelComponents = () => {
         <Container fluid className="personnel-list">
             {!showAddForm ? (
                 <>
-                    <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} onAddNewClick={() => setShowAddForm(true)} onAddPersonnel={handleAddPersonnel} />
+                    <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} onAddNewClick={() => setShowAddForm(true)} />
                     <Row className="personnel-content">
                         <Col xs={12} md={12}>
                             <TableComponents headers={headerPersonnel}>

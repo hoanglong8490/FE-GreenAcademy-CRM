@@ -4,7 +4,7 @@ import { CSVLink } from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
 import ButtonComponents from "../../../components/ButtonComponents";
 
-const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick }) => { // Add onAddNewClick as a prop
+const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick }) => {
     const handleSearch = (searchTerm) => {
         const searchValue = searchTerm.toLowerCase();
 

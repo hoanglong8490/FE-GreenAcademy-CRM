@@ -70,8 +70,8 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         } else if (personnels.some(personnel => personnel.CCCD === formData.CCCD)) {
             newErrors.CCCD = 'CCCD đã tồn tại';
         }
-        if (!formData.position || formData.position === "--Chọn chức vụ--") {
-            newErrors.position = 'Chức vụ không được để trống';
+        if (!formData.positionName || formData.positionName === "--Chọn chức vụ--") {
+            newErrors.positionName = 'Chức vụ không được để trống';
         }
         if (!formData.departmentName) newErrors.departmentName = 'Tên Phòng ban không được để trống';
         if (!formData.address) newErrors.address = 'Địa chỉ không được để trống';
@@ -142,6 +142,8 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     endDate: ''
                 });
                 setErrors({});
+                console.log(formData);
+
             } else {
                 setErrors({ image: 'Hình ảnh không hợp lệ' });
             }
