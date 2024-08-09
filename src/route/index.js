@@ -13,7 +13,8 @@ import {
     ScheduleComponent3,
     SubjectComponent,
     TrainningProgramComponent,
-    UserComponent
+    UserComponent,
+    AllowanceComponents
 } from "../pages";
 
 
@@ -62,7 +63,7 @@ export const routeSideBar = [
                 name: "Allowance-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/allowances",
-                component: BookComponent,
+                component: AllowanceComponents,
                 child: [],
             },
             {
