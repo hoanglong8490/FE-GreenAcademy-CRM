@@ -16,6 +16,7 @@ import ExamComponent from "./ExamComponent";
 import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
+import AllowanceComponents from "./AllowanceComponents";
 
 export {
   BookComponent,
@@ -35,6 +36,6 @@ export {
   ClassComponent,
   ExamComponent,
   TrainningProgramComponent,
-  TimesheetComponent
+    AllowanceComponents
 };
 
