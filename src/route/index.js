@@ -12,6 +12,7 @@ import {
     ReservationComponent,
     ScheduleComponent3,
     SubjectComponent,
+    TimesheetComponent,
     TrainningProgramComponent,
     UserComponent,
     AllowanceComponents
@@ -85,6 +86,13 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-file-contract",
                 to: "/decisions",
                 component: DecisionComponent,
+                child: [],
+            },
+            {
+                name: "Checkin-List",
+                icon: "nav-icon fas fa-solid fa-check-to-slot",
+                to: "/checkins",
+                component: TimesheetComponent,
                 child: [],
             },
         ],
