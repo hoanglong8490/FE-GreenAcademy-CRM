@@ -13,8 +13,10 @@ import ContractComponents from "./ContractComponents";
 import LiabilityComponents from "./LiabilityComponents";
 import ClassComponent from "./ClassComponent";
 import ExamComponent from "./ExamComponent";
+import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
+import AllowanceComponents from "./AllowanceComponents";
 
 export {
   BookComponent,
@@ -33,6 +35,7 @@ export {
   LiabilityComponents,
   ClassComponent,
   ExamComponent,
-  TrainningProgramComponent
+  TrainningProgramComponent,
+    AllowanceComponents
 };
 

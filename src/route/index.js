@@ -12,6 +12,10 @@ import {
     SubjectComponent,
     TuitionFeeComponent,
     UserComponent,
+    TimesheetComponent,
+    TrainningProgramComponent,
+    UserComponent,
+    AllowanceComponents
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -62,7 +66,7 @@ export const routeSideBar = [
                 name: "Allowance-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/allowances",
-                component: BookComponent,
+                component: AllowanceComponents,
                 child: [],
             },
             {
@@ -84,6 +88,13 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-file-contract",
                 to: "/decisions",
                 component: DecisionComponent,
+                child: [],
+            },
+            {
+                name: "Checkin-List",
+                icon: "nav-icon fas fa-solid fa-check-to-slot",
+                to: "/checkins",
+                component: TimesheetComponent,
                 child: [],
             },
         ],

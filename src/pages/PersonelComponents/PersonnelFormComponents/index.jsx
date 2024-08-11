@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import FormInput from "../../../components/FormInputComponents";
 import InputComponents from "../../../components/InputComponents";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const PersonnelForm = ({onSubmit, personnels}) => {
+const PersonnelForm = ({ onSubmit, personnels }) => {
     const [formData, setFormData] = useState({
         id: '',
         positionId: '',
@@ -31,7 +32,7 @@ const PersonnelForm = ({onSubmit, personnels}) => {
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
         if (files) {
             setFormData({
                 ...formData,
@@ -69,8 +70,8 @@ const PersonnelForm = ({onSubmit, personnels}) => {
         } else if (personnels.some(personnel => personnel.CCCD === formData.CCCD)) {
             newErrors.CCCD = 'CCCD đã tồn tại';
         }
-        if (!formData.position || formData.position === "--Chọn chức vụ--") {
-            newErrors.position = 'Chức vụ không được để trống';
+        if (!formData.positionName || formData.positionName === "--Chọn chức vụ--") {
+            newErrors.positionName = 'Chức vụ không được để trống';
         }
         if (!formData.departmentName) newErrors.departmentName = 'Tên Phòng ban không được để trống';
         if (!formData.address) newErrors.address = 'Địa chỉ không được để trống';
@@ -141,157 +142,168 @@ const PersonnelForm = ({onSubmit, personnels}) => {
                     endDate: ''
                 });
                 setErrors({});
+                console.log(formData);
+
             } else {
-                setErrors({image: 'Hình ảnh không hợp lệ'});
+                setErrors({ image: 'Hình ảnh không hợp lệ' });
             }
         }
     };
 
     return (
+
         <form onSubmit={handleSubmit}>
-            <FormInput
-                label="Mã nhân viên"
-                type="text"
-                name="employeeId"
-                value={formData.employeeId}
-                onChange={handleChange}
-                error={errors.employeeId}
-            />
-            <FormInput
-                label="Tên nhân viên"
-                type="text"
-                name="employeeName"
-                value={formData.employeeName}
-                onChange={handleChange}
-                error={errors.employeeName}
-            />
-            <div className="form-group">
-                <label>Chức vụ</label>
-                <select
-                    name="positionName"
-                    value={formData.positionName}
-                    onChange={handleChange}
-                    className="form-control"
-                >
-                    <option value="">--Chọn chức vụ--</option>
-                    <option value="Giám đốc">Giám đốc</option>
-                    <option value="Trưởng phòng">Trưởng phòng</option>
-                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
-                    <option value="Nhân viên thử việc">Nhân viên thử việc</option>
-                </select>
-                {errors.positionName && <div className="text-danger">{errors.positionName}</div>}
-            </div>
-            <FormInput
-                label="Phòng ban"
-                type="text"
-                name="departmentName" // Đảm bảo name khớp với tên trong state
-                value={formData.departmentName}
-                onChange={handleChange}
-                error={errors.departmentName}
-            />
-            <FormInput
-                label="Ngày sinh"
-                type="date"
-                name="date" // Đảm bảo name khớp với tên trong state
-                value={formData.date}
-                onChange={handleChange}
-                error={errors.date}
-            />
-            <FormInput
-                label="Địa chỉ"
-                type="text"
-                name="address" // Đảm bảo name khớp với tên trong state
-                value={formData.address}
-                onChange={handleChange}
-                error={errors.address}
-            />
-            <div className="form-group">
-                <label>Giới tính</label>
-                <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="form-control"
-                >
-                    <option value="">--Chọn giới tính--</option>
-                    <option value="Nam">Nam</option>
-                    <option value="Nữ">Nữ</option>
-                </select>
-                {errors.gender && <div className="text-danger">{errors.gender}</div>}
-            </div>
-            <FormInput
-                label="Email"
-                type="text"
-                name="email" // Đảm bảo name khớp với tên trong state
-                value={formData.email}
-                onChange={handleChange}
-                error={errors.email}
-            />
-            <FormInput
-                label="Số điện thoại"
-                type="text"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                error={errors.phoneNumber}
-            />
-            <FormInput
-                label="CCCD"
-                type="text"
-                name="CCCD"
-                value={formData.CCCD}
-                onChange={handleChange}
-                error={errors.CCCD}
-            />
-            <FormInput
-                label="Bằng cấp"
-                type="text"
-                name="qualificationName"
-                value={formData.qualificationName}
-                onChange={handleChange}
-                error={errors.qualificationName}
-            />
-            <div className="form-group">
-                <label>Ngày bắt đầu</label>
-                <InputComponents
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleChange}
-                    error={errors.startDate}
-                />
-                {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
-            </div>
-            <div className="form-group">
-                <label>Ngày kết thúc</label>
-                <InputComponents
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleChange}
-                    error={errors.endDate}
-                />
-                {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
-            </div>
-            <div className="form-group">
-                <label>Image</label>
-                <input
-                    type="file"
-                    name="image"
-                    multiple
-                    onChange={handleChange}
-                    className="form-control"
-                    accept=".jpg,.png"
-                />
-                {formData.image.length > 0 && (
-                    <ul className="list-group mt-2">
-                        {formData.image.map((image, index) => (
-                            <li key={index} className="list-group-item">
-                                {image.name}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+            <div className="row d-flex justify-content-center align-items-center">
+                <div className="col-md-5">
+                    <FormInput
+                        label="Mã nhân viên"
+                        type="text"
+                        name="employeeId"
+                        value={formData.employeeId}
+                        onChange={handleChange}
+                        error={errors.employeeId}
+                    />
+
+                    <FormInput
+                        label="Tên nhân viên"
+                        type="text"
+                        name="employeeName"
+                        value={formData.employeeName}
+                        onChange={handleChange}
+                        error={errors.employeeName}
+                    />
+                    <div className="form-group">
+                        <label>Chức vụ</label>
+                        <select
+                            name="positionName"
+                            value={formData.positionName}
+                            onChange={handleChange}
+                            className="form-control"
+                        >
+                            <option value="">--Chọn chức vụ--</option>
+                            <option value="Giám đốc">Giám đốc</option>
+                            <option value="Trưởng phòng">Trưởng phòng</option>
+                            <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                            <option value="Nhân viên thử việc">Nhân viên thử việc</option>
+                        </select>
+                        {errors.positionName && <div className="text-danger">{errors.positionName}</div>}
+                    </div>
+                    <FormInput
+                        label="Phòng ban"
+                        type="text"
+                        name="departmentName"
+                        value={formData.departmentName}
+                        onChange={handleChange}
+                        error={errors.departmentName}
+                    />
+                    <FormInput
+                        label="Ngày sinh"
+                        type="date"
+                        name="date"
+                        value={formData.date}
+                        onChange={handleChange}
+                        error={errors.date}
+                    />
+
+                    <FormInput
+                        label="Địa chỉ"
+                        type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        error={errors.address}
+                    />
+                    <div className="form-group">
+                        <label>Giới tính</label>
+                        <select
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            className="form-control"
+                        >
+                            <option value="">--Chọn giới tính--</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                        {errors.gender && <div className="text-danger">{errors.gender}</div>}
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <FormInput
+                        label="Email"
+                        type="text"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        error={errors.email}
+                    />
+                    <FormInput
+                        label="Số điện thoại"
+                        type="text"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        error={errors.phoneNumber}
+                    />
+                    <FormInput
+                        label="CCCD"
+                        type="text"
+                        name="CCCD"
+                        value={formData.CCCD}
+                        onChange={handleChange}
+                        error={errors.CCCD}
+                    />
+                    <FormInput
+                        label="Bằng cấp"
+                        type="text"
+                        name="qualificationName"
+                        value={formData.qualificationName}
+                        onChange={handleChange}
+                        error={errors.qualificationName}
+                    />
+                    <div className="form-group">
+                        <label>Ngày bắt đầu</label>
+                        <InputComponents
+                            type="date"
+                            name="startDate"
+                            value={formData.startDate}
+                            onChange={handleChange}
+                            error={errors.startDate}
+                        />
+                        {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
+                    </div>
+                    <div className="form-group">
+                        <label>Ngày kết thúc</label>
+                        <InputComponents
+                            type="date"
+                            name="endDate"
+                            value={formData.endDate}
+                            onChange={handleChange}
+                            error={errors.endDate}
+                        />
+                        {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
+                    </div>
+                    <div className="form-group">
+                        <label>Image</label>
+                        <input
+                            type="file"
+                            name="image"
+                            multiple
+                            onChange={handleChange}
+                            className="form-control"
+                            accept=".jpg,.png"
+                        />
+                        {formData.image.length > 0 && (
+                            <ul className="list-group mt-2">
+                                {formData.image.map((image, index) => (
+                                    <li key={index} className="list-group-item">
+                                        {image.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
             </div>
             <button type="submit" className="btn btn-primary">Thêm nhân viên</button>
         </form>
