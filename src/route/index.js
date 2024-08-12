@@ -1,48 +1,51 @@
 import {
     BookComponent,
-    ClassComponent,
     ContractComponents,
     CourseComponent,
     DecisionComponent,
     DepartmentComponent,
-    ExamComponent,
     LiabilityComponents,
+    MarketingCampaignComponent,
     PersonelComponents,
     QualificationComponents,
-    ReservationComponent,
     ScheduleComponent3,
     SubjectComponent,
+    TuitionFeeComponent,
+    UserComponent,
+    TimesheetComponent,
     TrainningProgramComponent,
-    UserComponent
-} from "../pages";
+    AllowanceComponents,
+    ClassComponent,
+    ExamComponent
 
+} from "../pages";
 
 export const routeSideBar = [
     {
         name: "Dashboard",
-        icon: "nav-icon fas fa-edit",
-        to: "#",
+        icon: "nav-icon fas fa-tachometer-alt",
+        component: UserComponent,
+        to: "/",
         child: [],
     },
+
     {
         name: "Form",
         icon: "nav-icon fas fa-edit",
-        to: "#",
+        to: "/form",
         child: [
             {
                 name: "List",
                 icon: "nav-icon fas fa-tachometer-alt",
                 to: "/list",
                 component: UserComponent,
-                child: [],
             },
         ],
     },
-
     {
         name: "Personnel",
         icon: "nav-icon fas fa-user-friends ",
-        to: "#",
+        to: "/personal",
         child: [
             {
                 name: "Personnel-List",
@@ -62,7 +65,7 @@ export const routeSideBar = [
                 name: "Allowance-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/allowances",
-                component: BookComponent,
+                component: AllowanceComponents,
                 child: [],
             },
             {
@@ -86,12 +89,20 @@ export const routeSideBar = [
                 component: DecisionComponent,
                 child: [],
             },
+            {
+                name: "Checkin-List",
+                icon: "nav-icon fas fa-solid fa-check-to-slot",
+                to: "/checkins",
+                component: TimesheetComponent,
+                child: [],
+            },
         ],
     },
+
     {
         name: "Education",
         icon: "nav-icon fas fa-book",
-        to: "#",
+        to: "/education",
         child: [
             {
                 name: "Quản lý học viên",
@@ -104,18 +115,20 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-book",
                 to: "/subjects",
                 component: SubjectComponent,
+
             },
             {
                 name: "Quản lý lớp",
                 icon: "nav-icon fas fa-chalkboard-teacher",
                 to: "/classes",
                 component: ClassComponent,
+
             },
             {
                 name: "Quản lý bảo lưu",
                 icon: "nav-icon fas fa-pause-circle",
                 to: "/reservations",
-                component: ReservationComponent,
+                component: BookComponent,
             },
             {
                 name: "Quản lý thành viên lớp",
@@ -138,8 +151,8 @@ export const routeSideBar = [
             {
                 name: "Quản lý khoá học",
                 icon: "nav-icon fas fa-clipboard-list",
-                to: "/courses",
                 component: CourseComponent,
+                to: "/courses",
             },
             {
                 name: "Quản lý lịch học",
@@ -162,9 +175,28 @@ export const routeSideBar = [
         ],
     },
     {
+        name: "Sales",
+        icon: "nav-icon fas fa-dollar-sign",
+        to: "/sale",
+        child: [
+            {
+                name: "Quản lý học phí",
+                icon: "nav-icon fas fa-money-bill-wave",
+                to: "/tuitionfee",
+                component: TuitionFeeComponent
+            },
+            {
+                name: "Chến dịch quảng cáo",
+                icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
+                to: "/marketing-campaigns", // Define the route for the new component
+                component: MarketingCampaignComponent, // Add your new component here
+            },
+        ]
+    },
+    {
         name: "Liability",
         icon: "nav-icon fas fa-edit",
-        to: "#",
+        to: "/liability",
         child: [
             {
                 name: "Liability-List",
@@ -175,4 +207,6 @@ export const routeSideBar = [
             },
         ],
     },
+
+
 ];
