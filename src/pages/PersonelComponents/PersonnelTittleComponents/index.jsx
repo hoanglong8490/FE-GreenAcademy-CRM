@@ -47,10 +47,10 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick })
 
     return (
         <div className="row personnel-tittle d-flex justify-content-between align-items-center">
-            <div className="col-sm-6">
+            <div className="col-sm-4">
                 <h2>DANH SÁCH NHÂN VIÊN</h2>
             </div>
-            <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
+            <div className="action-button col-sm-8 d-flex justify-content-end align-items-center">
                 <SearchComponents onSearch={handleSearch} />
                 <ButtonComponents
                     className='btn btn-success d-flex align-items-center'

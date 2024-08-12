@@ -174,11 +174,13 @@ const PersonnelComponents = () => {
                 </>
             ) : (
                 <div>
-                    <h3>Thêm nhân viên mới</h3>
-                    <PersonnelFormComponents onSubmit={handleAddPersonnel} personnels={personnels} />
-                    <button className="btn btn-secondary mt-3" onClick={() => setShowAddForm(false)}>
-                        Quay lại
-                    </button>
+                    <div className="border border-dark rounded-5 mt-3 p-5">
+                        <h3>Thêm nhân viên mới</h3>
+                        <PersonnelFormComponents onSubmit={handleAddPersonnel} personnels={personnels} />
+                        <button className="btn btn-secondary mt-3" onClick={() => setShowAddForm(false)}>
+                            Quay lại
+                        </button>
+                    </div>
                 </div>
             )}
             <PersonnelViewComponents

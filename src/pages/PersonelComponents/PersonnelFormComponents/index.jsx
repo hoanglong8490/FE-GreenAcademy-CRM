@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormInput from "../../../components/FormInputComponents";
 import InputComponents from "../../../components/InputComponents";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,24 +24,37 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         CCCD: '',
         status: true,
         image: [],
-        startDate: '',
-        endDate: ''
-
+        created_at: '',
+        updated_at: ''
     });
 
     const [errors, setErrors] = useState({});
 
+    useEffect(() => {
+        const now = new Date().toISOString().slice(0, 16); // Slice for YYYY-MM-DD format
+        setFormData((prevState) => ({
+            ...prevState,
+            created_at: now,
+            updated_at: now,
+        }));
+    }, []);
+
     const handleChange = (e) => {
         const { name, value, files } = e.target;
+        const now = new Date().toISOString().slice(0, 16); // Move 'now' here
         if (files) {
             setFormData({
                 ...formData,
-                [name]: Array.from(files) // Chuyển đổi file thành một mảng
+                [name]: Array.from(files),
+                created_at: now,
+                updated_at: now
             });
         } else {
             setFormData({
                 ...formData,
-                [name]: value
+                [name]: value,
+                created_at: now,
+                updated_at: now
             });
         }
     };
@@ -70,6 +83,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         } else if (personnels.some(personnel => personnel.CCCD === formData.CCCD)) {
             newErrors.CCCD = 'CCCD đã tồn tại';
         }
+
         if (!formData.positionName || formData.positionName === "--Chọn chức vụ--") {
             newErrors.positionName = 'Chức vụ không được để trống';
         }
@@ -97,11 +111,6 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         if (!formData.date) {
             newErrors.date = 'Ngày sinh không được để trống';
         }
-        if (!formData.startDate) newErrors.startDate = 'Ngày bắt đầu không được để trống';
-
-        if (!formData.endDate) newErrors.endDate = 'Ngày kết thúc không được để trống';
-        if (new Date(formData.startDate) > new Date(formData.endDate))
-            newErrors.endDate = 'Ngày kết thúc phải sau ngày bắt đầu';
         return newErrors;
     };
 
@@ -111,13 +120,13 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            // Kiểm tra dữ liệu hình ảnh trước khi gọi onSubmit
             const validImages = formData.image.every(file => file instanceof File);
             if (validImages) {
                 onSubmit({
                     ...formData,
                     status: true
                 });
+                const now = new Date().toISOString().slice(0, 10);
                 setFormData({
                     id: '',
                     positionId: '',
@@ -138,12 +147,11 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                     qualificationName: '',
                     status: true,
                     image: [],
-                    startDate: '',
-                    endDate: ''
+                    created_at: now,
+                    updated_at: now
                 });
                 setErrors({});
                 console.log(formData);
-
             } else {
                 setErrors({ image: 'Hình ảnh không hợp lệ' });
             }
@@ -151,10 +159,9 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
     };
 
     return (
-
         <form onSubmit={handleSubmit}>
             <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-md-5">
+                <div className="col-md-6">
                     <FormInput
                         label="Mã nhân viên"
                         type="text"
@@ -163,7 +170,6 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                         onChange={handleChange}
                         error={errors.employeeId}
                     />
-
                     <FormInput
                         label="Tên nhân viên"
                         type="text"
@@ -171,6 +177,14 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                         value={formData.employeeName}
                         onChange={handleChange}
                         error={errors.employeeName}
+                    />
+                    <FormInput
+                        label="Phòng ban"
+                        type="text"
+                        name="departmentName"
+                        value={formData.departmentName}
+                        onChange={handleChange}
+                        error={errors.departmentName}
                     />
                     <div className="form-group">
                         <label>Chức vụ</label>
@@ -188,14 +202,7 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                         </select>
                         {errors.positionName && <div className="text-danger">{errors.positionName}</div>}
                     </div>
-                    <FormInput
-                        label="Phòng ban"
-                        type="text"
-                        name="departmentName"
-                        value={formData.departmentName}
-                        onChange={handleChange}
-                        error={errors.departmentName}
-                    />
+
                     <FormInput
                         label="Ngày sinh"
                         type="date"
@@ -213,6 +220,8 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                         onChange={handleChange}
                         error={errors.address}
                     />
+                </div>
+                <div className="col-md-6">
                     <div className="form-group">
                         <label>Giới tính</label>
                         <select
@@ -227,8 +236,8 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                         </select>
                         {errors.gender && <div className="text-danger">{errors.gender}</div>}
                     </div>
-                </div>
-                <div className="col-md-6">
+
+
                     <FormInput
                         label="Email"
                         type="text"
@@ -261,28 +270,6 @@ const PersonnelForm = ({ onSubmit, personnels }) => {
                         onChange={handleChange}
                         error={errors.qualificationName}
                     />
-                    <div className="form-group">
-                        <label>Ngày bắt đầu</label>
-                        <InputComponents
-                            type="date"
-                            name="startDate"
-                            value={formData.startDate}
-                            onChange={handleChange}
-                            error={errors.startDate}
-                        />
-                        {errors.startDate && <div className="text-danger">{errors.startDate}</div>}
-                    </div>
-                    <div className="form-group">
-                        <label>Ngày kết thúc</label>
-                        <InputComponents
-                            type="date"
-                            name="endDate"
-                            value={formData.endDate}
-                            onChange={handleChange}
-                            error={errors.endDate}
-                        />
-                        {errors.endDate && <div className="text-danger">{errors.endDate}</div>}
-                    </div>
                     <div className="form-group">
                         <label>Image</label>
                         <input
