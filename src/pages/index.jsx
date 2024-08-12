@@ -36,6 +36,7 @@ export {
   ClassComponent,
   ExamComponent,
   TrainningProgramComponent,
-    AllowanceComponents
+  AllowanceComponents,
+  TimesheetComponent
 };
 
