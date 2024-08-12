@@ -14,11 +14,11 @@ import {
     UserComponent,
     TimesheetComponent,
     TrainningProgramComponent,
-    AllowanceComponents
+    AllowanceComponents,
+    ClassComponent,
+    ExamComponent
+
 } from "../pages";
-import ClassComponent from "../pages/ClassComponent";
-// import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-import ExamComponent from "../pages/ExamComponent";
 
 export const routeSideBar = [
     {
