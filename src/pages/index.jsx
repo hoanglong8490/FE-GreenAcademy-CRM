@@ -18,7 +18,6 @@ import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import MarketingCampaignComponent from "./MarketingCampaignComponent";
-import TimesheetComponent from "./TimesheetComponent";
 import TuitionFeeComponent from "./TuitionFeeComponent";
 export {
   BookComponent,
