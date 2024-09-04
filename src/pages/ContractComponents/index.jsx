@@ -31,6 +31,8 @@ const ContractComponents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [emptyMessage, setEmptyMessage] = useState("");
+
 
   const contractTypeMap = {
     fulltime: "Hợp đồng lao động chính thức",
@@ -59,10 +61,18 @@ const ContractComponents = () => {
     setIsLoading(true);
     try {
       const contractsData = await fetchContracts();
-      // console.log(contractsData);
-      setContracts(contractsData);
-      setFilteredContracts(contractsData);
-      setTotalPage(Math.ceil(contractsData.length / itemsPerPage));
+
+      if (!contractsData || contractsData.length === 0) {
+        setContracts([]);
+        setFilteredContracts([]);
+        setTotalPage(0);
+        setEmptyMessage("Danh sách hợp đồng trống"); // Gán thông báo khi danh sách hợp đồng trống
+      } else {
+        setContracts(contractsData);
+        setFilteredContracts(contractsData);
+        setTotalPage(Math.ceil(contractsData.length / itemsPerPage));
+        setEmptyMessage(""); // Xóa thông báo khi có dữ liệu hợp đồng
+      }
     } catch (error) {
       toast.error("Có lỗi xảy ra khi lấy dữ liệu hợp đồng!");
     } finally {
@@ -80,6 +90,7 @@ const ContractComponents = () => {
   const handleAddContract = async (newContract) => {
     setIsLoading(true);
     try {
+      console.log(newContract,"tongggg");
       const contractWithDefaultStatus = {
         ...newContract,
         status: newContract.status || true,
@@ -227,53 +238,61 @@ const ContractComponents = () => {
     }));
 
   return (
-    <Container fluid className="Contract-list">
-      <ContractTitleComponents
-        onSearch={handleSearch}
-        contracts={contracts}
-        onAddContract={handleAddContract}
-      />
-      <Row className="contract-content">
-        <Col xs={12} md={4}>
-          <h3>Thêm hợp đồng</h3>
-          <ContractForm onSubmit={handleAddContract} contracts={contracts} />
-        </Col>
-        <Col xs={12} md={8}>
-          {isLoading && (
-            <div className="spinner-container text-primary">
-              <Spinner animation="border" role="status" />
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          )}
-          <TableComponents headers={headerContract}>
-            <TableBodyComponents rows={rows} />
-          </TableComponents>
-          <PagingComponent
-            totalPage={totalPage}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        </Col>
-      </Row>
-      <ContractViewComponents
-        show={viewModalShow}
-        handleClose={() => setViewModalShow(false)}
-        contract={selectedContract}
-      />
-      <ContractEditComponents
-        show={editModalShow}
-        handleClose={() => setEditModalShow(false)}
-        contract={selectedContract}
-        onSave={handleSaveEdit}
-      />
-      <ConfirmationComponents
-        show={deleteModalShow}
-        handleClose={() => setDeleteModalShow(false)}
-        onConfirm={handleDeleteConfirm}
-        message="Bạn có chắc chắn muốn xóa hợp đồng này?"
-      />
-    </Container>
+      <Container fluid className="Contract-list">
+        <ContractTitleComponents
+            onSearch={handleSearch}
+            contracts={contracts}
+            onAddContract={handleAddContract}
+        />
+        <Row className="contract-content">
+          <Col xs={12} md={4}>
+            <h3>Thêm hợp đồng</h3>
+            <ContractForm onSubmit={handleAddContract} contracts={contracts} />
+          </Col>
+          <Col xs={12} md={8}>
+            {isLoading ? (
+                <div className="spinner-container text-primary">
+                  <Spinner animation="border" role="status" />
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+            ) : contracts.length === 0 ? (
+                <span style={{ color: "red", fontWeight: "bold" }}>
+            Danh sách hợp đồng trống
+          </span>
+            ) : (
+                <>
+                  <TableComponents headers={headerContract}>
+                    <TableBodyComponents rows={rows} />
+                  </TableComponents>
+                  <PagingComponent
+                      totalPage={totalPage}
+                      currentPage={currentPage}
+                      onPageChange={handlePageChange}
+                  />
+                </>
+            )}
+          </Col>
+        </Row>
+        <ContractViewComponents
+            show={viewModalShow}
+            handleClose={() => setViewModalShow(false)}
+            contract={selectedContract}
+        />
+        <ContractEditComponents
+            show={editModalShow}
+            handleClose={() => setEditModalShow(false)}
+            contract={selectedContract}
+            onSave={handleSaveEdit}
+        />
+        <ConfirmationComponents
+            show={deleteModalShow}
+            handleClose={() => setDeleteModalShow(false)}
+            onConfirm={handleDeleteConfirm}
+            message="Bạn có chắc chắn muốn xóa hợp đồng này?"
+        />
+      </Container>
   );
 };
+
 
 export default ContractComponents;
