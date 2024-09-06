@@ -1,98 +1,136 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import FormInput from '../../../components/FormInputComponents';
 
-const QualificationFormComponent = () => {
-  const [imageSrc, setImageSrc] = useState('');
-  const [fileName, setFileName] = useState('Ảnh bằng cấp');
-  const imagePreviewRef = useRef(null);
+const QualificationForm = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    qualificationName : '',
+    employeeName: '',
+    image: '',
+    status: true,
+    duration: '',
+    id: '',
+  });
 
-  function previewImage(event) {
-    const input = event.target;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setImageSrc(e.target.result);
-        if (imagePreviewRef.current) {
-          imagePreviewRef.current.style.display = 'block';
-        }
-      };
-      reader.readAsDataURL(input.files[0]);
-      setFileName(input.files[0].name);
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      setFormData({
+        ...formData,
+        [name]: Array.from(files),
+      });
     } else {
-      setImageSrc('');
-      setFileName('Ảnh bằng cấp');
-      if (imagePreviewRef.current) {
-        imagePreviewRef.current.style.display = 'none';
-      }
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
-  }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.qualificationName) {
+      newErrors.qualificationName = 'Tên bằng cấp không được để trống';
+    }
+
+    if (!formData.employeeName) {
+      newErrors.employeeName = 'Tên nhân viên không được để trống';
+    }
+
+    if (!formData.duration) {
+      newErrors.duration = 'Thời hạn không được để trống';
+    }
+
+    if (!formData.image) {
+      newErrors.image = 'Hình ảnh không được để trống';
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      onSubmit({
+        ...formData,
+        status: true,
+      });
+      setFormData({
+        qualificationName : '',
+        employeeName: '',
+        image: '',
+        status: true,
+        duration: '',
+        id: '',
+      });
+      setErrors({});
+    }
+  };
 
   return (
-    <form className="col-4">
-      <section className="container">
-        <div className="row">
-          <div className="form-group col-12">
-            <label htmlFor="departmentName">Tên bằng cấp</label>
-            <input type="text" className="form-control" id="departmentName" placeholder="Tên bằng cấp" />
-          </div>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <FormInput
+        label="Tên nhân viên"
+        type="text"
+        name="qualificationName"
+        value={formData.qualificationName}
+        onChange={handleChange}
+        error={errors.qualificationName}
+      />
+      <div className="form-group">
+        <label>Tên nhân viên</label>
+        <select
+          name="employeeName"
+          value={formData.employeeName}
+          onChange={handleChange}
+          className="form-control"
+        >
+          <option value="">-- Chọn nhân viên --</option>
+          <option value="Nguyen Van A">Nguyen Van A</option>
+          <option value="Le Van B">Le Van B</option>
+          <option value="Tran Van C">Tran Van C</option>
+        </select>
+        {errors.employeeName && <div className="text-danger">{errors.employeeName}</div>}
+      </div>
 
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="form-group">
-              <label>Nhân viên</label>
-              <select className="form-control">
-                <option>Nguyễn Văn A</option>
-                <option>Lê Văn B</option>
-                <option>Hoàng Văn C</option>
-              </select>
-            </div>
-          </div>
-        </div>
+      <FormInput
+        label="Thời hạn"
+        type="date"
+        name="duration"
+        value={formData.duration}
+        onChange={handleChange}
+        error={errors.duration}
+      />
 
-        <div className="row">
-          <div className="form-group col-12">
-            <label htmlFor="time">Thời hạn</label>
-            <input type="date" className="form-control" id="time" />
-          </div>
-        </div>
+      <div className="form-group">
+        <label>Image</label>
+        <input
+          type="file"
+          name="image"
+          multiple
+          onChange={handleChange}
+          className="form-control"
+          accept=".jpg,.png"
+        />
+        {formData.image.length > 0 && (
+          <ul className="list-group mt-2">
+            {formData.image.map((image, index) => (
+              <li key={index} className="list-group-item">
+                {image.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-        <div className="row">
-          <div className="form-group col-12">
-            <label htmlFor="image">Hình ảnh</label>
-            <div className="input-group">
-              <div className="custom-file">
-                <input
-                  type="file"
-                  className="custom-file-input"
-                  id="image"
-                  onChange={previewImage}
-                />
-                <label className="custom-file-label" htmlFor="image">
-                  {fileName}
-                </label>
-              </div>
-              <img
-                ref={imagePreviewRef}
-                id="image-preview"
-                src={imageSrc}
-                alt="Xem trước hình ảnh"
-                className="img-thumbnail mt-2"
-                style={{ maxWidth: "100%", display: imageSrc ? 'block' : 'none' }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-12">
-            <button type="submit" className="btn btn-success w-100">
-              Thêm mới
-            </button>
-          </div>
-        </div>
-      </section>
+      <button type="submit" className="btn btn-primary">Thêm bằng cấp</button>
     </form>
   );
 };
 
-export default QualificationFormComponent;
+export default QualificationForm;

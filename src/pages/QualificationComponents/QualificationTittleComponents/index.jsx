@@ -1,38 +1,82 @@
+import React, {useState} from 'react';
+import '../Qualification.scss';
+import {CSVLink} from "react-csv";
+import SearchComponents from "../../../components/SearchComponents";
+import ButtonComponents from "../../../components/ButtonComponents";
 
-const QualificationTittleComponent = () => {
-  return (
-    <>
-      <div className="content-header">
-        <div className="container-fluid">
-        <div className="row m-1 mb-2 d-flex justify-content-betwen">
-            <div className="col-10 m-0 p-0 d-flex justify-content-betwen">
-              <h1 className="m-0 col-7">Danh sách bằng cấp</h1>
-              <div class="input-group col-5">
-                <select class="form-control col-4">
-                  <option>Còn hạn</option>
-                  <option>Hết hạn</option>
-                </select>
-                <input type="text" class="form-control" placeholder="Tìm kiếm ..."/>
-                <div class="input-group-append">
-                  <button class="btn btn-secondary">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </div>
+const QualificationTitleComponents = ({qualification, onSearch}) => {
+    const [dataExport, setDataExport] = useState([]);
+    const handleSearch = (searchTerm) => {
+        const searchValue = searchTerm.toLowerCase();
+
+        const filteredQualification = qualification.filter(item => {
+            const qualificationName = item.qualificationName ? item.qualificationName : '';
+            const employeeName = item.employeeName ? item.employeeName : '';
+            const duration = item.duration ? item.duration : '';
+            const image = item.image ? item.image : '';
+            const status = item.status ? (item.status ? 'active' : 'inactive') : '';
+
+            return (
+              qualificationName.includes(searchValue) ||
+              employeeName.includes(searchValue) ||
+              duration.includes(searchValue) ||
+              image.includes(searchValue) ||
+              status.includes(searchValue)
+            );
+        });
+
+        onSearch(filteredQualification);
+    };
+
+    const handleImportClick = () => {
+        document.getElementById('import').click();
+    };
+
+    const getQualificationExport = (even, done) => {
+        let result = [];
+        if (qualification && qualification.length > 0) {
+            result.push(["Tên bằng cấp", "Tên nhân viên", "Thời hạn", "Trạng thái"]);
+            qualification.map((item) => {
+                let arr = [];
+                arr[0] = item.qualification;
+                arr[1] = item.employeeName;
+                arr[2] = item.duration;
+                arr[3] = item.status;
+                result.push(arr);
+            });
+            setDataExport(result);
+            done();
+        }
+    };
+
+
+    return (
+        <div className="row position-tittle d-flex justify-content-between align-items-center">
+            <div className="col-sm-6">
+                <h2>DANH SÁCH BẰNG CẤP</h2>
             </div>
-            <div className="col-2 d-flex justify-content-end m-0 p-0">
-              <button className="btn btn-success mr-2">
-                <i className="fas fa-file-excel"></i>
-              </button>
-              <button className="btn btn-warning">
-                <i className="fas fa-file-export"></i>
-              </button>
+            <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
+                <SearchComponents onSearch={handleSearch}/>
+                <ButtonComponents
+                    className='btn btn-success align-items-center'
+                    onClick={handleImportClick}
+                >
+                    <i className="fas fa-file-excel"></i>
+                </ButtonComponents>
+                <input id='import' type='file' hidden/>
+
+                <CSVLink
+                    data={dataExport}
+                    asyncOnClick={true}
+                    onClick={getQualificationExport}
+                    filename={"List-Position.csv"}
+                    className="btn btn-danger align-items-center"
+                >
+                    <i className="fas fa-file-export"></i>
+                </CSVLink>
             </div>
-          </div>
         </div>
-      </div>
-    </>
-  )
-}
+    );
+};
 
-export default QualificationTittleComponent;
+export default QualificationTitleComponents;

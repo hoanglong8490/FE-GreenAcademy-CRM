@@ -39,7 +39,7 @@ const PositionComponents = () => {
             setPosition(positionData);
             setFilteredPosition(positionData);
             setTotalPage(Math.ceil(positionData.length / itemsPerPage));
-        
+
         } catch (error) {
             toast.error('Có lỗi xảy ra khi lấy dữ liệu hợp đồng!');
         }
@@ -70,7 +70,7 @@ const PositionComponents = () => {
         try {
             const savedPosition = await updatePosition(updatedPosition);
             const updatedPositionList = position.map(pos =>
-                pos.id === savedPosition.id ? savedPosition : pos
+              pos.id === savedPosition.id ? savedPosition : pos
             ).sort((a, b) => b.status - a.status);
             setPosition(updatedPositionList);
             setFilteredPosition(updatedPositionList);
@@ -126,12 +126,12 @@ const PositionComponents = () => {
             position.Position_Name, // Use correct property name
             position.departmentType,
             <NumericFormat
-                value={position.salary || 0} // Ensure salary is defined
-                displayType={'text'}
-                thousandSeparator="."
-                decimalSeparator=","
-                prefix=""
-                renderText={value => value}
+              value={position.salary || 0} // Ensure salary is defined
+              displayType={'text'}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix=""
+              renderText={value => value}
             />,
             formatDate(position.startDate), // Ensure these match your JSON properties
             formatDate(position.endDate),
@@ -160,42 +160,42 @@ const PositionComponents = () => {
     }));
 
     return (
-        <Container fluid className="Position-list">
-            <PositionTitleComponents onSearch={handleSearch} position={position}/>
-            <Row className="Position-content">
-                <Col xs={12} md={4}>
-                    <h3>Thêm Chức Vụ</h3>
-                    <PositionForm onSubmit={handleAddPosition} position={position}/>
-                </Col>
-                <Col xs={12} md={8}>
-                    <TableComponents headers={headerPosition}>
-                        <TableBodyComponents rows={rows} />
-                    </TableComponents>
-                    <PagingComponent
-                        totalPage={totalPage}
-                        currentPage={currentPage}
-                        onPageChange={handlePageChange}
-                    />
-                </Col>
-            </Row>
-            <PositionViewComponents
-                show={viewModalShow}
-                handleClose={() => setViewModalShow(false)}
-                position={selectedPosition}
-            />
-            <PositionEditComponents
-                show={editModalShow}
-                handleClose={() => setEditModalShow(false)}
-                position={selectedPosition}
-                onSave={handleSaveEdit}
-            />
-            <ConfirmationComponents
-                show={deleteModalShow}
-                handleClose={() => setDeleteModalShow(false)}
-                onConfirm={handleDeleteConfirm}
-                message="Bạn có chắc chắn muốn xóa chức vụ này?"
-            />
-        </Container>
+      <Container fluid className="Position-list">
+          <PositionTitleComponents onSearch={handleSearch} position={position}/>
+          <Row className="Position-content">
+              <Col xs={12} md={4}>
+                  <h3>Thêm Chức Vụ</h3>
+                  <PositionForm onSubmit={handleAddPosition} position={position}/>
+              </Col>
+              <Col xs={12} md={8}>
+                  <TableComponents headers={headerPosition}>
+                      <TableBodyComponents rows={rows} />
+                  </TableComponents>
+                  <PagingComponent
+                    totalPage={totalPage}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                  />
+              </Col>
+          </Row>
+          <PositionViewComponents
+            show={viewModalShow}
+            handleClose={() => setViewModalShow(false)}
+            position={selectedPosition}
+          />
+          <PositionEditComponents
+            show={editModalShow}
+            handleClose={() => setEditModalShow(false)}
+            position={selectedPosition}
+            onSave={handleSaveEdit}
+          />
+          <ConfirmationComponents
+            show={deleteModalShow}
+            handleClose={() => setDeleteModalShow(false)}
+            onConfirm={handleDeleteConfirm}
+            message="Bạn có chắc chắn muốn xóa chức vụ này?"
+          />
+      </Container>
     );
 };
 

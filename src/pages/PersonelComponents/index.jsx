@@ -72,7 +72,7 @@ const PersonnelComponents = () => {
         try {
             const savedPersonnel = await updatePersonnel(updatedPersonnel);
             const updatedPersonnels = personnels.map(personnel =>
-                personnel.id === updatedPersonnel.id ? savedPersonnel : personnel
+              personnel.id === updatedPersonnel.id ? savedPersonnel : personnel
             ).sort((a, b) => b.status - a.status);
             setPersonnels(updatedPersonnels);
             setFilteredPersonnels(updatedPersonnels);
@@ -90,7 +90,7 @@ const PersonnelComponents = () => {
             if (personnelToUpdate) {
                 const deletedPersonnel = await deletePersonnel(personnelId, personnelToUpdate);
                 const updatedPersonnels = personnels.map(personnel =>
-                    personnel.id === personnelId ? deletedPersonnel : personnel
+                  personnel.id === personnelId ? deletedPersonnel : personnel
                 ).sort((a, b) => b.status - a.status);
                 setPersonnels(updatedPersonnels);
                 setFilteredPersonnels(updatedPersonnels);
@@ -155,52 +155,52 @@ const PersonnelComponents = () => {
     }));
 
     return (
-        <Container fluid className="personnel-list">
-            {!showAddForm ? (
-                <>
-                    <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} onAddNewClick={() => setShowAddForm(true)} />
-                    <Row className="personnel-content">
-                        <Col xs={12} md={12}>
-                            <TableComponents headers={headerPersonnel}>
-                                <TableBodyComponents rows={rows} />
-                            </TableComponents>
-                            <PagingComponent
-                                totalPage={totalPage}
-                                currentPage={currentPage}
-                                onPageChange={handlePageChange}
-                            />
-                        </Col>
-                    </Row>
-                </>
-            ) : (
-                <div>
-                    <div className="border border-dark rounded-5 mt-3 mb-3 p-5">
-                        <h3>Thêm nhân viên mới</h3>
-                        <PersonnelFormComponents onSubmit={handleAddPersonnel} personnels={personnels} />
-                        <button className="btn btn-secondary mt-3" onClick={() => setShowAddForm(false)}>
-                            Quay lại
-                        </button>
-                    </div>
+      <Container fluid className="personnel-list">
+          {!showAddForm ? (
+            <>
+                <PersonnelTitleComponent onSearch={handleSearch} personnels={personnels} onAddNewClick={() => setShowAddForm(true)} />
+                <Row className="personnel-content">
+                    <Col xs={12} md={12}>
+                        <TableComponents headers={headerPersonnel}>
+                            <TableBodyComponents rows={rows} />
+                        </TableComponents>
+                        <PagingComponent
+                          totalPage={totalPage}
+                          currentPage={currentPage}
+                          onPageChange={handlePageChange}
+                        />
+                    </Col>
+                </Row>
+            </>
+          ) : (
+            <div>
+                <div className="border border-dark rounded-5 mt-3 mb-3 p-5">
+                    <h3>Thêm nhân viên mới</h3>
+                    <PersonnelFormComponents onSubmit={handleAddPersonnel} personnels={personnels} />
+                    <button className="btn btn-secondary mt-3" onClick={() => setShowAddForm(false)}>
+                        Quay lại
+                    </button>
                 </div>
-            )}
-            <PersonnelViewComponents
-                show={viewModalShow}
-                handleClose={() => setViewModalShow(false)}
-                personnel={selectedPersonnel}
-            />
-            <PersonnelEditComponent
-                show={editModalShow}
-                handleClose={() => setEditModalShow(false)}
-                personnel={selectedPersonnel}
-                onSave={handleSaveEdit}
-            />
-            <ConfirmationComponent
-                show={deleteModalShow}
-                handleClose={() => setDeleteModalShow(false)}
-                onConfirm={handleDeleteConfirm}
-                message="Bạn có chắc chắn muốn xóa nhân viên này?"
-            />
-        </Container>
+            </div>
+          )}
+          <PersonnelViewComponents
+            show={viewModalShow}
+            handleClose={() => setViewModalShow(false)}
+            personnel={selectedPersonnel}
+          />
+          <PersonnelEditComponent
+            show={editModalShow}
+            handleClose={() => setEditModalShow(false)}
+            personnel={selectedPersonnel}
+            onSave={handleSaveEdit}
+          />
+          <ConfirmationComponent
+            show={deleteModalShow}
+            handleClose={() => setDeleteModalShow(false)}
+            onConfirm={handleDeleteConfirm}
+            message="Bạn có chắc chắn muốn xóa nhân viên này?"
+          />
+      </Container>
     );
 };
 
