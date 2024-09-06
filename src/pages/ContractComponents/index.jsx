@@ -61,7 +61,7 @@ const ContractComponents = () => {
     setIsLoading(true);
     try {
       const contractsData = await fetchContracts();
-
+      console.log(contractsData);
       if (!contractsData || contractsData.length === 0) {
         setContracts([]);
         setFilteredContracts([]);
@@ -90,7 +90,7 @@ const ContractComponents = () => {
   const handleAddContract = async (newContract) => {
     setIsLoading(true);
     try {
-      console.log(newContract,"tongggg");
+      console.log(newContract);
       const contractWithDefaultStatus = {
         ...newContract,
         status: newContract.status || true,
@@ -192,11 +192,11 @@ const ContractComponents = () => {
     .map((contract) => ({
       data: [
         // contract.id,
-        contract.contract_id,
-        contract.employee_id,
-        contractTypeMap[contract.contract_type],
+        contract.contractCode,
+        contract.employeeCode,
+        contractTypeMap[contract.contractCategory],
         <NumericFormat
-          value={contract.luongCB}
+          value={contract.salary}
           displayType={"text"}
           thousandSeparator="."
           decimalSeparator=","
@@ -237,6 +237,7 @@ const ContractComponents = () => {
       ],
     }));
 
+    console.log("contract render");
   return (
       <Container fluid className="Contract-list">
         <ContractTitleComponents

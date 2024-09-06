@@ -1,17 +1,13 @@
 import axios from "axios";
 
 const apiContract = "http://localhost:9002/hr/contracts";
-// const apiPersons = "http://localhost:9002/hr/employee";
-// const  apiContract = "https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Contracts";
-const apiPersons = "https://66a9b8e2613eced4eba6017a.mockapi.io/api/contracts/Person";
-
+const apiPersons = "http://localhost:9002/hr/employee";
 
 // Lấy danh sách hợp đồng
 export const fetchContracts = async () => {
   try {
     const response = await axios.get(apiContract);
-    const contracts = response.data.data; // Access the 'data' property
-    // const contracts = response.data;
+    const contracts = response.data.data;
     const sortedContracts = Array.isArray(contracts) ? contracts.sort((a, b) => {
       if (b.status === a.status) {
         return new Date(b.update_at) - new Date(a.update_at);
@@ -29,8 +25,15 @@ export const fetchContracts = async () => {
 // Lấy danh sách nhân sự
 export const fetchPersons = async () => {
   try {
-    const { data } = await axios.get(apiPersons);
-    return data;
+    const response = await axios.get(apiPersons);
+    // Kiểm tra response để đảm bảo API trả về đúng dữ liệu
+    if (response?.data?.code === 200 && response?.data?.data?.content) {
+      const employees = response.data.data.content;
+      return employees;
+    } else {
+      console.error("Dữ liệu không hợp lệ:", response.data);
+      throw new Error("Không thể lấy danh sách nhân sự");
+    }
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy danh sách nhân sự!", error);
     throw new Error("Không thể lấy danh sách nhân sự");
@@ -40,7 +43,6 @@ export const fetchPersons = async () => {
 // Thêm mới hợp đồng
 export const addContract = async (newContract) => {
   try {
-    console.log(newContract, "Service");
     const { data } = await axios.post(apiContract, newContract);
     return data;
   } catch (error) {

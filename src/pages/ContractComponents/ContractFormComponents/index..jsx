@@ -11,10 +11,10 @@ const ContractForm = ({ onSubmit, contracts }) => {
     dateStart: "",
     dateEnd: "",
     salary: "",
-    contentContract: [],
-    employee_id: "",
-    created_at: "",
-    updated_at: "",
+    contentContract: "",
+    employeeCode: "",
+    createAt: "",
+    updateAt: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -25,14 +25,15 @@ const ContractForm = ({ onSubmit, contracts }) => {
     const now = new Date().toISOString().slice(0, 16);
     setFormData((prevState) => ({
       ...prevState,
-      created_at: now,
-      updated_at: now,
+      createAt: now,
+      updateAt: now,
     }));
 
     // Gọi API để lấy danh sách nhân sự
     const loadPersons = async () => {
       try {
         const personsData = await fetchPersons();
+        console.log(personsData);
         setPersons(personsData);
       } catch (error) {
         console.error("Có lỗi xảy ra khi lấy danh sách nhân sự!", error);
@@ -46,17 +47,17 @@ const ContractForm = ({ onSubmit, contracts }) => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const now = new Date().toISOString().slice(0, 16);
-    if (name === "description" && files) {
+    if (name === "contentContract" && files) {
       setFormData({
         ...formData,
-        [name]: Array.from(files).map((file) => file.name),
-        updated_at: now,
+        [name]: Array.from(files).map((file) => file.name).join(", "),
+        updateAt: now,
       });
     } else {
       setFormData({
         ...formData,
         [name]: value,
-        updated_at: now,
+        updateAt: now,
       });
     }
   };
@@ -65,49 +66,70 @@ const ContractForm = ({ onSubmit, contracts }) => {
   const validate = () => {
     const newErrors = {};
 
-    //  Kiểm tra mã hợp đồng
+    // Kiểm tra mã hợp đồng
     if (!formData.contractCode) {
       newErrors.contractCode = "Mã hợp đồng không được để trống";
     } else if (formData.contractCode.length !== 7) {
       newErrors.contractCode = "Mã hợp đồng phải là 7 ký tự";
     } else if (
-      contracts.some(
-        (contract) => contract.contractCode === formData.contractCode,
-      )
+        contracts.some(
+            (contract) => contract.contractCode === formData.contractCode
+        )
     ) {
       newErrors.contractCode = "Mã hợp đồng đã tồn tại";
     }
 
     // Kiểm tra mã nhân viên
-    if (!formData.employee_id) {
-      newErrors.employee_id = "Mã nhân viên không được để trống";
-    } else if (!persons.some((person) => person.employee_code === formData.employee_id)) {
-      newErrors.employee_id = "Mã nhân viên không tồn tại trong hệ thống";
+    if (!formData.employeeCode) {
+      newErrors.employeeCode = "Mã nhân viên không được để trống";
+    } else if (
+        !persons.some(
+            (person) =>
+                person.employeeCode.trim().toUpperCase() === formData.employeeCode.trim().toUpperCase()
+        )
+    ) {
+      newErrors.employeeCode = "Mã nhân viên không tồn tại trong hệ thống";
     }
 
     // Kiểm tra loại hợp đồng
-    if (!formData.contractCategory)
+    if (!formData.contractCategory || formData.contractCategory.length === 0) {
       newErrors.contractCategory = "Loại hợp đồng không được để trống";
+    }
 
     // Kiểm tra mức lương
-    if (
-      !formData.salary ||
-      isNaN(Number(formData.salary.replace(/\./g, ""))) ||
-      Number(formData.salary.replace(/\./g, "")) <= 0
-    )
+    const salary = Number(formData.salary.replace(/\./g, ""));
+    if (!formData.salary || isNaN(salary) || salary <= 0) {
       newErrors.salary = "Mức lương phải là số dương";
+    }
 
     // Kiểm tra ngày bắt đầu
-    if (!formData.dateStart)
+    if (!formData.dateStart) {
       newErrors.dateStart = "Ngày bắt đầu không được để trống";
+    } else if (isNaN(new Date(formData.dateStart).getTime())) {
+      newErrors.dateStart = "Ngày bắt đầu không hợp lệ";
+    }
+
     // Kiểm tra ngày kết thúc
-    if (!formData.dateEnd)
+    if (!formData.dateEnd) {
       newErrors.dateEnd = "Ngày kết thúc không được để trống";
-    if (new Date(formData.dateStart) > new Date(formData.dateEnd))
+    } else if (isNaN(new Date(formData.dateEnd).getTime())) {
+      newErrors.dateEnd = "Ngày kết thúc không hợp lệ";
+    } else if (new Date(formData.dateStart) > new Date(formData.dateEnd)) {
       newErrors.dateEnd = "Ngày kết thúc phải sau ngày bắt đầu";
+    }
 
     return newErrors;
   };
+
+
+  // Set id tự tăng: 
+    const generateNewId = () => {
+      const lastContract = contracts[contracts.length - 1];
+      if (lastContract && lastContract.id) {
+        return lastContract.id + 1; // Tăng id cuối cùng lên 1
+      }
+      return 1; // Nếu danh sách trống, bắt đầu từ id 1
+    };
 
   // Hàm xử lý khi form được submit
   const handleSubmit = (e) => {
@@ -116,10 +138,13 @@ const ContractForm = ({ onSubmit, contracts }) => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
+      const newId = generateNewId(); // Tạo id tự động
       onSubmit({
         ...formData,
-        status: true,
+        id: newId, // Thêm id tự động vào formData
+        status: 1,
       });
+      
       const now = new Date().toISOString().slice(0, 16);
       setFormData({
         contractCode: "",
@@ -127,10 +152,10 @@ const ContractForm = ({ onSubmit, contracts }) => {
         salary: "",
         dateStart: "",
         dateEnd: "",
-        contentContract: [],
-        employee_id: "",
-        created_at: now,
-        updated_at: now,
+        contentContract: "",
+        employeeCode: "",
+        createAt: now,
+        updateAt: now,
       });
       setErrors({});
     }
@@ -160,13 +185,13 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Mã nhân viên</label>
               <InputComponents
                 type="text"
-                name="employee_id"
-                value={formData.employee_id}
+                name="employeeCode"
+                value={formData.employeeCode}
                 onChange={handleChange}
                 disabled={false}
               />
-              {errors.employee_id && (
-                <div className="text-danger">{errors.employee_id}</div>
+              {errors.employeeCode && (
+                <div className="text-danger">{errors.employeeCode}</div>
               )}
             </div>
           </div>
@@ -205,7 +230,7 @@ const ContractForm = ({ onSubmit, contracts }) => {
                   setFormData({
                     ...formData,
                     salary: value,
-                    updated_at: new Date().toISOString().slice(0, 16),
+                    updateAt: new Date().toISOString().slice(0, 16),
                   });
                 }}
               />
@@ -253,15 +278,19 @@ const ContractForm = ({ onSubmit, contracts }) => {
                 multiple // Cho phép chọn nhiều tệp tin
                 accept=".doc,.docx,.pdf"
               />
-              {formData.contentContract.length > 0 && (
-                <ul className="list-group mt-2">
-                  {formData.contentContract.map((fileName, index) => (
-                    <li key={index} className="list-group-item">
-                      {fileName}
-                    </li>
-                  ))}
-                </ul>
+             {formData.contentContract && (
+            <ul className="list-group mt-2">
+              {typeof formData.contentContract === "string" && formData.contentContract.length > 0 ? (
+                formData.contentContract.split(", ").map((fileName, index) => (
+                  <li key={index} className="list-group-item">
+                    {fileName}
+                  </li>
+                ))
+              ) : (
+                <li className="list-group-item">No files uploaded</li>
               )}
+            </ul>
+          )}
             </div>
           </div>
         </div>

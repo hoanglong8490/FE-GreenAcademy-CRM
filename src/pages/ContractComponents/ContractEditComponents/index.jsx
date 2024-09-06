@@ -3,57 +3,58 @@ import { Modal } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import InputComponents from "../../../components/InputComponents";
 import ButtonComponents from "../../../components/ButtonComponents";
-// Component để chỉnh sửa hợp đồng
+import moment from 'moment';
+
 const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
-  // Khởi tạo state cho dữ liệu form
   const [formData, setFormData] = useState({
     id: "",
-    employee_id: "",
-    contract_id: "",
-    contract_code: "",
-    contract_type: "",
-    luongCB: "",
-    start_date: "",
-    end_date: "",
+    employeeCode: "",
+    contractCode: "",
+    contractCategory: "",
+    salary: "",
+    dateStart: "",
+    dateEnd: "",
     status: 1,
-    description: [],
-    updated_at: "",
+    contentContract: "", 
+    updateAt: "",
   });
 
-  // Khởi tạo state cho lưu trữ các lỗi
   const [errors, setErrors] = useState({});
 
-  // useEffect để cập nhật dữ liệu form khi contract thay đổi
   useEffect(() => {
     if (contract) {
+      // Convert date format to YYYY-MM-DD
+      const formatDate = (dateStr) => {
+        return moment(dateStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      };
+
       setFormData({
         id: contract.id || "",
-        employee_id: contract.employee_id || "",
-        contract_type: contract.contract_type || "",
-        contract_id: contract.contract_id || "",
-        contract_code: contract.contract_code || "",
-        luongCB: contract.luongCB || "",
-        start_date: contract.start_date || "",
-        end_date: contract.end_date || "",
+        employeeCode: contract.employeeCode || "",
+        contractCode: contract.contractCode || "",
+        contractCategory: contract.contractCategory || "",
+        salary: contract.salary || "",
+        dateStart: contract.dateStart ? formatDate(contract.dateStart) : "", // Convert to YYYY-MM-DD
+        dateEnd: contract.dateEnd ? formatDate(contract.dateEnd) : "", // Convert to YYYY-MM-DD
         status: contract.status || 0,
-        description: contract.description || [],
-        updated_at: contract.updated_at || "",
+        contentContract: contract.contentContract || "",
+        updateAt: contract.updateAt || "",
       });
     }
   }, [contract]);
 
-  // Hàm xử lý thay đổi dữ liệu form
   const handleChange = (e) => {
     const { name, value, files, type } = e.target;
     if (type === "file") {
+      const fileList = Array.from(files).map(file => file.name).join(",");
       setFormData({
         ...formData,
-        [name]: Array.from(files),
+        [name]: fileList,
       });
     } else if (name === "status") {
       setFormData({
         ...formData,
-        [name]: value === "true", // Chuyển đổi giá trị chuỗi thành boolean
+        [name]: value === "true",
       });
     } else {
       setFormData({
@@ -63,43 +64,38 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
     }
   };
 
-  // Hàm xử lý khi nhấn nút lưu
   const handleSave = (e) => {
     e.preventDefault();
 
-    // Gọi hàm validate để kiểm tra các lỗi trong form
     const errors = validateFormEdit();
 
     if (Object.keys(errors).length > 0) {
-      // Nếu có lỗi, cập nhật state để hiển thị lỗi
       setErrors(errors);
     } else {
       const updatedContract = {
         ...formData,
-        updated_at: new Date().toISOString(), // Cập nhật thời gian
+        updated_at: new Date().toISOString(),
       };
-      // console.log("Hợp đồng đã cập nhật:", updatedContract);
       onSave(updatedContract);
       handleClose();
       setErrors({});
     }
   };
 
-  // Hàm kiểm tra dữ liệu edit Contract
   const validateFormEdit = () => {
     const newErrors = {};
 
-    // Kiểm tra mã loại hợp đồng
-    if (!formData.contract_type) {
-      newErrors.contract_type = "Loại hợp đồng không được để trống";
+    if (!formData.contractCategory) {
+      newErrors.contractCategory = "Loại hợp đồng không được để trống";
     }
-    // Kiểm tra mức lương
-    if (!formData.luongCB || parseFloat(formData.luongCB) <= 0) {
-      newErrors.luongCB = "Mức lương không hợp lệ";
+    if (!formData.salary || parseFloat(formData.salary) <= 0) {
+      newErrors.salary = "Mức lương không hợp lệ";
     }
 
     return newErrors;
   };
+
+  const contentList = formData.contentContract ? formData.contentContract.split(',') : [];
 
   return (
     <Modal
@@ -119,8 +115,8 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
                 <InputComponents
                   label="Mã nhân viên"
                   type="text"
-                  name="employee_id"
-                  value={formData.employee_id}
+                  name="employeeCode"
+                  value={formData.employeeCode}
                   onChange={handleChange}
                   placeholder=""
                   disabled
@@ -133,33 +129,19 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
                   label="Mã hợp đồng"
                   type="text"
                   onChange={handleChange}
-                  name="contract_id"
-                  value={formData.contract_id}
+                  name="contractCode"
+                  value={formData.contractCode}
                   placeholder=""
                   disabled
                 />
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label=" Số hợp đồng"
-                  type="text"
-                  onChange={handleChange}
-                  name="contract_code"
-                  value={formData.contract_code}
-                  placeholder=""
-                  disabled
-                />
-              </div>
-            </div>
-
             <div className="col-md-6">
               <div className="form-group">
                 <label>Loại hợp đồng</label>
                 <select
-                  name="contract_type"
-                  value={formData.contract_type}
+                  name="contractCategory"
+                  value={formData.contractCategory}
                   onChange={handleChange}
                   className="form-control"
                 >
@@ -169,8 +151,8 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
                   <option value="probationary">Hợp đồng thử việc</option>
                   <option value="intern">Hợp đồng thực tập</option>
                 </select>
-                {errors.contract_type && (
-                  <div className="text-danger">{errors.contract_type}</div>
+                {errors.contractCategory && (
+                  <div className="text-danger">{errors.contractCategory}</div>
                 )}
               </div>
             </div>
@@ -179,21 +161,20 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
                 <label>Mức lương</label>
                 <NumericFormat
                   className="form-control"
-                  name="luongCB"
-                  value={formData.luongCB}
+                  name="salary"
+                  value={formData.salary}
                   thousandSeparator="."
                   decimalSeparator=","
                   onValueChange={(values) => {
                     const { value } = values;
                     setFormData({
                       ...formData,
-                      luongCB: parseFloat(value),
+                      salary: parseFloat(value),
                     });
                   }}
-                  // isNumericString
                 />
-                {errors.luongCB && (
-                  <div className="text-danger">{errors.luongCB}</div>
+                {errors.salary && (
+                  <div className="text-danger">{errors.salary}</div>
                 )}
               </div>
             </div>
@@ -202,8 +183,8 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
                 <InputComponents
                   label="Ngày bắt đầu"
                   type="date"
-                  name="start_date"
-                  value={formData.start_date}
+                  name="dateStart"
+                  value={formData.dateStart}
                   onChange={handleChange}
                   placeholder=""
                 />
@@ -215,8 +196,8 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
                 <InputComponents
                   label="Ngày kết thúc"
                   type="date"
-                  name="end_date"
-                  value={formData.end_date}
+                  name="dateEnd"
+                  value={formData.dateEnd}
                   onChange={handleChange}
                   placeholder=""
                 />
@@ -239,12 +220,12 @@ const ContractEditComponents = ({ show, handleClose, contract, onSave }) => {
 
             <div className="col-md-12">
               <div className="form-group">
-                <label>Có {formData.description.length} hồ sơ</label>
-                {formData.description.length > 0 && (
+                <label>Có {contentList.length} hồ sơ</label>
+                {contentList.length > 0 && (
                   <ul className="list-group mt-2">
-                    {formData.description.map((file, index) => (
+                    {contentList.map((file, index) => (
                       <li key={index} className="list-group-item">
-                        {file.name}
+                        {file}
                       </li>
                     ))}
                   </ul>
