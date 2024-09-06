@@ -6,16 +6,15 @@ import { fetchPersons } from "../ContractService/contractService";
 // Component để thêm hợp đồng mới
 const ContractForm = ({ onSubmit, contracts }) => {
   const [formData, setFormData] = useState({
-    contract_id: "",
-    contract_type: "",
-    start_date: "",
-    end_date: "",
-    contract_code: "",
-    luongCB: "",
-    description: [],
-    employee_id: "",
-    created_at: "",
-    updated_at: "",
+    contractCode: "",
+    contractCategory: "",
+    dateStart: "",
+    dateEnd: "",
+    salary: "",
+    contentContract: "",
+    employeeCode: "",
+    createAt: "",
+    updateAt: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -26,14 +25,15 @@ const ContractForm = ({ onSubmit, contracts }) => {
     const now = new Date().toISOString().slice(0, 16);
     setFormData((prevState) => ({
       ...prevState,
-      created_at: now,
-      updated_at: now,
+      createAt: now,
+      updateAt: now,
     }));
 
     // Gọi API để lấy danh sách nhân sự
     const loadPersons = async () => {
       try {
         const personsData = await fetchPersons();
+        console.log(personsData);
         setPersons(personsData);
       } catch (error) {
         console.error("Có lỗi xảy ra khi lấy danh sách nhân sự!", error);
@@ -47,17 +47,17 @@ const ContractForm = ({ onSubmit, contracts }) => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const now = new Date().toISOString().slice(0, 16);
-    if (name === "description" && files) {
+    if (name === "contentContract" && files) {
       setFormData({
         ...formData,
-        [name]: Array.from(files).map((file) => file.name),
-        updated_at: now,
+        [name]: Array.from(files).map((file) => file.name).join(", "),
+        updateAt: now,
       });
     } else {
       setFormData({
         ...formData,
         [name]: value,
-        updated_at: now,
+        updateAt: now,
       });
     }
   };
@@ -66,53 +66,70 @@ const ContractForm = ({ onSubmit, contracts }) => {
   const validate = () => {
     const newErrors = {};
 
-    //  Kiểm tra mã hợp đồng
-    if (!formData.contract_id) {
-      newErrors.contract_id = "Mã hợp đồng không được để trống";
-    } else if (formData.contract_id.length !== 7) {
-      newErrors.contract_id = "Mã hợp đồng phải là 7 ký tự";
+    // Kiểm tra mã hợp đồng
+    if (!formData.contractCode) {
+      newErrors.contractCode = "Mã hợp đồng không được để trống";
+    } else if (formData.contractCode.length !== 7) {
+      newErrors.contractCode = "Mã hợp đồng phải là 7 ký tự";
     } else if (
-      contracts.some(
-        (contract) => contract.contract_id === formData.contract_id,
-      )
+        contracts.some(
+            (contract) => contract.contractCode === formData.contractCode
+        )
     ) {
-      newErrors.contract_id = "Mã hợp đồng đã tồn tại";
+      newErrors.contractCode = "Mã hợp đồng đã tồn tại";
     }
 
     // Kiểm tra mã nhân viên
-    if (!formData.employee_id) {
-      newErrors.employee_id = "Mã nhân viên không được để trống";
-    } else if (!persons.some((person) => person.id === formData.employee_id)) {
-      newErrors.employee_id = "Mã nhân viên không tồn tại trong hệ thống";
-    }
-    // kiểm tra số hợp đồng
-    if (!formData.contract_code) {
-      newErrors.contract_code = "Mã hợp đồng không được để trống";
+    if (!formData.employeeCode) {
+      newErrors.employeeCode = "Mã nhân viên không được để trống";
+    } else if (
+        !persons.some(
+            (person) =>
+                person.employeeCode.trim().toUpperCase() === formData.employeeCode.trim().toUpperCase()
+        )
+    ) {
+      newErrors.employeeCode = "Mã nhân viên không tồn tại trong hệ thống";
     }
 
     // Kiểm tra loại hợp đồng
-    if (!formData.contract_type)
-      newErrors.contract_type = "Loại hợp đồng không được để trống";
+    if (!formData.contractCategory || formData.contractCategory.length === 0) {
+      newErrors.contractCategory = "Loại hợp đồng không được để trống";
+    }
 
     // Kiểm tra mức lương
-    if (
-      !formData.luongCB ||
-      isNaN(Number(formData.luongCB.replace(/\./g, ""))) ||
-      Number(formData.luongCB.replace(/\./g, "")) <= 0
-    )
-      newErrors.luongCB = "Mức lương phải là số dương";
+    const salary = Number(formData.salary.replace(/\./g, ""));
+    if (!formData.salary || isNaN(salary) || salary <= 0) {
+      newErrors.salary = "Mức lương phải là số dương";
+    }
 
     // Kiểm tra ngày bắt đầu
-    if (!formData.start_date)
-      newErrors.start_date = "Ngày bắt đầu không được để trống";
+    if (!formData.dateStart) {
+      newErrors.dateStart = "Ngày bắt đầu không được để trống";
+    } else if (isNaN(new Date(formData.dateStart).getTime())) {
+      newErrors.dateStart = "Ngày bắt đầu không hợp lệ";
+    }
+
     // Kiểm tra ngày kết thúc
-    if (!formData.end_date)
-      newErrors.end_date = "Ngày kết thúc không được để trống";
-    if (new Date(formData.start_date) > new Date(formData.end_date))
-      newErrors.end_date = "Ngày kết thúc phải sau ngày bắt đầu";
+    if (!formData.dateEnd) {
+      newErrors.dateEnd = "Ngày kết thúc không được để trống";
+    } else if (isNaN(new Date(formData.dateEnd).getTime())) {
+      newErrors.dateEnd = "Ngày kết thúc không hợp lệ";
+    } else if (new Date(formData.dateStart) > new Date(formData.dateEnd)) {
+      newErrors.dateEnd = "Ngày kết thúc phải sau ngày bắt đầu";
+    }
 
     return newErrors;
   };
+
+
+  // Set id tự tăng: 
+    const generateNewId = () => {
+      const lastContract = contracts[contracts.length - 1];
+      if (lastContract && lastContract.id) {
+        return lastContract.id + 1; // Tăng id cuối cùng lên 1
+      }
+      return 1; // Nếu danh sách trống, bắt đầu từ id 1
+    };
 
   // Hàm xử lý khi form được submit
   const handleSubmit = (e) => {
@@ -121,22 +138,24 @@ const ContractForm = ({ onSubmit, contracts }) => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
+      const newId = generateNewId(); // Tạo id tự động
       onSubmit({
         ...formData,
-        status: true,
+        id: newId, // Thêm id tự động vào formData
+        status: 1,
       });
+      
       const now = new Date().toISOString().slice(0, 16);
       setFormData({
-        contract_id: "",
-        contract_type: "",
-        luongCB: "",
-        start_date: "",
-        end_date: "",
-        contract_code: "",
-        description: [],
-        employee_id: "",
-        created_at: now,
-        updated_at: now,
+        contractCode: "",
+        contractCategory: "",
+        salary: "",
+        dateStart: "",
+        dateEnd: "",
+        contentContract: "",
+        employeeCode: "",
+        createAt: now,
+        updateAt: now,
       });
       setErrors({});
     }
@@ -151,13 +170,13 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Mã hợp đồng</label>
               <InputComponents
                 type="text"
-                name="contract_id"
-                value={formData.contract_id}
+                name="contractCode"
+                value={formData.contractCode}
                 onChange={handleChange}
                 disabled={false}
               />
-              {errors.contract_id && (
-                <div className="text-danger">{errors.contract_id}</div>
+              {errors.contractCode && (
+                <div className="text-danger">{errors.contractCode}</div>
               )}
             </div>
           </div>
@@ -166,36 +185,22 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Mã nhân viên</label>
               <InputComponents
                 type="text"
-                name="employee_id"
-                value={formData.employee_id}
+                name="employeeCode"
+                value={formData.employeeCode}
                 onChange={handleChange}
                 disabled={false}
               />
-              {errors.employee_id && (
-                <div className="text-danger">{errors.employee_id}</div>
+              {errors.employeeCode && (
+                <div className="text-danger">{errors.employeeCode}</div>
               )}
             </div>
           </div>
           <div className="col-md-12">
             <div className="form-group">
-              <InputComponents
-                label="Số hợp đồng"
-                type="text"
-                onChange={handleChange}
-                name="contract_code"
-                value={formData.contract_code}
-              />
-            </div>
-            {errors.contract_code && (
-              <div className="text-danger">{errors.contract_code}</div>
-            )}
-          </div>
-          <div className="col-md-12">
-            <div className="form-group">
               <label>Loại hợp đồng</label>
               <select
-                name="contract_type"
-                value={formData.contract_type}
+                name="contractCategory"
+                value={formData.contractCategory}
                 onChange={handleChange}
                 className="form-control"
               >
@@ -206,8 +211,8 @@ const ContractForm = ({ onSubmit, contracts }) => {
                 <option value="probationary">Hợp đồng thử việc</option>
                 <option value="intern">Hợp đồng thực tập</option>
               </select>
-              {errors.contract_type && (
-                <div className="text-danger">{errors.contract_type}</div>
+              {errors.contractCategory && (
+                <div className="text-danger">{errors.contractCategory}</div>
               )}
             </div>
           </div>
@@ -216,21 +221,21 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Mức lương</label>
               <NumericFormat
                 className="form-control"
-                name="luongCB"
-                value={formData.luongCB}
+                name="salary"
+                value={formData.salary}
                 thousandSeparator="."
                 decimalSeparator=","
                 onValueChange={(values) => {
                   const { value } = values;
                   setFormData({
                     ...formData,
-                    luongCB: value,
-                    updated_at: new Date().toISOString().slice(0, 16),
+                    salary: value,
+                    updateAt: new Date().toISOString().slice(0, 16),
                   });
                 }}
               />
-              {errors.luongCB && (
-                <div className="text-danger">{errors.luongCB}</div>
+              {errors.salary && (
+                <div className="text-danger">{errors.salary}</div>
               )}
             </div>
           </div>
@@ -239,12 +244,12 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Ngày bắt đầu</label>
               <InputComponents
                 type="date"
-                name="start_date"
-                value={formData.start_date}
+                name="dateStart"
+                value={formData.dateStart}
                 onChange={handleChange}
               />
-              {errors.start_date && (
-                <div className="text-danger">{errors.start_date}</div>
+              {errors.dateStart && (
+                <div className="text-danger">{errors.dateStart}</div>
               )}
             </div>
           </div>
@@ -253,12 +258,12 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Ngày kết thúc</label>
               <InputComponents
                 type="date"
-                name="end_date"
-                value={formData.end_date}
+                name="dateEnd"
+                value={formData.dateEnd}
                 onChange={handleChange}
               />
-              {errors.end_date && (
-                <div className="text-danger">{errors.end_date}</div>
+              {errors.dateEnd && (
+                <div className="text-danger">{errors.dateEnd}</div>
               )}
             </div>
           </div>
@@ -267,21 +272,25 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Hồ sơ hợp đồng</label>
               <InputComponents
                 type="file"
-                name="description"
+                name="contentContract"
                 onChange={handleChange}
                 className="form-control"
                 multiple // Cho phép chọn nhiều tệp tin
                 accept=".doc,.docx,.pdf"
               />
-              {formData.description.length > 0 && (
-                <ul className="list-group mt-2">
-                  {formData.description.map((fileName, index) => (
-                    <li key={index} className="list-group-item">
-                      {fileName}
-                    </li>
-                  ))}
-                </ul>
+             {formData.contentContract && (
+            <ul className="list-group mt-2">
+              {typeof formData.contentContract === "string" && formData.contentContract.length > 0 ? (
+                formData.contentContract.split(", ").map((fileName, index) => (
+                  <li key={index} className="list-group-item">
+                    {fileName}
+                  </li>
+                ))
+              ) : (
+                <li className="list-group-item">No files uploaded</li>
               )}
+            </ul>
+          )}
             </div>
           </div>
         </div>

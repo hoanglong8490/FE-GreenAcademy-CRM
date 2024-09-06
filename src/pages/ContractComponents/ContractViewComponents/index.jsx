@@ -23,8 +23,12 @@ const contractTypeMap = {
   probationary: "Hợp đồng thử việc",
   intern: "Hợp đồng thực tập",
 };
+
 const ContractViewComponents = ({ show, handleClose, contract }) => {
   if (!contract) return null;
+
+  // Xử lý contract.description là chuỗi
+  const contentList = contract.contentContract ? contract.contentContract.split(',') : [];
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -47,8 +51,8 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
               <InputComponents
                 label="Mã nhân viên"
                 type="text"
-                name="employeeId"
-                value={contract.employee_id}
+                name="employeeCode"
+                value={contract.employeeCode}
                 disabled
               />
             </div>
@@ -56,8 +60,8 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
               <InputComponents
                 label="Mã hợp đồng"
                 type="text"
-                name="employeeId"
-                value={contract.contract_id}
+                name="contractId"
+                value={contract.contractCode}
                 disabled
               />
             </div>
@@ -67,7 +71,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                 type="text"
                 name="contractType"
                 value={
-                  contractTypeMap[contract.contract_type] || "Không xác định"
+                  contractTypeMap[contract.contractCategory] || "Không xác định"
                 }
                 disabled
               />
@@ -76,7 +80,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
               <div className="form-group">
                 <label>Mức lương</label>
                 <NumericFormat
-                  value={contract.luongCB}
+                  value={contract.salary}
                   displayType={"text"}
                   thousandSeparator="."
                   decimalSeparator=","
@@ -91,7 +95,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                 label="Ngày bắt đầu"
                 type="text"
                 name="startDate"
-                value={contract.start_date}
+                value={contract.dateStart}
                 disabled
               />
             </div>
@@ -100,7 +104,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                 label="Ngày kết thúc"
                 type="text"
                 name="endDate"
-                value={contract.end_date}
+                value={contract.dateEnd}
                 disabled
               />
             </div>
@@ -109,7 +113,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                 label="Ngày tạo"
                 type="text"
                 name="created_at"
-                value={formatDateTime(contract.created_at)}
+                value={formatDateTime(contract.createAt)}
                 disabled
               />
             </div>
@@ -118,7 +122,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                 label="Ngày cập nhật"
                 type="text"
                 name="updated_at"
-                value={formatDateTime(contract.updated_at)}
+                value={formatDateTime(contract.updateAt)}
                 disabled
               />
             </div>
@@ -134,13 +138,14 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
           </div>
 
           <div className="form-group">
-            <label>Có {contract.description.length} hồ sơ</label>
-            {contract.description && contract.description.length > 0 ? (
+            <label>Có {contentList.length} hồ sơ</label>
+            {contentList.length > 0 ? (
               <ul className="list-group mt-2">
-                {contract.description.map((file, index) => (
+                {contentList.map((desc, index) => (
                   <li key={index} className="list-group-item">
-                    <a href={file.url} download={file.name}>
-                      {file.name}
+                    {/* Giả sử mỗi phần tử là một chuỗi chứa URL và tên hồ sơ */}
+                    <a href={desc} download={desc}>
+                      {desc}
                     </a>
                   </li>
                 ))}
