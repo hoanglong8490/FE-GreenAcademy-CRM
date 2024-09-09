@@ -1,9 +1,8 @@
 // src/components/ViewQualificationModal.js
-import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
-import {NumericFormat} from 'react-number-format';
 
 const QualificationViewComponents = ({show, handleClose, qualification}) => {
+
     if (!qualification) return null;
 
     return (
@@ -44,7 +43,7 @@ const QualificationViewComponents = ({show, handleClose, qualification}) => {
                     <input
                       type="text"
                       className="form-control"
-                      value={qualification.duration}
+                      value={qualification.expiryDate}
                       disabled
                     />
                 </div>

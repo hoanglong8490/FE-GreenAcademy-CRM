@@ -73,7 +73,7 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                     />
                 </div>
                 <div className="form-group">
-                    <label>Tên Chức Vụ</label>
+                    <label>Tên Nhân Viên</label>
                     <select
                       name="qualificationName"
                       value={formData.qualificationName}
@@ -101,12 +101,12 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                     <label>Trạng thái</label>
                     <select
                       name="status"
-                      value={formData.status.toString()} // Chuyển boolean thành chuỗi cho select
+                      value={formData.status}
                       onChange={handleChange}
                       className="form-control"
                     >
-                        <option value={true}>Active</option>
-                        <option value={false}>Inactive</option>
+                        <option value={1}>Active</option>
+                        <option value={0}>Inactive</option>
                     </select>
                 </div>
 

@@ -34,15 +34,15 @@ const QualificationComponents = () => {
   const headerQualification = ['ID', 'Tên bằng cấp', 'Tên nhân viên', 'Thời hạn', 'Trạng thái', 'Action'];
 
   useEffect(() => {
-    loadQualification();
+    loadQualification().then(r => console.log(r));
   }, []);
 
   const loadQualification = async () => {
     try {
-      const positionData = await fetchQualification();
-      setQualification(positionData);
-      setFilteredQualification(positionData);
-      setTotalPage(Math.ceil(positionData.length / itemsPerPage));
+      const qualificationData = await fetchQualification();
+      setQualification(qualificationData);
+      setFilteredQualification(qualificationData);
+      setTotalPage(Math.ceil(qualificationData.length / itemsPerPage));
 
     } catch (error) {
       toast.error('Có lỗi xảy ra khi lấy dữ liệu bằng cấp!');
@@ -66,9 +66,9 @@ const QualificationComponents = () => {
       setCurrentPage(Math.ceil(updatedQualification.length / itemsPerPage));
       toast.success('Thêm bằng cấp thành công!');
     } catch (error) {
-
+      toast.error('Có lỗi xảy ra khi thêm bằng cấp!');
     }
-    toast.error('Có lỗi xảy ra khi thêm bằng cấp!');
+
   };
 
   const handleSaveEdit = async (updatedQualification) => {
@@ -103,7 +103,7 @@ const QualificationComponents = () => {
 
   const handleDeleteConfirm = () => {
     if (selectedQualification) {
-      handleDelete(selectedQualification.id);
+      handleDelete(selectedQualification.id).then(r => console.log(r));
     }
   };
 
@@ -130,7 +130,7 @@ const QualificationComponents = () => {
       qualification.id, // ID should match the property name in your JSON
       qualification.qualificationName, // Use correct property name
       qualification.employeeName,
-      formatDate(qualification.duration),
+      formatDate(qualification.expiryDate),
       qualification.status ? 'Active' : 'Inactive',
     ],
     actions: [
