@@ -41,9 +41,9 @@ const QualificationViewComponents = ({show, handleClose, qualification}) => {
                 <div className="form-group">
                     <label>Thời hạn</label>
                     <input
-                      type="text"
+                      type="date"
                       className="form-control"
-                      value={qualification.expiryDate}
+                      value={qualification.expiryDate ? new Date(qualification.expiryDate).toISOString().split('T')[0] : ''}
                       disabled
                     />
                 </div>

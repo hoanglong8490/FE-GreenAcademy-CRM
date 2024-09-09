@@ -1,25 +1,36 @@
 // src/components/EditQualificationModal.js
 import React, {useEffect, useState} from 'react';
 import {Button, Modal} from 'react-bootstrap';
+import {fetchEmployees} from "../QualificationService/qualificationService";
 
 const QualificationEditComponents = ({show, handleClose, qualification, onSave}) => {
+
+    const [employees, setEmployees] = useState([]);
+
+    useEffect(() => {
+        fetchEmployees().then((data) => {
+            setEmployees(data);
+        })
+    }, []);
+
     const [formData, setFormData] = useState({
         qualificationName : '',
         employeeName: '',
         image: '',
-        status: true,
-        duration: '',
+        status: 1,
+        expiryDate: '',
         id: '',
     });
 
     useEffect(() => {
         if (qualification) {
+            const formattedExpiryDate = qualification.expiryDate ? new Date(qualification.expiryDate).toISOString().split('T')[0] : '';
             setFormData({
                 qualificationName: qualification.qualificationName || '',
                 employeeName: qualification.employeeName || '',
                 image: qualification.image || '',
-                status: qualification.status || false,
-                duration: qualification.duration || '',
+                status: qualification.status || 0,
+                expiryDate: formattedExpiryDate || '',
                 id : qualification.id || '',
             });
         }
@@ -30,7 +41,7 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
         if (type === 'file') {
             setFormData({
                 ...formData,
-                [name]: Array.from(files)
+                image: files[0]
             });
         } else if (name === 'status') {
             setFormData({
@@ -46,12 +57,12 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
     };
 
     const handleSave = () => {
-        const updatedPosition = {
+        const updatedQualification = {
             ...formData,
-            id: qualification.ID
+            id: qualification.id
         };
-        console.log('Hợp đồng đã cập nhật:', updatedPosition); // Kiểm tra dữ liệu đã cập nhật
-        onSave(updatedPosition);
+        console.log('Bằng cấp đã cập nhật:', updatedQualification); // Kiểm tra dữ liệu đã cập nhật
+        onSave(updatedQualification);
         handleClose();
     };
 
@@ -75,14 +86,19 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                 <div className="form-group">
                     <label>Tên Nhân Viên</label>
                     <select
-                      name="qualificationName"
-                      value={formData.qualificationName}
+                      name="employeeId"
+                      value={formData.employeeName}
                       onChange={handleChange}
                       className="form-control"
                     >
-                        <option value="Nguyen Van A">Nguyen Van A</option>
-                        <option value="Le Van B">Le Van B</option>
-                        <option value="Tran Van C">Tran Van C</option>
+
+                        {
+                            employees.map((employee) => (
+                                <option key={employee.id} value={employee.id}>
+                                    {employee.employeeName}
+                                </option>
+                            ))
+                        }
                     </select>
                 </div>
 
@@ -90,9 +106,9 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                     <label>Thời hạn</label>
                     <input
                       type="date"
-                      name="duration"
+                      name="expiryDate"
                       className="form-control"
-                      value={formData.duration}
+                      value={formData.expiryDate}
                       onChange={handleChange}
                       disabled
                     />

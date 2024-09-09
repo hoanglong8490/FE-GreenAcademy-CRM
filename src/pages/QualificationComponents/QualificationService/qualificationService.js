@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const apiEndpoint = '/data/qualification/qualification-list.json';
+const apiEndpoint = 'http://localhost:9002/hr/employees';
 const apiEmployee = 'http://localhost:9002/hr/employees/all';
 const apiAddQualification = 'http://localhost:9002/hr/qualifications/create';
 const apiFetchQualification = 'http://localhost:9002/hr/qualifications';
@@ -80,10 +80,10 @@ export const deleteQualification = async (id) => {
         const currentQualification = await axios.get(`${apiEndpoint}/${id}`);
         const updateQualification = {
             ...currentQualification.data,
-            status: false
+            status: 0
         };
         const response = await axios.put(`${apiEndpoint}/${id}`, updateQualification);
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật trạng thái bằng cấp!', error);
         throw error;
