@@ -75,7 +75,7 @@ const QualificationForm = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
       <FormInput
-        label="Tên nhân viên"
+        label="Tên bằng cấp"
         type="text"
         name="qualificationName"
         value={formData.qualificationName}

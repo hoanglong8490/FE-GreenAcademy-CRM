@@ -6,6 +6,8 @@ import ButtonComponents from "../../../components/ButtonComponents";
 
 const QualificationTitleComponents = ({qualification, onSearch}) => {
     const [dataExport, setDataExport] = useState([]);
+    const [statusFilter, setStatusFilter] = useState('');
+
     const handleSearch = (searchTerm) => {
         const searchValue = searchTerm.toLowerCase();
 
@@ -17,11 +19,11 @@ const QualificationTitleComponents = ({qualification, onSearch}) => {
             const status = item.status ? (item.status ? 'active' : 'inactive') : '';
 
             return (
-              qualificationName.includes(searchValue) ||
-              employeeName.includes(searchValue) ||
-              duration.includes(searchValue) ||
-              image.includes(searchValue) ||
-              status.includes(searchValue)
+                qualificationName.includes(searchValue) ||
+                employeeName.includes(searchValue) ||
+                duration.includes(searchValue) ||
+                image.includes(searchValue) ||
+                status.includes(searchValue)
             );
         });
 
@@ -56,6 +58,20 @@ const QualificationTitleComponents = ({qualification, onSearch}) => {
                 <h2>DANH SÁCH BẰNG CẤP</h2>
             </div>
             <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
+                <select
+                    style={{
+                        width: "130px",
+                        padding: "8px"
+                    }}
+                    className="form-select form-select-sm"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+
                 <SearchComponents onSearch={handleSearch}/>
                 <ButtonComponents
                     className='btn btn-success align-items-center'
@@ -63,6 +79,7 @@ const QualificationTitleComponents = ({qualification, onSearch}) => {
                 >
                     <i className="fas fa-file-excel"></i>
                 </ButtonComponents>
+
                 <input id='import' type='file' hidden/>
 
                 <CSVLink

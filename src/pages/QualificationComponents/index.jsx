@@ -160,7 +160,7 @@ const QualificationComponents = () => {
       <QualificationTitleComponents onSearch={handleSearch} qualification={qualification}/>
       <Row className="Qualification-content">
         <Col xs={12} md={4}>
-          <h3>Thêm Chức Vụ</h3>
+          <h3>Thêm Bằng Cấp</h3>
           <QualificationForm onSubmit={handleAddQualification} qualification={qualification}/>
         </Col>
         <Col xs={12} md={8}>
