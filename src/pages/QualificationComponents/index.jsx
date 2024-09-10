@@ -34,15 +34,15 @@ const QualificationComponents = () => {
   const headerQualification = ['ID', 'Tên bằng cấp', 'Tên nhân viên', 'Thời hạn', 'Trạng thái', 'Action'];
 
   useEffect(() => {
-    loadQualification();
-  }, []);
+    loadQualification().then(r => console.log(r));
+  }, [qualification]);
 
   const loadQualification = async () => {
     try {
-      const positionData = await fetchQualification();
-      setQualification(positionData);
-      setFilteredQualification(positionData);
-      setTotalPage(Math.ceil(positionData.length / itemsPerPage));
+      const qualificationData = await fetchQualification();
+      setQualification(qualificationData);
+      setFilteredQualification(qualificationData);
+      setTotalPage(Math.ceil(qualificationData.length / itemsPerPage));
 
     } catch (error) {
       toast.error('Có lỗi xảy ra khi lấy dữ liệu bằng cấp!');
@@ -66,9 +66,9 @@ const QualificationComponents = () => {
       setCurrentPage(Math.ceil(updatedQualification.length / itemsPerPage));
       toast.success('Thêm bằng cấp thành công!');
     } catch (error) {
-
+      toast.error('Có lỗi xảy ra khi thêm bằng cấp!');
     }
-    toast.error('Có lỗi xảy ra khi thêm bằng cấp!');
+
   };
 
   const handleSaveEdit = async (updatedQualification) => {
@@ -90,10 +90,12 @@ const QualificationComponents = () => {
   const handleDelete = async (id) => {
     try {
       const deletedQualification = await deleteQualification(id);
-      const updatedQualification = qualification.filter(pos => pos.id !== id).sort((a, b) => b.status - a.status);
-      setQualification(updatedQualification);
-      setFilteredQualification(updatedQualification);
-      setTotalPage(Math.ceil(updatedQualification.length / itemsPerPage));
+      const updatedQualificationList = qualification.map(pos =>
+          pos.id === deletedQualification.id ? deletedQualification : pos
+      ).sort((a, b) => b.status - a.status);
+      setQualification(updatedQualificationList);
+      setFilteredQualification(updatedQualificationList);
+      setTotalPage(Math.ceil(updatedQualificationList.length / itemsPerPage));
       setDeleteModalShow(false);
       toast.success('Xóa thành công bằng cấp!');
     } catch (error) {
@@ -103,7 +105,7 @@ const QualificationComponents = () => {
 
   const handleDeleteConfirm = () => {
     if (selectedQualification) {
-      handleDelete(selectedQualification.id);
+      handleDelete(selectedQualification.id).then(r => console.log(r));
     }
   };
 
@@ -130,7 +132,7 @@ const QualificationComponents = () => {
       qualification.id, // ID should match the property name in your JSON
       qualification.qualificationName, // Use correct property name
       qualification.employeeName,
-      formatDate(qualification.duration),
+      formatDate(qualification.expiryDate),
       qualification.status ? 'Active' : 'Inactive',
     ],
     actions: [
@@ -160,7 +162,7 @@ const QualificationComponents = () => {
       <QualificationTitleComponents onSearch={handleSearch} qualification={qualification}/>
       <Row className="Qualification-content">
         <Col xs={12} md={4}>
-          <h3>Thêm Chức Vụ</h3>
+          <h3>Thêm Bằng Cấp</h3>
           <QualificationForm onSubmit={handleAddQualification} qualification={qualification}/>
         </Col>
         <Col xs={12} md={8}>
