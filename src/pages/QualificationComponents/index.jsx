@@ -35,7 +35,7 @@ const QualificationComponents = () => {
 
   useEffect(() => {
     loadQualification().then(r => console.log(r));
-  }, []);
+  }, [qualification]);
 
   const loadQualification = async () => {
     try {
@@ -90,10 +90,12 @@ const QualificationComponents = () => {
   const handleDelete = async (id) => {
     try {
       const deletedQualification = await deleteQualification(id);
-      const updatedQualification = qualification.filter(pos => pos.id !== id).sort((a, b) => b.status - a.status);
-      setQualification(updatedQualification);
-      setFilteredQualification(updatedQualification);
-      setTotalPage(Math.ceil(updatedQualification.length / itemsPerPage));
+      const updatedQualificationList = qualification.map(pos =>
+          pos.id === deletedQualification.id ? deletedQualification : pos
+      ).sort((a, b) => b.status - a.status);
+      setQualification(updatedQualificationList);
+      setFilteredQualification(updatedQualificationList);
+      setTotalPage(Math.ceil(updatedQualificationList.length / itemsPerPage));
       setDeleteModalShow(false);
       toast.success('Xóa thành công bằng cấp!');
     } catch (error) {

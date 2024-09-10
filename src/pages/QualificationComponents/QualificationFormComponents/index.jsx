@@ -53,9 +53,9 @@ const QualificationForm = ({ onSubmit }) => {
             newErrors.expiryDate = 'Thời hạn không được để trống';
         }
 
-        if (!formData.image) {  // Kiểm tra nếu không có file ảnh nào được chọn
-            newErrors.image = 'Hình ảnh không được để trống';
-        }
+        // if (!formData.image) {  // Kiểm tra nếu không có file ảnh nào được chọn
+        //     newErrors.image = 'Hình ảnh không được để trống';
+        // }
 
         return newErrors;
     };
@@ -139,7 +139,7 @@ const QualificationForm = ({ onSubmit }) => {
                         </li>
                     </ul>
                 )}
-                {errors.image && <div className="text-danger">{errors.image}</div>}
+                {/*{errors.image && <div className="text-danger">{errors.image}</div>}*/}
             </div>
 
             <button type="submit" className="btn btn-primary">Thêm bằng cấp</button>

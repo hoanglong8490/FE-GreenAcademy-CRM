@@ -14,8 +14,8 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
     }, []);
 
     const [formData, setFormData] = useState({
-        qualificationName : '',
-        employeeName: '',
+        qualificationName: '',
+        employeeId: '',
         image: '',
         status: 1,
         expiryDate: '',
@@ -27,26 +27,23 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
             const formattedExpiryDate = qualification.expiryDate ? new Date(qualification.expiryDate).toISOString().split('T')[0] : '';
             setFormData({
                 qualificationName: qualification.qualificationName || '',
-                employeeName: qualification.employeeName || '',
+                employeeId: qualification.employeeId || '',
                 image: qualification.image || '',
                 status: qualification.status || 0,
                 expiryDate: formattedExpiryDate || '',
-                id : qualification.id || '',
+                id: qualification.id || '',
             });
         }
     }, [qualification]);
 
+    // Perform formData update when there is a change in the input form
     const handleChange = (e) => {
+        console.log(e.target.name, e.target.value);
         const {name, value, files, type} = e.target;
         if (type === 'file') {
             setFormData({
                 ...formData,
                 image: files[0]
-            });
-        } else if (name === 'status') {
-            setFormData({
-                ...formData,
-                [name]: value === 'true'
             });
         } else {
             setFormData({
@@ -75,23 +72,32 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                 <div className="form-group">
                     <label>ID bằng cấp</label>
                     <input
-                      type="text"
-                      className="form-control"
-                      name="id"
-                      value={formData.id}
-                      onChange={handleChange}
-                      disabled
+                        type="text"
+                        className="form-control"
+                        name="id"
+                        value={formData.id}
+                        disabled
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Tên bằng cấp</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="qualificationName"
+                        value={formData.qualificationName}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="form-group">
                     <label>Tên Nhân Viên</label>
                     <select
-                      name="employeeId"
-                      value={formData.employeeName}
-                      onChange={handleChange}
-                      className="form-control"
+                        name="employeeId"
+                        value={formData.employeeName}
+                        onChange={handleChange}
+                        className="form-control"
                     >
-
+                        <option value="">-- Chọn nhân viên --</option>
                         {
                             employees.map((employee) => (
                                 <option key={employee.id} value={employee.id}>
@@ -105,21 +111,20 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                 <div className="form-group">
                     <label>Thời hạn</label>
                     <input
-                      type="date"
-                      name="expiryDate"
-                      className="form-control"
-                      value={formData.expiryDate}
-                      onChange={handleChange}
-                      disabled
+                        type="date"
+                        name="expiryDate"
+                        className="form-control"
+                        value={formData.expiryDate}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="form-group">
                     <label>Trạng thái</label>
                     <select
-                      name="status"
-                      value={formData.status}
-                      onChange={handleChange}
-                      className="form-control"
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="form-control"
                     >
                         <option value={1}>Active</option>
                         <option value={0}>Inactive</option>
@@ -129,18 +134,17 @@ const QualificationEditComponents = ({show, handleClose, qualification, onSave})
                 <div className="form-group">
                     <label>Image</label>
                     <input
-                      type="file"
-                      className="form-control"
-                      name="image"
-                      onChange={handleChange}
-                      multiple
+                        type="file"
+                        className="form-control"
+                        name="image"
+                        onChange={handleChange}
                     />
                     {Array.isArray(formData.image) && formData.image.length > 0 && (
-                      <div>
-                          {formData.image.map((file, index) => (
-                            <div key={index}>{file.name}</div>
-                          ))}
-                      </div>
+                        <div>
+                            {formData.image.map((file, index) => (
+                                <div key={index}>{file.name}</div>
+                            ))}
+                        </div>
                     )}
                 </div>
 

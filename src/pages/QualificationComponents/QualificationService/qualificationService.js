@@ -2,10 +2,11 @@
 
 import axios from 'axios';
 
-const apiEndpoint = 'http://localhost:9002/hr/employees';
+const apiEndpoint = 'http://localhost:9002/hr/qualifications';
 const apiEmployee = 'http://localhost:9002/hr/employees/all';
 const apiAddQualification = 'http://localhost:9002/hr/qualifications/create';
 const apiFetchQualification = 'http://localhost:9002/hr/qualifications';
+const apiUpdateQualification = 'http://localhost:9002/hr/qualifications/update';
 
 export const fetchEmployees = async () => {
     try {
@@ -41,21 +42,20 @@ export const fetchQualification = async () => {
 export const addQualification = async (newQualification) => {
     try {
         const formData = new FormData();
+        formData.append('qualificationDTO', new Blob([JSON.stringify(newQualification)], { type: 'application/json' }));
+        formData.append('image', newQualification.image);
 
-        // Thêm dữ liệu vào formData
-        for (const key in newQualification) {
-            if (newQualification.hasOwnProperty(key)) {
-                formData.append(key, newQualification[key]);
-            }
+        try {
+            const response = await axios.post(apiAddQualification, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data.data;
+        } catch (error) {
+            console.error('Có lỗi xảy ra khi thêm bằng cấp!', error);
+            throw error;
         }
-
-        const response = await axios.post(apiAddQualification, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        return response.data.data;
     } catch (error) {
         console.error('Có lỗi xảy ra khi thêm bằng cấp!', error);
         throw error;
@@ -65,8 +65,8 @@ export const addQualification = async (newQualification) => {
 // Update an existing Qualification
 export const updateQualification = async (updatedQualification) => {
     try {
-        const response = await axios.put(`${apiEndpoint}/${updatedQualification.id}`, updatedQualification);
-        return response.data;
+        const response = await axios.put(`${apiUpdateQualification}/${updatedQualification.id}`, updatedQualification);
+        return response.data.data;
     } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật bằng cấp!', error);
         throw error;
@@ -76,13 +76,13 @@ export const updateQualification = async (updatedQualification) => {
 // Mark a Qualification as inactive
 export const deleteQualification = async (id) => {
     try {
-        // Fetch current data to maintain other fields
+
         const currentQualification = await axios.get(`${apiEndpoint}/${id}`);
         const updateQualification = {
-            ...currentQualification.data,
+            ...currentQualification.data.data,
             status: 0
         };
-        const response = await axios.put(`${apiEndpoint}/${id}`, updateQualification);
+        const response = await axios.put(`${apiUpdateQualification}/${id}`, updateQualification);
         return response.data.data;
     } catch (error) {
         console.error('Có lỗi xảy ra khi cập nhật trạng thái bằng cấp!', error);
