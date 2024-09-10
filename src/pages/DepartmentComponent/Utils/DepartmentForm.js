@@ -29,14 +29,13 @@ const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, statu
                         <label>Trạng thái</label>
                         <select
                             name="status"
-                            value={formValue.status || ""}
+                            value={formValue.status === true ? "true" : "false"}
                             onChange={e => handleChange(e)}
                             className="form-control"
                         >
                             <option value="" disabled hidden>Chọn trạng thái</option>
-                            {statuses.map((opts, index) => (
-                                <option key={index} value={opts.label}>{opts.label}</option>
-                            ))}
+                            <option value="true">Hoạt động</option>
+                            <option value="false">Tạm dừng</option>
                         </select>
                         {errors?.status && <div className="text-danger">{errors.status}</div>}
                     </div>
@@ -45,9 +44,9 @@ const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, statu
                         name="createDate"
                         label="Thời gian tạo"
                         disabled={isEditing}
-                        value={formValue.createDate || ""}
+                        value={formValue.createAt || ""}
                         onChange={e => handleChange(e)}
-                        error={errors?.createDate}
+                        error={errors?.createAt}
                     />
                     <button type="submit" className="btn btn-primary">
                         {isEditing ? "Cập nhật" : "Thêm mới"}

@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import {fetch_option_Liability} from "../service/LiabilityService.";
 import {convertDateToISO, formatDate} from "./DateLiability";
 import {toast} from "react-toastify";
+import {validateLiability} from "./Validation";
 
 
 const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabilityFields = []}) => {
@@ -23,6 +24,7 @@ const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabili
         create_date: '',
         update_date: ''
     })
+    const [errors, setErrors] = useState({});
     useEffect(() => {
         const get_Status = async () => {
             const options = await fetch_option_Liability();
@@ -58,9 +60,17 @@ const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabili
     }, [liability, isNew]);
     const handleChange = (e) => {
         const {id, value} = e.target;
-        setFormValue((liability) => ({...liability, [id]: value}));
+        if (id === 'debt') {
+            const numericValue = parseFloat(value.replace(/,/g, '')) || 0;
+            setFormValue((prev) => ({...prev, [id]: numericValue}));
+        } else {
+            setFormValue((prev) => ({...prev, [id]: value}));
+        }
     };
-
+    const formatCurrency = (value) => {
+        if (typeof value !== 'number') return value;
+        return value.toLocaleString('vi-VN');
+    };
     const handleUpdateDebt = () => {
         const currentDebt = parseFloat(formValue.debt);
         const payment = window.prompt("Nhập số tiền đã đóng:");
@@ -77,10 +87,13 @@ const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabili
             toast.error("Vui lòng nhập một số hợp lệ.");
         }
     };
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        const validationsError = validateLiability(formValue, liability, isEditing);
+        if (Object.keys(validationsError).length > 0) {
+            setErrors(validationsError);
+            return;
+        }
         const nowDay = new Date().toISOString();
         const nowFormat = formatDate(nowDay);
         let createDateISO;
@@ -101,10 +114,11 @@ const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabili
         if (onSave) {
             onSave(formattedLiability);
         }
-    };
+    }
     const renderFields = (fields, disableFields, disabledFieldIds = []) => {
         return fields.map((field, index) => {
             const isDisabled = disableFields || disabledFieldIds.includes(field.id);
+            const error = errors[field.id];
             return (
                 <div className="form-group title_info" key={index}>
                     <label htmlFor={field.id} className="title_Student">{field.label}</label>
@@ -114,7 +128,7 @@ const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabili
                                 type="text"
                                 id={field.id}
                                 className="form-control"
-                                value={formValue.debt || ""}
+                                value={formatCurrency(formValue.debt || "")}
                                 onChange={handleChange}
                                 disabled={isDisabled}
                             />
@@ -151,6 +165,7 @@ const ModalCreateUpdate = ({liability, isNew, isEditing, onSave, disabledLiabili
                             disabled={isDisabled}
                         />
                     )}
+                    {error && <div className="text-danger">{error}</div>}
                 </div>
             )
         });

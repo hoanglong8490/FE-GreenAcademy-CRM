@@ -1,14 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import './sass/main.scss'
 import InfoModal from './ModalDepartment/InfoDepartment';
-import {
-    createDepartment,
-    deleteDepartment,
-    fetchDepartmentById,
-    fetchDepartments,
-    fetchStatus,
-    updateDepartment
-} from './service/DepartmentService';
+import {createDepartment, deleteDepartment, fetchDepartmentById, fetchDepartments, updateDepartment} from './service/DepartmentService';
 import {convertDateToISO, formatDate} from './Utils/Date';
 import DepartmentForm from './Utils/DepartmentForm';
 import DepartmentTable from './Utils/DepartmentTable';
@@ -20,20 +13,21 @@ import {validateDepartmentForm} from './Utils/ValidationDepartment';
 export default function DepartmentComponent() {
     const ITEMS_PER_PAGE = 6;
     const [departments, setDepartments] = useState([]);
-    const [statuses, setStatuses] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState({title: '', content: ''});
     const [formValue, setFormValue] = useState({
+        departmentId:"",
         departmentName: "",
         description: "",
         status: "",
-        createDate: "",
-        updateDate: "",
+        createAt: "",
+        updateAt: "",
     })
     const [editingDepartmentId, setEditingDepartmentId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [errors, setErrors] = useState({});
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,13 +36,6 @@ export default function DepartmentComponent() {
         };
         fetchData();
     }, [])
-    useEffect(() => {
-        const fetchStatuses = async () => {
-            const data = await fetchStatus();
-            setStatuses(data);
-        };
-        fetchStatuses();
-    }, [])
     const [search, setSearch] = useState('');
     const closeModal = () => setModalOpen(false);
 
@@ -56,7 +43,7 @@ export default function DepartmentComponent() {
         const {name, value} = e.target;
         setFormValue({
             ...formValue,
-            [name]: value
+            [name]: name === 'status' ? (value === 'true') : value
         })
     }
     const handleSubmit = async (e) => {
@@ -72,10 +59,10 @@ export default function DepartmentComponent() {
         let createDateISO;
         let updateDateISO;
         if (isEditing) {
-            createDateISO = formatDate(formValue.createDate);
+            createDateISO = formValue.createAt;
             updateDateISO = nowFormat;
         } else {
-            createDateISO = formatDate(formValue.createDate);
+            createDateISO = formValue.createAt;
             updateDateISO = createDateISO
         }
 
@@ -83,10 +70,9 @@ export default function DepartmentComponent() {
             departmentName: formValue.departmentName,
             description: formValue.description,
             status: formValue.status,
-            createDate: createDateISO,
-            updateDate: updateDateISO
+            createAt: createDateISO,
+            updateAt: updateDateISO
         };
-
         try {
             let res;
             if (isEditing) {
@@ -96,14 +82,15 @@ export default function DepartmentComponent() {
                 res = await createDepartment(departmentData);
             }
             if (res) {
-                setDepartments(isEditing ? departments.map(dep => dep.id === editingDepartmentId ? res : dep) : [...departments, res]);
+                const updatedDepartments = await fetchDepartments();
+                setDepartments(updatedDepartments);
                 toast.success(isEditing ? "Cập nhật phòng ban thành công!" : "Thêm mới phòng ban thành công!")
                 setFormValue({
                     departmentName: "",
                     description: "",
                     status: "",
-                    createDate: "",
-                    updateDate: "",
+                    createAt: "",
+                    updateAt: "",
                 });
                 setEditingDepartmentId(null);
                 setErrors({});
@@ -115,7 +102,8 @@ export default function DepartmentComponent() {
     };
     const handleModalInfo = async (item) => {
         const departmentId = item.data[0];
-        const department = await fetchDepartmentById(departmentId);
+        const departmentResponse  = await fetchDepartmentById(departmentId);
+        const department = departmentResponse[0];
         if (department) {
             setModalContent({
                 title: 'Thông tin phòng ban',
@@ -123,7 +111,7 @@ export default function DepartmentComponent() {
                     <div>
                         <div className="form-group">
                             <label htmlFor="department_Id">ID:</label>
-                            <input type="number" id="department_Id" className="form-control" value={department.id}
+                            <input type="number" id="department_Id" className="form-control" value={department.departmentId}
                                    disabled/>
                         </div>
                         <div className="form-group">
@@ -133,7 +121,7 @@ export default function DepartmentComponent() {
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_Status">Trạng thái:</label>
-                            <input type="text" id="department_Status" className="form-control" value={department.status}
+                            <input type="text" id="department_Status" className="form-control" value={department.status?" Hoạt động":"Tạm dừng"}
                                    disabled/>
                         </div>
                         <div className="form-group">
@@ -142,14 +130,14 @@ export default function DepartmentComponent() {
                                    value={department.description} disabled/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="department_CreateDate">Ngày tạo:</label>
-                            <input type="text" id="department_CreateDate" className="form-control"
-                                   value={department.createDate} disabled/>
+                            <label htmlFor="department_CreateAt">Ngày tạo:</label>
+                            <input type="text" id="department_CreateAt" className="form-control"
+                                   value={department.createAt} disabled/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="department_UpdateDate">Ngày cập nhật:</label>
-                            <input type="text" id="department_UpdateDate" className="form-control"
-                                   value={department.updateDate} disabled/>
+                            <label htmlFor="department_UpdateAt">Ngày cập nhật:</label>
+                            <input type="text" id="department_UpdateAt" className="form-control"
+                                   value={department.updateAt} disabled/>
                         </div>
                     </div>
                 )
@@ -159,15 +147,17 @@ export default function DepartmentComponent() {
     };
     const handleUpdateDepartment = async (item) => {
         const departmentId = item.data[0];
-        const department = await fetchDepartmentById(departmentId);
+        const departmentResponse = await fetchDepartmentById(departmentId);
+        const department = departmentResponse[0];
         if (department) {
             setFormValue({
                 departmentName: department.departmentName,
                 description: department.description,
                 status: department.status,
-                createDate: convertDateToISO(department.createDate),
-                updateDate: convertDateToISO(department.updateDate)
+                createAt: convertDateToISO(department.createAt),
+                updateAt: convertDateToISO(department.updateAt)
             });
+            console.log("department:",department.status);
             setEditingDepartmentId(departmentId);
             setIsEditing(true);
             setErrors({});
@@ -200,12 +190,12 @@ export default function DepartmentComponent() {
     };
     const offset = currentPage * ITEMS_PER_PAGE;
     const paginatedDepartments = departments.slice(offset, offset + ITEMS_PER_PAGE);
-    const filteredDepartments = paginatedDepartments.filter(department => department.departmentName.toLowerCase().startsWith(search.toLowerCase()));
+    const filteredDepartments = paginatedDepartments.filter(department => department.departmentName?.toLowerCase().startsWith(search.toLowerCase()));
 
 
     const header = ["ID", "Tên phòng ban", "Trạng thái", "Chức năng"];
     const row = filteredDepartments.map((department) => ({
-        data: [String(department.id), department.departmentName, department.status],
+        data: [department.departmentId.toString(), department.departmentName, department.status ? "Hoạt động" : "Tạm dừng"],
         actions: [
             {className: 'btn-info', icon: 'fa-eye', onClick: handleModalInfo},
             {className: "btn-warning", icon: "fa-pen", onClick: handleUpdateDepartment},
@@ -235,7 +225,7 @@ export default function DepartmentComponent() {
                     <div className="row">
                         {/* FROM INOUT */}
                         <DepartmentForm formValue={formValue} handleChange={handleChange} handleSubmit={handleSubmit}
-                                        isEditing={isEditing} statuses={statuses} errors={errors}/>
+                                        isEditing={isEditing} errors={errors}/>
                         {/* LIST DEPARTMENT */}
                         <DepartmentTable header={header} row={row} pageCount={pageCount}
                                          handlePageClick={handlePageClick} search={search} handleSearch={handleSearch}/>
