@@ -1,5 +1,6 @@
 // src/api/departmentApi.js
 import axios from 'axios';
+import {toast} from "react-toastify";
 
 const API = "http://localhost:9002/hr/department";
 
@@ -49,6 +50,7 @@ export const deleteDepartment = async (id) => {
     try {
         await axios.delete(`${API}/deleteDepartment/${id}`);
     } catch (error) {
-        console.error("There was an error deleting the department!", error);
+        console.error("There was an error deleting ", error.response.data.message);
+        throw error;
     }
 };

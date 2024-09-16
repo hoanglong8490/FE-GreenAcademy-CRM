@@ -161,16 +161,18 @@ export default function DepartmentComponent() {
         if (confirmDelete) {
             try {
                 await deleteDepartment(departmentId);
-                setDepartments(departments.filter(department => department.id === departmentId));
-                toast.success("Xóa phòng ban thành công")
-                const updatedDepartment = await fetchDepartments();
-                setDepartments(updatedDepartment);
+                setDepartments(departments.filter(department => department.id !== departmentId));
+                toast.success("Xóa phòng ban thành công");
+                const updatedDepartments = await fetchDepartments();
+                setDepartments(updatedDepartments);
             } catch (error) {
-                console.error("There was an error deleting the department!", error);
-                alert("Có lỗi xảy ra khi xóa phòng ban.");
+                if (error.response && error.response.data && error.response.data.message) {
+                    toast.error("Không thể xóa phòng ban khi còn chức vụ hoạt động");
+                } else {
+                    toast.error("Có lỗi xảy ra khi xóa phòng ban.");
+                }
             }
         }
-
     }
     const handleSearch = (e) => {
         setSearch(e.target.value);
