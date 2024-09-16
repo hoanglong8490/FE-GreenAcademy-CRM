@@ -1,7 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import './sass/main.scss'
 import InfoModal from './ModalDepartment/InfoDepartment';
-import {createDepartment, deleteDepartment, fetchDepartmentById, fetchDepartments, updateDepartment} from './service/DepartmentService';
+import {
+    createDepartment,
+    deleteDepartment,
+    fetchDepartmentById,
+    fetchDepartments,
+    updateDepartment
+} from './service/DepartmentService';
 import {convertDateToISO, formatDate} from './Utils/Date';
 import DepartmentForm from './Utils/DepartmentForm';
 import DepartmentTable from './Utils/DepartmentTable';
@@ -16,7 +22,7 @@ export default function DepartmentComponent() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState({title: '', content: ''});
     const [formValue, setFormValue] = useState({
-        departmentId:"",
+        departmentId: "",
         departmentName: "",
         description: "",
         status: "",
@@ -43,7 +49,7 @@ export default function DepartmentComponent() {
         const {name, value} = e.target;
         setFormValue({
             ...formValue,
-            [name]: name === 'status' ? (value === 'true') : value
+            [name]: value
         })
     }
     const handleSubmit = async (e) => {
@@ -53,25 +59,11 @@ export default function DepartmentComponent() {
             setErrors(validationErrors);
             return;
         }
-        const nowISO = new Date().toISOString();
-        const nowFormat = formatDate(nowISO);
-
-        let createDateISO;
-        let updateDateISO;
-        if (isEditing) {
-            createDateISO = formValue.createAt;
-            updateDateISO = nowFormat;
-        } else {
-            createDateISO = formValue.createAt;
-            updateDateISO = createDateISO
-        }
 
         const departmentData = {
             departmentName: formValue.departmentName,
             description: formValue.description,
             status: formValue.status,
-            createAt: createDateISO,
-            updateAt: updateDateISO
         };
         try {
             let res;
@@ -102,7 +94,7 @@ export default function DepartmentComponent() {
     };
     const handleModalInfo = async (item) => {
         const departmentId = item.data[0];
-        const departmentResponse  = await fetchDepartmentById(departmentId);
+        const departmentResponse = await fetchDepartmentById(departmentId);
         const department = departmentResponse[0];
         if (department) {
             setModalContent({
@@ -111,7 +103,8 @@ export default function DepartmentComponent() {
                     <div>
                         <div className="form-group">
                             <label htmlFor="department_Id">ID:</label>
-                            <input type="number" id="department_Id" className="form-control" value={department.departmentId}
+                            <input type="number" id="department_Id" className="form-control"
+                                   value={department.departmentId}
                                    disabled/>
                         </div>
                         <div className="form-group">
@@ -121,7 +114,8 @@ export default function DepartmentComponent() {
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_Status">Trạng thái:</label>
-                            <input type="text" id="department_Status" className="form-control" value={department.status?" Hoạt động":"Tạm dừng"}
+                            <input type="text" id="department_Status" className="form-control"
+                                   value={department.status ? " Hoạt động" : "Tạm dừng"}
                                    disabled/>
                         </div>
                         <div className="form-group">
@@ -154,10 +148,8 @@ export default function DepartmentComponent() {
                 departmentName: department.departmentName,
                 description: department.description,
                 status: department.status,
-                createAt: convertDateToISO(department.createAt),
-                updateAt: convertDateToISO(department.updateAt)
             });
-            console.log("department:",department.status);
+            console.log("status", department.status)
             setEditingDepartmentId(departmentId);
             setIsEditing(true);
             setErrors({});

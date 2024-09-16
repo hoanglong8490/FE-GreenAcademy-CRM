@@ -1,9 +1,6 @@
 // src/api/departmentApi.js
 import axios from 'axios';
 
-// Địa chỉ API của bạn trên MockAPI
-const API_URL = "https://66ac77fdf009b9d5c73228f4.mockapi.io/Deparment";
-
 const API = "http://localhost:9002/hr/department";
 
 
@@ -32,14 +29,15 @@ export const createDepartment = async (newDepartment) => {
         const response = await axios.post(`${API}/addDepartment`, newDepartment);
         return response.data;
     } catch (error) {
-        console.error("There was an error creating the department!", error);
+        console.log("There was an error creating the department!", error);
+        throw error;
     }
 };
 
 // Cập nhật phòng ban
 export const updateDepartment = async (id, updatedDepartment) => {
     try {
-        const response = await axios.put(`${API}/updateDepartment/${id}`, updatedDepartment);
+        const response = await axios.post(`${API}/updateDepartment/${id}`, updatedDepartment);
         return response.data;
     } catch (error) {
         console.error("There was an error updating the department!", error);

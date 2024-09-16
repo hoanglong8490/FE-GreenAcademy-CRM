@@ -1,8 +1,9 @@
 import React from 'react';
 import FormInput from './../../../components/FormInputComponents/index';
+import {convertDateToISO} from "./Date";
 
 
-const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, statuses, errors}) => (
+const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, errors}) => (
 
     <div className="col-6">
         <div className="card">
@@ -29,7 +30,7 @@ const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, statu
                         <label>Trạng thái</label>
                         <select
                             name="status"
-                            value={formValue.status === true ? "true" : "false"}
+                            value={formValue.status !== undefined ? formValue.status.toString() : ""}
                             onChange={e => handleChange(e)}
                             className="form-control"
                         >
@@ -39,15 +40,6 @@ const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, statu
                         </select>
                         {errors?.status && <div className="text-danger">{errors.status}</div>}
                     </div>
-                    <FormInput
-                        type="date"
-                        name="createDate"
-                        label="Thời gian tạo"
-                        disabled={isEditing}
-                        value={formValue.createAt || ""}
-                        onChange={e => handleChange(e)}
-                        error={errors?.createAt}
-                    />
                     <button type="submit" className="btn btn-primary">
                         {isEditing ? "Cập nhật" : "Thêm mới"}
                     </button>
