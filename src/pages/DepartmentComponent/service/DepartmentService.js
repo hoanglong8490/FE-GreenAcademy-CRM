@@ -1,6 +1,4 @@
-// src/api/departmentApi.js
 import axios from 'axios';
-import {toast} from "react-toastify";
 
 const API = "http://localhost:9002/hr/department";
 

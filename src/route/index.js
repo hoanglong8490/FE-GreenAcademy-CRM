@@ -17,6 +17,7 @@ import {
   ExamComponent,
   PositionComponents,
 } from "../pages";
+import OvertimeComponent from "../pages/OvertimeComponent";
 
 export const routeSideBar = [
   {
@@ -99,6 +100,13 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-solid fa-check-to-slot",
         to: "/checkins",
         component: TimesheetComponent,
+        child: [],
+      },
+      {
+        name: "Overtime-List",
+        icon: "nav-icon fas fa-file-contract",
+        to: "/overtimes",
+        component: OvertimeComponent,
         child: [],
       },
     ],

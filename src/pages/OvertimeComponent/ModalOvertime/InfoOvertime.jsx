@@ -1,6 +1,6 @@
-import {Button, Modal} from "react-bootstrap";
-import PropTypes from "prop-types";
-
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Modal, Button } from 'react-bootstrap';
 
 const InfoModal = ({ isOpen, onClose, title, content,className }) => {
     return (

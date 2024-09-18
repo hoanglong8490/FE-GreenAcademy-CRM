@@ -8,7 +8,6 @@ import {
     fetchDepartments,
     updateDepartment
 } from './service/DepartmentService';
-import {convertDateToISO, formatDate} from './Utils/Date';
 import DepartmentForm from './Utils/DepartmentForm';
 import DepartmentTable from './Utils/DepartmentTable';
 import {NavLink} from 'react-router-dom';

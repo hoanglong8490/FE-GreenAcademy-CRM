@@ -1,29 +1,37 @@
 import React from 'react';
-import FormInput from './../../../components/FormInputComponents/index';
+import FormInput from "../../../components/FormInputComponents";
 
+const OvertimeForm = ({formValue, handleChange, handleSubmit, isEditing, errors}) => (
 
-const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, errors}) => (
-
-    <div className="col-6">
+    <div className="col-4">
         <div className="card">
-            <h2 className="text-center">Thông tin phòng ban</h2>
+            <h2 className="text-center">Thông tin giờ làm thêm</h2>
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <FormInput
-                        label="Tên phòng ban"
-                        name="departmentName"
+                        label="ID nhân sự"
+                        name="employeeId"
                         disabled={isEditing}
-                        value={formValue.departmentName || ""}
+                        value={formValue.employeeId.toString() || ""}
                         onChange={e => handleChange(e)}
-                        error={errors?.departmentName}
+                        error={errors?.employeeId}
                     />
                     <FormInput
-                        type="textarea"
-                        label="Mô tả"
-                        name="description"
-                        value={formValue.description || ""}
+                        type="text"
+                        label="Số giờ làm được"
+                        name="hours"
+                        value={formValue.hours.toString() || ""}
                         onChange={e => handleChange(e)}
-                        error={errors?.description}
+                        error={errors?.hours}
+                    />
+                    <FormInput
+                        type="text"
+                        label="Hệ số"
+                        name="multiplier"
+                        disabled={isEditing}
+                        value={formValue.multiplier.toString() || ""}
+                        onChange={e => handleChange(e)}
+                        error={errors?.multiplier}
                     />
                     <div className="form-group">
                         <label>Trạng thái</label>
@@ -34,8 +42,8 @@ const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, error
                             className="form-control"
                         >
                             <option value="" disabled hidden>Chọn trạng thái</option>
-                            <option value="true">Hoạt động</option>
-                            <option value="false">Tạm dừng</option>
+                            <option value="1">Có hiệu lực</option>
+                            <option value="0">Vô hiệu lực</option>
                         </select>
                         {errors?.status && <div className="text-danger">{errors.status}</div>}
                     </div>
@@ -48,4 +56,4 @@ const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, error
     </div>
 );
 
-export default DepartmentForm;
+export default OvertimeForm;
