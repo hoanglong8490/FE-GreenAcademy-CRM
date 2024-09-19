@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import './sass/main.scss'
 import InfoModal from './ModalDepartment/InfoDepartment';
-import {
-    createDepartment,
-    deleteDepartment,
-    fetchDepartmentById,
-    fetchDepartments,
-    updateDepartment
-} from './service/DepartmentService';
+import {createDepartment, deleteDepartment, fetchDepartmentById, fetchDepartments, updateDepartment} from './service/DepartmentService';
 import DepartmentForm from './Utils/DepartmentForm';
 import DepartmentTable from './Utils/DepartmentTable';
 import {NavLink} from 'react-router-dom';

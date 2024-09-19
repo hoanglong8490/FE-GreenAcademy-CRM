@@ -18,6 +18,7 @@ import {
   PositionComponents,
 } from "../pages";
 import OvertimeComponent from "../pages/OvertimeComponent";
+import SalaryAdvanceComponent from "../pages/SalaryAdvanceComponent";
 
 export const routeSideBar = [
   {
@@ -82,8 +83,8 @@ export const routeSideBar = [
         child: [],
       },
       {
-        name: "Department-List",
-        icon: "nav-icon fas fa-file-contract",
+        name: "Quản lý phòng ban",
+        icon: "nav-icon fas fa-building",
         to: "/departments",
         component: DepartmentComponent,
         child: [],
@@ -103,10 +104,17 @@ export const routeSideBar = [
         child: [],
       },
       {
-        name: "Overtime-List",
-        icon: "nav-icon fas fa-file-contract",
+        name: "Quản lý tăng ca",
+        icon: "nav-icon fas fa-business-time",
         to: "/overtimes",
         component: OvertimeComponent,
+        child: [],
+      },
+      {
+        name: "Quản lý tạm ứng lương",
+        icon: "nav-icon fas fa-credit-card",
+        to: "/salaryAdvance",
+        component: SalaryAdvanceComponent,
         child: [],
       },
     ],

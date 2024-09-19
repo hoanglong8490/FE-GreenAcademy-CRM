@@ -69,7 +69,14 @@ export default function OvertimeComponent() {
                 res = await updateOvertime(editingOvertimesId, overtimeData);
                 setIsEditing(false);
             } else {
-                res = await createOvertime(overtimeData);
+                try{
+                    res = await createOvertime(overtimeData);
+                }catch (error){
+                   if(error.response && error.response.data && error.response.data.message){
+                       toast.error("Không tìm thấy ID nhân sự trong dữ liệu vui lòng kiểm tra lại ở phòng nhân sự");
+                   }
+                }
+
             }
             if (res) {
                 const updatedOvertimes = await fetchOvertimes();
@@ -79,11 +86,11 @@ export default function OvertimeComponent() {
                     hours: "",
                     multiplier: "",
                     status: "",
-                    overtimeDate: formValue.overtimeDate,
-                    updateAt: formValue.updateAt,
-                    employeeId: formValue.employeeId,
-                    overTimeId: formValue.overTimeId,
-                    createAt: formValue.createAt,
+                    overtimeDate: "",
+                    updateAt: "",
+                    employeeId: "",
+                    overTimeId: "",
+                    createAt: "",
                 });
                 setEditingOvertimesId(null);
                 setErrors({});

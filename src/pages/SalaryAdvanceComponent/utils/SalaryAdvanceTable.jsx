@@ -24,7 +24,7 @@ const DepartmentTable = ({ header, row, pageCount, handlePageClick, searchEmploy
                                 <label>
                                     <input type="search" className="form-control form-control-sm"
                                            value={searchOvertimeDate}
-                                           onChange={handleSearchOvertimeDate} placeholder="Ngày làm thêm"/>
+                                           onChange={handleSearchOvertimeDate} placeholder="Ngày ứng lương"/>
                                 </label>
                             </div>
                         </div>
@@ -32,21 +32,19 @@ const DepartmentTable = ({ header, row, pageCount, handlePageClick, searchEmploy
                             <CSVLink
                                 data={row.map(item => ({
                                     ID: item.data[0],
-                                    NgayTangCa: item.data[1],
-                                    GioLam: item.data[2],
-                                    HeSo: item.data[3],
-                                    TrangThai: item.data[4],
-                                    IDNhanSu: item.data[5],
+                                    NgayTamUng: item.data[1],
+                                    SoTien: item.data[2],
+                                    TrangThai: item.data[3]?"Đã tạm ứng":"Chưa tạm ứng",
+                                    IDNhanSu: item.data[4],
                                 }))}
                                 headers={[
                                     {label: "ID", key: "ID"},
-                                    {label: "Ngày Tăng Ca", key: "NgayTangCa"},
-                                    {label: "Giờ Làm", key: "GioLam"},
-                                    {label: "Hệ Số", key: "HeSo"},
+                                    {label: "Ngày Tạm Ứng", key: "NgayTamUng"},
+                                    {label: "Số tiền", key: "SoTien"},
                                     {label: "Trạng Thái", key: "TrangThai"},
                                     {label: "ID Nhân Sự", key: "IDNhanSu"}
                                 ]}
-                                filename={"overtime_list.csv"}
+                                filename={"SalaryAdvanceList.csv"}
                                 className="btn btn-success"
                                 target="_blank"
                             >
